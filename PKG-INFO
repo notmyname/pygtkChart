@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: pygtkChart
+Version: alpha
+Summary: A gtk chart widget written in Python
+Home-page: http://pygtkchart.sven-festersen.de
+Author: Sven Festersen
+Author-email: sven@sven-festersen.de
+License: GPL
+Description: UNKNOWN
+Platform: UNKNOWN
