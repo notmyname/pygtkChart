@@ -22,7 +22,7 @@ class BarChart(chart.Chart):
      - BarChart.data
     """    
     def __init__(self):
-        chart.Chart.__init__(self)
+        super(BarChart, self).__init__()
         self.data = {}
         self._show_labels = True
         self.bar_order = []
