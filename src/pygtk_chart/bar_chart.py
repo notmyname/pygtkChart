@@ -144,6 +144,11 @@ class BarChart(chart.Chart):
         self._show_labels = show
 
 class MultiBarChart(BarChart):
+    def __init__(self):
+        super(MultiBarChart, self).__init__()
+        self.sub_bar_order = []
+        self.name_map = {}
+    
     def _do_draw(self, context, rect):
         """
         Draw the chart.
@@ -155,9 +160,9 @@ class MultiBarChart(BarChart):
         """
         number_of_bars = len(self.data)
         max_value = -9999999
-        for value_list in self.data.values():
-            for d in value_list:
-                max_value = max(max_value, d['n'])
+        for name in self.data:
+            for sub_label in self.data[name]:
+                max_value = max(max_value, self.data[name][sub_label]['n'])
         bar_padding = 16 # pixels of padding to either side of each bar
         bar_height_factor = .75 # percentage of total height the bars will use
         bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
@@ -167,13 +172,13 @@ class MultiBarChart(BarChart):
         bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
         font_size = 12
         context.set_font_size(font_size)
-        #for bar_index, (name, data_list) in enumerate(self.data.iteritems()):
         for bar_index, name in enumerate(self.bar_order):
             data_list = self.data[name]
             multibar_count = len(data_list)
             x = int(rect.width / float(number_of_bars) * bar_index) + rect.x + (bar_padding // 2)
             max_rotated_height = 0
-            for sub_bar_index, info in enumerate(data_list):
+            for sub_bar_index, sub_label in enumerate(self.sub_bar_order):
+                info = self.data[name][sub_label]
                 sub_bar_width = bar_width // multibar_count
                 sub_bar_x = x + sub_bar_width * sub_bar_index
                 percent = float(info['n']) / float(max_value)
@@ -201,7 +206,7 @@ class MultiBarChart(BarChart):
                     context.stroke()
                     # draw the label below the bar
                     #context.set_source_rgb(0, 0, 0)
-                    title = info['sub_label']
+                    title = sub_label
                     label_height, label_width = context.text_extents(title)[3:5]
                     deg = 15.0
                     rotation_rad = math.pi*deg / 180.0
@@ -218,7 +223,7 @@ class MultiBarChart(BarChart):
             if data_list and self._show_labels:
                 # draw the label below the bar
                 context.set_source_rgb(0, 0, 0)
-                title = info['main_label']
+                title = self.name_map[name]
                 label_height, label_width = context.text_extents(title)[3:5]
                 label_x = x + (bar_width // 2) - (label_width // 2)
                 label_y = min(bottom, bar_bottom + max_rotated_height + 25)#(label_height + 3)*2
@@ -248,28 +253,29 @@ class MultiBarChart(BarChart):
         @type data: list
         @param data: The data list.
         """
-        self.data = collections.defaultdict(list)
+        self.data = collections.defaultdict(dict)
         self.max_len = 0
         self.bar_order = []
-        color_map = dict((x[2], None) for x in data)
-        for i, label in enumerate(sorted(color_map)):
-            color_map[label] = COLORS[i % len(COLORS)]
+        self.sub_bar_order = []
+        self.name_map = {}
+        color_map = dict.fromkeys(x[2] for x in data)
+        for i, sub_label in enumerate(sorted(color_map)):
+            color_map[sub_label] = COLORS[i % len(COLORS)]
         all_sub_labels = set()
         for name, main_label, sub_label, n in data:
             if name not in self.bar_order:
                 self.bar_order.append(name)
-            self.data[name].append({"main_label": main_label,
-                                    "sub_label": sub_label,
-                                    "n": int(n),
-                                    "color": color_map[sub_label]})
+            if sub_label not in self.sub_bar_order:
+                self.sub_bar_order.append(sub_label)
+            self.name_map[name] = main_label
+            self.data[name][sub_label] = {'n': int(n),
+                                          'color': color_map[sub_label]}
             self.max_len = max(self.max_len, len(self.data[name]))
             all_sub_labels.add(sub_label)
         
         # make sure all sub labels are represented for every main label
         for name in self.data:
             for sub_label in all_sub_labels:
-                if sub_label not in [x['sub_label'] for x in self.data[name]]:
-                    self.data[name].append({"main_label": self.data[name][0]['main_label'],
-                                            'sub_label': sub_label,
-                                            'n': 0,
-                                            'color': color_map[sub_label]})
+                if sub_label not in self.data[name]:
+                    self.data[name][sub_label] = {'n': 0,
+                                                  'color': color_map[sub_label]}
