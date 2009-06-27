@@ -22,6 +22,7 @@
 Contains the LineChart widget.
 """
 __docformat__ = "epytext"
+import gobject
 import cairo
 import gtk
 import math
@@ -250,6 +251,8 @@ class LineChart(chart.Chart):
         graph.set_range_calc(self._range_calc)
         self.graphs[graph.get_name()] = graph
         self._range_calc.add_graph(graph)
+        
+        graph.connect("appearance-changed", self._cb_appearance_changed)
         
     def remove_graph(self, name):
         """
@@ -602,6 +605,12 @@ class Graph(chart.ChartObject):
     This class represents a graph or the data you want to plot on your
     LineChart widget.
     """
+    
+    __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
+                                    "graph color",
+                                    "The color of the graph in (r,g,b) format. r,g,b in [0,1].",
+                                    gobject.PARAM_READWRITE)}
+    
     def __init__(self, name, title, data):
         """
         Create a new instance.
@@ -625,6 +634,27 @@ class Graph(chart.ChartObject):
         self._type = GRAPH_BOTH
         self._point_size = 2
         self._fill_xaxis = False
+        self._show_value = False
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "color":
+            return self._color
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "color":
+            self._color = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def has_something_to_draw(self):
         return self._data != []
@@ -674,7 +704,11 @@ class Graph(chart.ChartObject):
                     context.arc(ax, ay, self._point_size, 0, 2 * math.pi)
                     context.fill()
                     context.move_to(ax+2*self._point_size,ay)
-                    context.show_text(str(y))
+                    if self._show_value:
+                        font_size = rect.height / 50
+                        if font_size < 9: font_size = 9
+                        context.set_font_size(font_size)
+                        context.show_text(str(y))
                 if self._type == GRAPH_LINES or self._type == GRAPH_BOTH:
                     if previous != None:
                         context.move_to(previous[0], previous[1])
@@ -735,6 +769,9 @@ class Graph(chart.ChartObject):
         """
         return self._name
         
+    def get_title(self):
+        return self._title
+        
     def set_range_calc(self, range_calc):
         self._range_calc = range_calc
         
@@ -742,7 +779,7 @@ class Graph(chart.ChartObject):
         """
         Returns the current color of the graph or COLOR_AUTO.
         """
-        return self._color
+        return self.get_property("color")
         
     def set_color(self, color):
         """
@@ -753,7 +790,8 @@ class Graph(chart.ChartObject):
         @type color: a color
         @param color: The new color of the graph.
         """
-        self._color = color
+        self.set_property("color", color)
+        self.emit("appearance_changed")
         
     def set_type(self, type):
         """

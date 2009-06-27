@@ -36,6 +36,7 @@ For example C{(0, 0, 0)} is black and C{(1, 1, 1)} is white.
 """
 __docformat__ = "epytext"
 import cairo
+import gobject
 import gtk
 import os
 import pygtk
@@ -53,7 +54,16 @@ class Chart(gtk.DrawingArea):
         self.connect("expose_event", self.expose)
         #objects needed for every chart
         self.background = Background()
+        self.background.connect("appearance-changed", self._cb_appearance_changed)
         self.title = Title()
+        self.title.connect("appearance-changed", self._cb_appearance_changed)
+        
+    def _cb_appearance_changed(self, object):
+        """
+        This method is called after the appearance of an object changed
+        and forces a redraw.
+        """
+        self.queue_draw()
         
     def expose(self, widget, event):
         """
@@ -127,14 +137,44 @@ class Chart(gtk.DrawingArea):
         surface.write_to_png(filename)
         
 
-class ChartObject:
+class ChartObject(gobject.GObject):
     """
     This is the base class for all things that can be drawn in a chart,
     e.g. title, axes, graphs,...
     """
+    
+    __gsignals__ = {"appearance-changed": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])}
+
+    
+    __gproperties__ = {"visible": (gobject.TYPE_BOOLEAN,
+                                    "visibilty of the object",
+                                    "Set whether to draw the object or not.",
+                                    True, gobject.PARAM_READWRITE),
+                        "antialias": (gobject.TYPE_BOOLEAN,
+                                    "use antialiasing",
+                                    "Set whether to use antialiasing when drawing the object.",
+                                    True, gobject.PARAM_READWRITE)}
+    
     def __init__(self):
+        gobject.GObject.__init__(self)
         self._show = True
         self._antialias = True
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _do_draw(self, context, rect):
         """
@@ -173,7 +213,8 @@ class ChartObject:
         @param antialias: If False, antialiasing is disabled for this 
         ChartObject.
         """
-        self._antialias = antialias
+        self.set_property("antialias", antialias)
+        self.emit("appearance_changed")
         
     def set_visible(self, visible):
         """
@@ -183,17 +224,65 @@ class ChartObject:
         @type visible: boolean
         @param visible: If False, the PlotObject won't be drawn.
         """
-        self._show = visible
+        self.set_property("visible", visible)
+        self.emit("appearance_changed")
+        
+
+gobject.type_register(ChartObject)
         
         
 class Background(ChartObject):
     """
     The background of a chart.
     """    
+    
+    __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
+                                    "background color",
+                                    "The color of the backround in (r,g,b) format. r,g,b in [0,1]",
+                                    gobject.PARAM_READWRITE),
+                        "gradient": (gobject.TYPE_PYOBJECT,
+                                    "background gradient",
+                                    "A background gardient. (first_color, second_color)",
+                                    gobject.PARAM_READWRITE),
+                        "image": (gobject.TYPE_STRING,
+                                    "background image file",
+                                    "Path to the image file to use as background.",
+                                    "", gobject.PARAM_READWRITE)}
+    
     def __init__(self):
         ChartObject.__init__(self)
         self._color = (1, 1, 1) #the backgound is filled white by default
         self._gradient = None
+        self._image = ""
+        self._image_surface = None
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "gradient":
+            return self._gradient
+        elif property.name == "color":
+            return self._color
+        elif property.name == "image":
+            return self._image
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "gradient":
+            self._gradient = value
+        elif property.name == "color":
+            self._color = value
+        elif property.name == "image":
+            self._image = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _do_draw(self, context, rect):
         """
@@ -215,13 +304,10 @@ class Background(ChartObject):
             gradient.add_color_stop_rgb(0, cs[0], cs[1], cs[2])
             gradient.add_color_stop_rgb(1, ce[0], ce[1], ce[2])
             context.set_source(gradient)
-        elif self._image != None:
-            #set source image
-            if os.path.exists(self._image):
-                surface = cairo.ImageSurface.create_from_png(self._image)
-                context.set_source_surface(surface, 0, 0)
-            else:
-                context.set_source_rgb(1, 1, 1) #white bg if image not found
+        elif self._image_surface:
+            context.set_source_surface(self._image_surface, 0, 0)
+        else:
+            context.set_source_rgb(1, 1, 1) #fallback to white bg
         #create the background rectangle and fill it:
         context.rectangle(0, 0, rect.width, rect.height)
         context.fill()
@@ -234,9 +320,13 @@ class Background(ChartObject):
         @type color: a color
         @param color: Set the background to be filles with this color.
         """
-        self._color = color
-        self._gradient = None
-        self._image = None
+        self.set_property("color", color)
+        self.set_property("gradient", None)
+        self.set_property("image", "")
+        self.emit("appearance_changed")
+        
+    def get_color(self):
+        return self.get_property("color")
         
     def set_gradient(self, color_start, color_end):
         """
@@ -247,9 +337,13 @@ class Background(ChartObject):
         @type color_end: a color
         @param color_end: The ending (bottom) color of the gradient.
         """
-        self._gradient = (color_start, color_end)
-        self._color = None
-        self._image = None
+        self.set_property("color", None)
+        self.set_property("gradient", (color_start, color_end))
+        self.set_property("image", "")
+        self.emit("appearance_changed")
+        
+    def get_gradient(self):
+        return self.get_property("gradient")
         
     def set_image(self, filename):
         """
@@ -260,9 +354,18 @@ class Background(ChartObject):
         @param filename: Path to the png file you want to use as background
         image. If the file does not exists, the background is set to white.
         """
-        self._image = filename
-        self._color = None
-        self._gradient = None
+        try:
+            self._image_surface = cairo.ImageSurface.create_from_png(filename)
+        except:
+            self._image_surface = None
+        
+        self.set_property("color", None)
+        self.set_property("gradient", None)
+        self.set_property("image", filename)
+        self.emit("appearance_changed")
+        
+    def get_image(self):
+        return self.get_property("image")
         
         
 class Title(ChartObject):
@@ -270,10 +373,44 @@ class Title(ChartObject):
     The title of a chart. The title will be drawn centered at the top of the
     chart.
     """    
+    
+    __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
+                                "title color",
+                                "The color of the title in (r,g,b) format. r,g,b in [0,1]",
+                                gobject.PARAM_READWRITE),
+                        "text": (gobject.TYPE_STRING,
+                                "title text",
+                                "The text to show as the title.",
+                                "", gobject.PARAM_READWRITE)}
+    
     def __init__(self, text=None):
         ChartObject.__init__(self)
         self._text = text
         self._color = (0, 0, 0)
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "text":
+            return self._text
+        elif property.name == "color":
+            return self._color
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "text":
+            self._text = value
+        elif property.name == "color":
+            self._color = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _do_draw(self, context, rect):
         """
@@ -312,7 +449,11 @@ class Title(ChartObject):
         @type color: a color
         @param color: The color of the title.
         """
-        self._color = color
+        self.set_property("color", color)
+        self.emit("appearance_changed")
+        
+    def get_color(self):
+        return self.get_property("color")
         
     def set_text(self, text):
         """
@@ -321,4 +462,8 @@ class Title(ChartObject):
         @type text: string
         @param text: The title of the chart.
         """
-        self._text = text
+        self.set_property("text", text)
+        self.emit("appearance_changed")
+        
+    def get_text(self):
+        return self.get_property("text")
