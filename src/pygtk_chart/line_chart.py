@@ -606,10 +606,31 @@ class Graph(chart.ChartObject):
     LineChart widget.
     """
     
-    __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
+    __gproperties__ = {"name": (gobject.TYPE_STRING, "graph id",
+                                "The graph's unique name.",
+                                "", gobject.PARAM_READABLE),
+                        "title": (gobject.TYPE_STRING, "graph title",
+                                    "The title of the graph.", "",
+                                    gobject.PARAM_READWRITE),
+                        "color": (gobject.TYPE_PYOBJECT,
                                     "graph color",
                                     "The color of the graph in (r,g,b) format. r,g,b in [0,1].",
-                                    gobject.PARAM_READWRITE)}
+                                    gobject.PARAM_READWRITE),
+                        "type": (gobject.TYPE_INT, "graph type",
+                                    "The type of the graph.", 1, 3, 3,
+                                    gobject.PARAM_READWRITE),
+                        "point-size": (gobject.TYPE_INT, "point size",
+                                        "Radius of the data points.", 1,
+                                        100, 2, gobject.PARAM_READWRITE),
+                        "fill-xaxis": (gobject.TYPE_BOOLEAN, "fill xaxis",
+                                    "Sets whether to fill the area between graph and xaxis.",
+                                    False, gobject.PARAM_READWRITE),
+                        "show-values": (gobject.TYPE_BOOLEAN, "show values",
+                                    "Sets whether to show the y values.",
+                                    False, gobject.PARAM_READWRITE),
+                        "show-title": (gobject.TYPE_BOOLEAN, "show title",
+                                    "Sets whether to show the graph's title.",
+                                    True, gobject.PARAM_READWRITE)}
     
     def __init__(self, name, title, data):
         """
@@ -635,14 +656,29 @@ class Graph(chart.ChartObject):
         self._point_size = 2
         self._fill_xaxis = False
         self._show_value = False
+        self._show_title = True
         
     def do_get_property(self, property):
         if property.name == "visible":
             return self._show
         elif property.name == "antialias":
             return self._antialias
+        elif property.name == "name":
+            return self._name
+        elif property.name == "title":
+            return self._title
         elif property.name == "color":
             return self._color
+        elif property.name == "type":
+            return self._type
+        elif property.name == "point-size":
+            return self._point_size
+        elif property.name == "fill-xaxis":
+            return self._fill_xaxis
+        elif property.name == "show-values":
+            return self._show_value
+        elif property.name == "show-title":
+            return self._show_title
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -651,8 +687,20 @@ class Graph(chart.ChartObject):
             self._show = value
         elif property.name == "antialias":
             self._antialias = value
+        elif property.name == "title":
+            self._title = value
         elif property.name == "color":
             self._color = value
+        elif property.name == "type":
+            self._type = value
+        elif property.name == "point-size":
+            self._point_size = value
+        elif property.name == "fill-xaxis":
+            self._fill_xaxis = value
+        elif property.name == "show-values":
+            self._show_value = value
+        elif property.name == "show-title":
+            self._show_title = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -735,7 +783,9 @@ class Graph(chart.ChartObject):
             if not first:
                 context.line_to(ax, zy)
                 context.fill()
-        self._do_draw_title(context, rect, last)
+                
+        if self._show_title:
+            self._do_draw_title(context, rect, last)
         
     def get_x_range(self):
         """
@@ -767,10 +817,25 @@ class Graph(chart.ChartObject):
         
         @return: string
         """
-        return self._name
+        return self.get_property("name")
         
     def get_title(self):
-        return self._title
+        """
+        Returns the title of the graph.
+        
+        @return: string
+        """
+        return self.get_property("title")
+        
+    def set_title(self, title):
+        """
+        Set the title of the graph.
+        
+        @type title: string
+        @param title: The graph's new title.
+        """
+        self.set_property("title", title)
+        self.emit("appearance_changed")
         
     def set_range_calc(self, range_calc):
         self._range_calc = range_calc
@@ -778,6 +843,8 @@ class Graph(chart.ChartObject):
     def get_color(self):
         """
         Returns the current color of the graph or COLOR_AUTO.
+        
+        @return: a color (see set_color() for details).
         """
         return self.get_property("color")
         
@@ -793,6 +860,14 @@ class Graph(chart.ChartObject):
         self.set_property("color", color)
         self.emit("appearance_changed")
         
+    def get_type(self):
+        """
+        Returns the type of the graph.
+        
+        @return: a type constant (see set_type() for details)
+        """
+        return self.get_property("type")
+        
     def set_type(self, type):
         """
         Set the type of the graph to one of these:
@@ -802,16 +877,34 @@ class Graph(chart.ChartObject):
         
         @param type: One of the constants above.
         """
-        self._type = type
+        self.set_property("type", type)
+        self.emit("appearance_changed")
+        
+    def get_point_size(self):
+        """
+        Returns the radius of the data points.
+        
+        @return: a poisitive integer
+        """
+        return self.get_property("point_size")
         
     def set_point_size(self, size):
         """
         Set the radius of the drawn points.
         
-        @type size: a positive number
+        @type size: a positive integer in [1, 100]
         @param size: The new radius of the points.
         """
-        self._point_size = size
+        self.set_property("point_size", size)
+        self.emit("appearance_changed")
+        
+    def get_fill_xaxis(self):
+        """
+        Returns True if the area between graph and xaxis is filled.
+        
+        @return: boolean
+        """
+        return self.get_property("fill-xaxis")
         
     def set_fill_xaxis(self, fill):
         """
@@ -820,7 +913,43 @@ class Graph(chart.ChartObject):
         
         @type fill: boolean
         """
-        self._fill_xaxis = fill
+        self.set_property("fill-xaxis", fill)
+        self.emit("appearance_changed")
+        
+    def get_show_values(self):
+        """
+        Returns True if y values are shown.
+        
+        @return: boolean
+        """
+        return self.get_property("show-values")
+        
+    def set_show_values(self, show):
+        """
+        Set whether the y values should be shown (only if graph type
+        is GRAPH_POINTS or GRAPH_BOTH).
+        
+        @type show: boolean
+        """
+        self.set_property("show-values", show)
+        self.emit("appearance_changed")
+        
+    def get_show_title(self):
+        """
+        Returns True if the title of the graph is shown.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-title")
+        
+    def set_show_title(self, show):
+        """
+        Set whether to show the graph's title or not.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-title", show)
+        self.emit("appearance_changed")
         
     def add_data(self, data_list):
         """
