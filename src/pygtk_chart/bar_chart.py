@@ -46,7 +46,6 @@ class BarChart(chart.Chart):
         bar_bottom = bottom * (1.0 - bar_vertical_padding)
         bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
         
-        #for i,(name, info) in enumerate(self.data.iteritems()):
         for i,name in enumerate(self.bar_order):
             info = self.data[name]
             x = int(rect.width / float(number_of_bars) * i) + rect.x + (bar_padding // 2)
@@ -148,6 +147,7 @@ class MultiBarChart(BarChart):
         super(MultiBarChart, self).__init__()
         self.sub_bar_order = []
         self.name_map = {}
+        self.sub_label_rotation_deg = 15.0 # amout of rotation in the sub bar labels
     
     def _do_draw(self, context, rect):
         """
@@ -208,12 +208,11 @@ class MultiBarChart(BarChart):
                     #context.set_source_rgb(0, 0, 0)
                     title = sub_label
                     label_height, label_width = context.text_extents(title)[3:5]
-                    deg = 15.0
-                    rotation_rad = math.pi*deg / 180.0
+                    rotation_rad = math.pi*self.sub_label_rotation_deg / 180.0
                     rotated_height = max(label_height, abs(math.sin(rotation_rad) * label_width))
                     rotated_width =  max(label_height, abs(math.cos(rotation_rad) * label_width))
                     max_rotated_height = max(max_rotated_height, int(rotated_height)+1)
-                    label_x = sub_bar_x + (sub_bar_width // 3) #- (rotated_width // 2)
+                    label_x = sub_bar_x + (sub_bar_width // 3)
                     context.move_to(label_x, bar_bottom + 10)
                     context.rotate(rotation_rad)
                     context.show_text(title)
