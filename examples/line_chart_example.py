@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import gtk
-import pygtk
 from pygtk_chart import line_chart
 
 window = gtk.Window()
