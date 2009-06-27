@@ -216,6 +216,9 @@ class ChartObject(gobject.GObject):
         self.set_property("antialias", antialias)
         self.emit("appearance_changed")
         
+    def get_antialias(self):
+        return self.get_property("antialias")
+        
     def set_visible(self, visible):
         """
         Use this method to set whether the ChartObject should be visible or
@@ -226,6 +229,9 @@ class ChartObject(gobject.GObject):
         """
         self.set_property("visible", visible)
         self.emit("appearance_changed")
+        
+    def get_visible(self):
+        return self.get_property("visible")
         
 
 gobject.type_register(ChartObject)
