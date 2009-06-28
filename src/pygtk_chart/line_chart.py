@@ -41,8 +41,8 @@ COLOR_AUTO = 4
 POSITION_AUTO = 5
 POSITION_LEFT = 6
 POSITION_RIGHT = 7
-POSITION_TOP = 8
-POSITION_BOTTOM = 9
+POSITION_BOTTOM = 6
+POSITION_TOP = 7
 
 #load default color palette
 COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
@@ -287,22 +287,195 @@ class LineChart(chart.Chart):
         """
         self._range_calc.set_yrange(yrange)
 
+
+class Axis(chart.ChartObject):
+    
+    __gproperties__ = {"label": (gobject.TYPE_STRING, "axis label",
+                                    "The label of the axis.", "",
+                                    gobject.PARAM_READWRITE),
+                        "show-label": (gobject.TYPE_BOOLEAN, "show label",
+                                    "Set whether to show the axis label.",
+                                    True, gobject.PARAM_READWRITE),
+                        "position": (gobject.TYPE_INT, "axis position",
+                                    "Position of the axis.", 5, 7, 5,
+                                    gobject.PARAM_READWRITE),
+                        "show-tics": (gobject.TYPE_BOOLEAN, "show tics",
+                                    "Set whether to draw tics.", True,
+                                    gobject.PARAM_READWRITE),
+                        "show-tic-labels": (gobject.TYPE_BOOLEAN,
+                                            "show tic labels",
+                                            "Set whether to draw tic labels",
+                                            True,
+                                            gobject.PARAM_READWRITE),
+                        "tic-format-function": (gobject.TYPE_PYOBJECT,
+                                            "tic format function",
+                                            "This function is used to label the tics.",
+                                            gobject.PARAM_READWRITE)}
+    
+    def __init__(self, range_calc, label):
+        chart.ChartObject.__init__(self)
+        self.set_property("antialias", False)
         
-class XAxis(chart.ChartObject):
+        self._label = label
+        self._show_label = True
+        self._position = POSITION_AUTO
+        self._show_tics = True
+        self._show_tic_labels = True
+        self._tic_format_function = str
+        
+        self._range_calc = range_calc
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "label":
+            return self._label
+        elif property.name == "show-label":
+            return self._show_label
+        elif property.name == "position":
+            return self._position
+        elif property.name == "show-tics":
+            return self._show_tics
+        elif property.name == "show-tic-labels":
+            return self._show_tic_labels
+        elif property.name == "tic-format-function":
+            return self._tic_format_function
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "label":
+            self._label = value
+        elif property.name == "show-label":
+            self._show_label = value
+        elif property.name == "position":
+            self._position = value
+        elif property.name == "show-tics":
+            self._show_tics = value
+        elif property.name == "show-tic-labels":
+            self._show_tic_labels = value
+        elif property.name == "tic-format-function":
+            self._tic_format_function = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def set_label(self, label):
+        """
+        Set the label of the axis.
+        
+        @param label: new label
+        @type label: string.
+        """
+        self.set_property("label", label)
+        self.emit("appearance_changed")
+        
+    def get_label(self):
+        """
+        Returns the current label of the axis.
+        
+        @return: string.
+        """
+        return self.get_property("label")
+        
+    def set_show_label(self, show):
+        """
+        Set whether to show the axis' label.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-label", show)
+        self.emit("appearance_changed")
+        
+    def get_show_label(self):
+        """
+        Returns True if the axis' label is shown.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-label")
+        
+    def set_position(self, pos):
+        """
+        Set the position of the axis. pos hast to be one these
+        constants: POSITION_AUTO, POSITION_BOTTOM, POSITION_LEFT,
+        POSITION_RIGHT, POSITION_TOP.        
+        """
+        self.set_property("position", pos)
+        self.emit("appearance_changed")
+        
+    def get_position(self):
+        """
+        Returns the position of the axis. (see set_position for
+        details).
+        """
+        return self.get_property("position")
+        
+    def set_show_tics(self, show):
+        """
+        Set whether to draw tics at the axis.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-tics", show)
+        self.emit("appearance_changed")
+        
+    def get_show_tics(self):
+        """
+        Returns True if tics are drawn.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-tics")
+        
+    def set_show_tic_labels(self, show):
+        """
+        Set whether to draw tic labels. Labels are only drawn if
+        tics are drawn.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-tic-labels", show)
+        self.emit("appearance_changed")
+        
+    def get_show_tic_labels(self):
+        """
+        Returns True if tic labels are shown.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-tic-labels")
+        
+    def set_tic_format_function(self, func):
+        """
+        Use this to set the function that should be used to label
+        the tics. The function should take a number as the only
+        argument and return a string. Default: str
+        
+        @type func: function.
+        """
+        self.set_property("tic-format-function", func)
+        self.emit("appearance_changed")
+        
+    def get_tic_format_function(self):
+        """
+        Returns the function currently used for labeling the tics.
+        """
+        return self.get_property("tic-format-function")
+
+        
+class XAxis(Axis):
     """
     This class represents the xaxis. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
     """
     def __init__(self, range_calc):
-        chart.ChartObject.__init__(self)
-        self._range_calc = range_calc
-        self._antialias = False
-        self._show_tics = True
-        self._show_tic_labels = True
-        self._show_label = True
-        self._label = "x"
-        self.tic_format_function = str
-        self._position = POSITION_AUTO
+        Axis.__init__(self, range_calc, "x")
         
     def draw(self, context, rect, yaxis):
         """
@@ -338,7 +511,7 @@ class XAxis(chart.ChartObject):
                     if label == 0 and self._position == POSITION_AUTO and yaxis.get_position() == POSITION_AUTO:
                         label = " "
                     else:
-                        label = self.tic_format_function(label)
+                        label = self._tic_format_function(label)
                     size = context.text_extents(label)
                     x = x - size[2] / 2
                     y = y + size[3] + font_size / 2
@@ -389,50 +562,14 @@ class XAxis(chart.ChartObject):
                 self._do_draw_label(context, rect, (rect.width * (1 - GRAPH_PADDING) + 3, zy))
             self._do_draw_tics(context, rect, yaxis)
         
-    def set_show_tics(self, show):
-        """
-        If show is True, xtics are drawn.
-        """
-        self._show_tics = show
         
-    def set_show_tic_labels(self, show):
-        """
-        If show is True, labels are drawn at the xtics.
-        """
-        self._show_tic_labels = show
-        
-    def set_show_label(self, show):
-        """
-        If show is True, a label is drawn at the left end of the axis.
-        """
-        self._show_label = show
-        
-    def set_position(self, pos):
-        """
-        Set the position of the xaxis to pos. Possible values are:
-        POSITION_AUTO, POSITION_TOP, POSITION_BOTTOM
-        """
-        self._position = pos
-        
-    def get_position(self):
-        return self._position
-        
-        
-class YAxis(chart.ChartObject):
+class YAxis(Axis):
     """
     This class represents the yaxis. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
     """
     def __init__(self, range_calc):
-        chart.ChartObject.__init__(self)
-        self._range_calc = range_calc
-        self._antialias = False
-        self._show_tics = True
-        self._show_tic_labels = True
-        self._show_label = True
-        self._label = "y"
-        self.tic_format_function = str
-        self._position = POSITION_AUTO
+        Axis.__init__(self, range_calc, "y")
         
     def draw(self, context, rect, xaxis):
         """
@@ -468,7 +605,7 @@ class YAxis(chart.ChartObject):
                     if label == 0 and self._position == POSITION_AUTO and xaxis.get_position() == POSITION_AUTO:
                         label = " "
                     else:
-                        label = self.tic_format_function(label)
+                        label = self._tic_format_function(label)
                     size = context.text_extents(label)
                     x = x - size[2] - font_size / 2
                     if self._position == POSITION_RIGHT:
@@ -515,34 +652,6 @@ class YAxis(chart.ChartObject):
             if self._show_label:
                 self._do_draw_label(context, rect, (zx, rect.height * GRAPH_PADDING - 3))
             self._do_draw_tics(context, rect, xaxis)
-            
-    def set_show_tics(self, show):
-        """
-        If show is True, ytics are drawn.
-        """
-        self._show_tics = show
-        
-    def set_show_tic_labels(self, show):
-        """
-        If show is True, labels are drawn at the ytics.
-        """
-        self._show_tic_labels = show
-        
-    def set_show_label(self, show):
-        """
-        If show is True, a label is drawn at the top end of the axis.
-        """
-        self._show_label = show
-        
-    def set_position(self, pos):
-        """
-        Set the position of the xaxis to pos. Possible values are:
-        POSITION_AUTO, POSITION_LEFT, POSITION_RIGHT
-        """
-        self._position = pos
-        
-    def get_position(self):
-        return self._position
         
         
 class Grid(chart.ChartObject):
