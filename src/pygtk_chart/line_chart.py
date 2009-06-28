@@ -186,6 +186,9 @@ class LineChart(chart.Chart):
         self.xaxis = XAxis(self._range_calc)
         self.yaxis = YAxis(self._range_calc)
         self.grid = Grid(self._range_calc)
+        
+        self.xaxis.connect("appearance_changed", self._cb_appearance_changed)
+        self.yaxis.connect("appearance_changed", self._cb_appearance_changed)
         self.grid.connect("appearance_changed", self._cb_appearance_changed)
         
     def _do_draw_graphs(self, context, rect):
