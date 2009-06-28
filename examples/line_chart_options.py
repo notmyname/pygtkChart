@@ -30,12 +30,13 @@ def from_gdkColor(c):
 class ChartControl(gtk.Table):
     
     def __init__(self, chart):
-        gtk.Table.__init__(self, 9, 3)
+        gtk.Table.__init__(self, 12, 3)
         self.set_row_spacings(2)
         self.set_col_spacings(6)
         self.chart = chart
         self._init_title()
         self._init_background()
+        self._init_grid()
         
     def _init_title(self):
         self.entry_chart_title = gtk.Entry()
@@ -99,6 +100,27 @@ class ChartControl(gtk.Table):
         
         self._cb_bg_type_changed(None)
         
+    def _init_grid(self):
+        self.checkbutton_grid_show_h = gtk.CheckButton("Show horizontal grid lines")
+        self.checkbutton_grid_show_h.set_active(self.chart.grid.get_draw_horizontal_lines())
+        self.checkbutton_grid_show_h.connect("toggled", self._cb_grid_draw_h_changed)
+        self.attach(self.checkbutton_grid_show_h, 0, 3, 9, 10, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
+        self.checkbutton_grid_show_v = gtk.CheckButton("Show vertical grid lines")
+        self.checkbutton_grid_show_v.set_active(self.chart.grid.get_draw_vertical_lines())
+        self.checkbutton_grid_show_v.connect("toggled", self._cb_grid_draw_v_changed)
+        self.attach(self.checkbutton_grid_show_v, 0, 3, 10, 11, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
+        self.color_grid = gtk.ColorButton()
+        self.color_grid.set_color(to_gdkColor(*self.chart.grid.get_color()))
+        self.color_grid.connect("color-set", self._cb_grid_color_changed)
+        label = gtk.Label("Grid color:")
+        label.set_alignment(0.0, 0.5)
+        self.attach(label, 0, 1, 11, 12, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.color_grid, 1, 3, 11, 12, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
+        self.attach(gtk.HSeparator(), 0, 3, 12, 13, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
     def _cb_title_changed(self, entry):
         self.chart.title.set_text(entry.get_text())
         
@@ -132,3 +154,12 @@ class ChartControl(gtk.Table):
         
     def _cb_bg_image_changed(self, chooser):
         self.chart.background.set_image(chooser.get_filename())        
+        
+    def _cb_grid_draw_h_changed(self, button):
+        self.chart.grid.set_draw_horizontal_lines(button.get_active())
+        
+    def _cb_grid_draw_v_changed(self, button):
+        self.chart.grid.set_draw_vertical_lines(button.get_active())
+        
+    def _cb_grid_color_changed(self, chooser):
+        self.chart.grid.set_color(from_gdkColor(chooser.get_color()))

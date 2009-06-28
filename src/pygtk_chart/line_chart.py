@@ -186,6 +186,7 @@ class LineChart(chart.Chart):
         self.xaxis = XAxis(self._range_calc)
         self.yaxis = YAxis(self._range_calc)
         self.grid = Grid(self._range_calc)
+        self.grid.connect("appearance_changed", self._cb_appearance_changed)
         
     def _do_draw_graphs(self, context, rect):
         """
@@ -549,18 +550,61 @@ class Grid(chart.ChartObject):
     A class representing the grid of the chart. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
     """
+    
+    __gproperties__ = {"show-horizontal": (gobject.TYPE_BOOLEAN,
+                                    "show horizontal lines",
+                                    "Set whether to draw horizontal lines.",
+                                    True, gobject.PARAM_READWRITE),
+                        "show-vertical": (gobject.TYPE_BOOLEAN,
+                                    "show vertical lines",
+                                    "Set whether to draw vertical lines.",
+                                    True, gobject.PARAM_READWRITE),
+                        "color": (gobject.TYPE_PYOBJECT,
+                                    "grid color",
+                                    "The color of the grid in (r,g,b) format. r,g,b in [0,1]",
+                                    gobject.PARAM_READWRITE)}
+    
     def __init__(self, range_calc):
         chart.ChartObject.__init__(self)
+        self.set_property("antialias", False)
         self._range_calc = range_calc
         self._color = (0.9, 0.9, 0.9)
-        self._show = (True, True)
-        self._antialias = False
+        self._show_h = True
+        self._show_v = True
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "show-horizontal":
+            return self._show_h
+        elif property.name == "show-vertical":
+            return self._show_v
+        elif property.name == "color":
+            return self._color
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "show-horizontal":
+            self._show_h = value
+        elif property.name == "show-vertical":
+            self._show_v = value
+        elif property.name == "color":
+            self._color = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _do_draw(self, context, rect):
         c = self._color
         context.set_source_rgb(c[0], c[1], c[2])
         #draw horizontal lines
-        if self._show[0]:
+        if self._show_h:
             ytics = self._range_calc.get_ytics(rect)
             xa = rect.width * GRAPH_PADDING
             xb = rect.width * (1 - GRAPH_PADDING)
@@ -570,7 +614,7 @@ class Grid(chart.ChartObject):
                 context.stroke()
                 
         #draw vertical lines
-        if self._show[1]:
+        if self._show_v:
             xtics = self._range_calc.get_xtics(rect)
             ya = rect.height * GRAPH_PADDING
             yb = rect.height * (1 - GRAPH_PADDING)
@@ -579,16 +623,39 @@ class Grid(chart.ChartObject):
                 context.line_to(x, yb)
                 context.stroke()
                 
-    def set_visible(self, h, v):
+    def set_draw_horizontal_lines(self, draw):
         """
-        Set which grid lines to draw.
+        Set whether to draw horizontal grid lines.
         
-        @type h: boolean
-        @param h: If this is True horizontal grid lines will be drawn.
-        @type v: boolean
-        @param v: If this is True vertical grid lines will be drawn.
+        @type draw: boolean.
         """
-        self._show = (h, v)
+        self.set_property("show-horizontal", draw)
+        self.emit("appearance_changed")
+        
+    def get_draw_horizontal_lines(self):
+        """
+        Returns True if horizontal grid lines are drawn.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-horizontal")
+                
+    def set_draw_vertical_lines(self, draw):
+        """
+        Set whether to draw vertical grid lines.
+        
+        @type draw: boolean.
+        """
+        self.set_property("show-vertical", draw)
+        self.emit("appearance_changed")
+    
+    def get_draw_vertical_lines(self):
+        """
+        Returns True if vertical grid lines are drawn.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-vertical")
         
     def set_color(self, color):
         """
@@ -597,7 +664,16 @@ class Grid(chart.ChartObject):
         @type color: a color
         @param color: The new color of the grid.
         """
-        self._color = color
+        self.set_property("color", color)
+        self.emit("appearance_changed")
+    
+    def get_color(self):
+        """
+        Returns the color of the grid.
+        
+        @return: a color.
+        """
+        return self.get_property("color")
         
         
 class Graph(chart.ChartObject):
@@ -651,12 +727,13 @@ class Graph(chart.ChartObject):
         self._title = title
         self._data = data
         self._color = COLOR_AUTO
-        self._range_calc = None
         self._type = GRAPH_BOTH
         self._point_size = 2
         self._fill_xaxis = False
         self._show_value = False
         self._show_title = True
+        
+        self._range_calc = None
         
     def do_get_property(self, property):
         if property.name == "visible":
