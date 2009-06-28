@@ -127,17 +127,17 @@ class ChartControl(gtk.Table):
         self.checkbutton_show_xaxis = gtk.CheckButton("Show x-axis")
         self.checkbutton_show_xaxis.set_active(self.chart.xaxis.get_visible())
         self.checkbutton_show_xaxis.connect("toggled", self._cb_xaxis_visible_changed)
-        self.attach(self.checkbutton_show_xaxis, 0, 3, 13, 14)
+        self.attach(self.checkbutton_show_xaxis, 0, 3, 13, 14, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.checkbutton_show_xaxis_tics = gtk.CheckButton("Show x-axis tics")
         self.checkbutton_show_xaxis_tics.set_active(self.chart.xaxis.get_show_tics())
         self.checkbutton_show_xaxis_tics.connect("toggled", self._cb_xaxis_show_tics_changed)
-        self.attach(self.checkbutton_show_xaxis_tics, 0, 3, 14, 15)
+        self.attach(self.checkbutton_show_xaxis_tics, 0, 3, 14, 15, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.checkbutton_show_xaxis_tic_labels = gtk.CheckButton("Show x-axis tic labels")
         self.checkbutton_show_xaxis_tic_labels.set_active(self.chart.xaxis.get_show_tic_labels())
         self.checkbutton_show_xaxis_tic_labels.connect("toggled", self._cb_xaxis_show_tic_labels_changed)
-        self.attach(self.checkbutton_show_xaxis_tic_labels, 0, 3, 15, 16)
+        self.attach(self.checkbutton_show_xaxis_tic_labels, 0, 3, 15, 16, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.combo_xaxis_pos = gtk.combo_box_new_text()
         self.combo_xaxis_pos.append_text("Auto")
@@ -156,17 +156,17 @@ class ChartControl(gtk.Table):
         self.checkbutton_show_yaxis = gtk.CheckButton("Show y-axis")
         self.checkbutton_show_yaxis.set_active(self.chart.yaxis.get_visible())
         self.checkbutton_show_yaxis.connect("toggled", self._cb_yaxis_visible_changed)
-        self.attach(self.checkbutton_show_yaxis, 0, 3, 18, 19)
+        self.attach(self.checkbutton_show_yaxis, 0, 3, 18, 19, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.checkbutton_show_yaxis_tics = gtk.CheckButton("Show y-axis tics")
         self.checkbutton_show_yaxis_tics.set_active(self.chart.yaxis.get_show_tics())
         self.checkbutton_show_yaxis_tics.connect("toggled", self._cb_yaxis_show_tics_changed)
-        self.attach(self.checkbutton_show_yaxis_tics, 0, 3, 19, 20)
+        self.attach(self.checkbutton_show_yaxis_tics, 0, 3, 19, 20, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.checkbutton_show_yaxis_tic_labels = gtk.CheckButton("Show y-axis tic labels")
         self.checkbutton_show_yaxis_tic_labels.set_active(self.chart.yaxis.get_show_tic_labels())
         self.checkbutton_show_yaxis_tic_labels.connect("toggled", self._cb_yaxis_show_tic_labels_changed)
-        self.attach(self.checkbutton_show_yaxis_tic_labels, 0, 3, 20, 21)
+        self.attach(self.checkbutton_show_yaxis_tic_labels, 0, 3, 20, 21, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.combo_yaxis_pos = gtk.combo_box_new_text()
         self.combo_yaxis_pos.append_text("Auto")
