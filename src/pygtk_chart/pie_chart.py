@@ -286,6 +286,21 @@ class PieChart(chart.Chart):
     def add_area(self, area):
         self._areas.append(area)
         area.connect("appearance_changed", self._cb_appearance_changed)
+        
+    def get_pie_area(self, name):
+        """
+        Returns the PieArea with the id 'name' if it exists, None
+        otherwise.
+        
+        @type name: string
+        @param name: the id of a PieArea
+        
+        @return a PieArea or None.
+        """
+        for area in self._areas:
+            if area.get_name() == name:
+                return area
+        return None
             
     def set_rotate(self, angle):
         """
