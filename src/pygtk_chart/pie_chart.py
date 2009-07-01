@@ -162,6 +162,8 @@ class PieChart(chart.Chart):
                                         "show percentage",
                                         "Set whether to show percentage in the areas' labels.",
                                         True, gobject.PARAM_READWRITE)}
+                                        
+    __gsignals__ = {"area-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))}
     
     def __init__(self):
         chart.Chart.__init__(self)
@@ -170,6 +172,10 @@ class PieChart(chart.Chart):
         self._shadow = True
         self._labels = True
         self._percentage = True
+        
+        self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK)
+        self.connect("button_press_event", self._cb_button_pressed)
+
         
     def do_get_property(self, property):
         if property.name == "rotate":
@@ -197,6 +203,40 @@ class PieChart(chart.Chart):
             
     def _cb_appearance_changed(self, widget):
         self.queue_draw()
+        
+    def _cb_button_pressed(self, widget, event):
+        rect = self.get_allocation()
+        center = rect.width / 2, rect.height / 2
+        x = event.x - center[0]
+        y = event.y - center[1]
+
+        #calculate angle        
+        angle = math.atan2(x, -y)
+        angle -= math.pi / 2
+        angle -= 2 * math.pi * self.get_rotate() / 360.0
+        while angle < 0:
+            angle += 2 * math.pi
+            
+        #calculate radius
+        radius_squared = math.pow(int(0.4 * min(rect.width, rect.height)), 2)
+        clicked_radius_squared = x*x + y*y
+        
+        if clicked_radius_squared <= radius_squared:
+            #find out area that was clicked
+            sum = 0
+            for area in self._areas:
+                if area.get_visible():
+                    sum += area.get_value()
+                    
+            current_angle_position = 0
+            for area in self._areas:
+                area_angle = 2 * math.pi * area.get_value() / sum
+                
+                if current_angle_position <= angle <= current_angle_position + area_angle:
+                    self.emit("area-clicked", area)
+                    break
+                
+                current_angle_position += area_angle
         
     def draw(self, context):
         """
