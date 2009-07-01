@@ -178,9 +178,12 @@ class PieChart(chart.Chart):
         self._percentage = True
         self._enable_scroll = True
         
-        self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK)
+        self._highlighted = None
+        
+        self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
         self.connect("button_press_event", self._cb_button_pressed)
         self.connect("scroll-event", self._cb_scroll_event)
+        self.connect("motion-notify-event", self._cb_motion_notify)
         
     def do_get_property(self, property):
         if property.name == "rotate":
@@ -213,11 +216,22 @@ class PieChart(chart.Chart):
     def _cb_appearance_changed(self, widget):
         self.queue_draw()
         
+    def _cb_motion_notify(self, widget, event):
+        area = self._get_area_at_pos(event.x, event.y)
+        if area != self._highlighted:
+            self.queue_draw()
+        self._highlighted = area
+        
     def _cb_button_pressed(self, widget, event):
+        area = self._get_area_at_pos(event.x, event.y)
+        if area:
+            self.emit("area-clicked", area)
+                
+    def _get_area_at_pos(self, x, y):
         rect = self.get_allocation()
         center = rect.width / 2, rect.height / 2
-        x = event.x - center[0]
-        y = event.y - center[1]
+        x = x - center[0]
+        y = y - center[1]
 
         #calculate angle        
         angle = math.atan2(x, -y)
@@ -242,10 +256,10 @@ class PieChart(chart.Chart):
                 area_angle = 2 * math.pi * area.get_value() / sum
                 
                 if current_angle_position <= angle <= current_angle_position + area_angle:
-                    self.emit("area-clicked", area)
-                    break
+                    return area
                 
                 current_angle_position += area_angle
+        return None
                 
     def _cb_scroll_event(self, widget, event):
         if not self._enable_scroll: return
@@ -304,8 +318,21 @@ class PieChart(chart.Chart):
             context.arc(center[0], center[1], radius, current_angle_position, current_angle_position + area_angle)
             context.close_path()
             context.fill()
+            
+            if area == self._highlighted:
+                context.set_source_rgba(1, 1, 1, 0.1)
+                context.move_to(center[0], center[1])
+                context.arc(center[0], center[1], radius, current_angle_position, current_angle_position + area_angle)
+                context.close_path()
+                context.fill()
         
             if self._labels:
+                font = gtk.Label().style.font_desc.get_family()
+                slant = cairo.FONT_SLANT_NORMAL
+                if area == self._highlighted:
+                    slant = cairo.FONT_SLANT_ITALIC
+                context.select_font_face(font, slant, cairo.FONT_WEIGHT_NORMAL)
+                context.set_source_rgb(*color)
                 #draw the label:
                 label = area.get_label()
                 if self._percentage:
