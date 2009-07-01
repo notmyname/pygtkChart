@@ -161,6 +161,10 @@ class PieChart(chart.Chart):
                         "show-percentage": (gobject.TYPE_BOOLEAN,
                                         "show percentage",
                                         "Set whether to show percentage in the areas' labels.",
+                                        True, gobject.PARAM_READWRITE),
+                        "enable-scroll": (gobject.TYPE_BOOLEAN,
+                                        "enable scroll",
+                                        "If True, the pie can be rotated by scrolling with the mouse wheel.",
                                         True, gobject.PARAM_READWRITE)}
                                         
     __gsignals__ = {"area-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))}
@@ -172,10 +176,11 @@ class PieChart(chart.Chart):
         self._shadow = True
         self._labels = True
         self._percentage = True
+        self._enable_scroll = True
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK)
         self.connect("button_press_event", self._cb_button_pressed)
-
+        self.connect("scroll-event", self._cb_scroll_event)
         
     def do_get_property(self, property):
         if property.name == "rotate":
@@ -186,6 +191,8 @@ class PieChart(chart.Chart):
             return self._labels
         elif property.name == "show-percentage":
             return self._percentage
+        elif property.name == "enable-scroll":
+            return self._enable_scroll
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -198,6 +205,8 @@ class PieChart(chart.Chart):
             self._labels = value
         elif property.name == "show-percentage":
             self._percentage = value
+        elif property.name == "enable-scroll":
+            self._enable_scroll = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
             
@@ -237,6 +246,21 @@ class PieChart(chart.Chart):
                     break
                 
                 current_angle_position += area_angle
+                
+    def _cb_scroll_event(self, widget, event):
+        if not self._enable_scroll: return
+        if event.direction in [gtk.gdk.SCROLL_UP, gtk.gdk.SCROLL_RIGHT]:
+            delta = 360.0 / 32
+        elif event.direction in [gtk.gdk.SCROLL_DOWN, gtk.gdk.SCROLL_LEFT]:
+            delta = - 360.0 / 32
+        else:
+            delta = 0
+        rotate = self.get_rotate() + delta
+        rotate = rotate % 360.0
+        if rotate < 0: rotate += 360
+        self.set_rotate(rotate)
+            
+        
         
     def draw(self, context):
         """
@@ -410,3 +434,20 @@ class PieChart(chart.Chart):
         @return: boolean.
         """
         return self.get_property("show-percentage")
+        
+    def set_enable_scroll(self, scroll):
+        """
+        Set whether the pie chart can be rotated by scrolling with
+        the mouse wheel.
+        
+        @type scroll: boolean.
+        """
+        self.set_property("enable-scroll", scroll)
+        
+    def get_enable_scroll(self):
+        """
+        Returns True if the user can rotate the pie chart by scrolling.
+        
+        @return: boolean.
+        """
+        return self.get_property("enable-scroll")
