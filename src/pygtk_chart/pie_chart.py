@@ -327,13 +327,12 @@ class PieChart(chart.Chart):
                 context.fill()
         
             if self._labels:
-                font = gtk.Label().style.font_desc.get_family()
-                slant = cairo.FONT_SLANT_NORMAL
+                font_name = gtk.Label().style.font_desc.get_family()
+                font_slant = cairo.FONT_SLANT_NORMAL
                 if area == self._highlighted:
-                    slant = cairo.FONT_SLANT_ITALIC
-                context.select_font_face(font, slant, cairo.FONT_WEIGHT_NORMAL)
+                    font_slant = cairo.FONT_SLANT_ITALIC
                 context.set_source_rgb(*color)
-                #draw the label:
+                
                 label = area.get_label()
                 if self._percentage:
                     label = label + " (%s%%)" % round(100. * area.get_value() / sum, 2)
@@ -341,22 +340,16 @@ class PieChart(chart.Chart):
                 angle = angle % (2 * math.pi)
                 x = center[0] + (radius + 10) * math.cos(angle)
                 y = center[1] + (radius + 10) * math.sin(angle)
-                text_size = context.text_extents(label)
-                text_width = text_size[2]
-                text_height = text_size[3]
                 
-                ref = (0, 0)
+                ref = REF_BOTTOM_LEFT
                 if 0 <= angle <= math.pi / 2:
-                    ref = (0, text_height)
+                    ref = REF_TOP_LEFT
                 elif math.pi / 2 <= angle <= math.pi:
-                    ref = (-text_width, text_height)
+                    ref = REF_TOP_RIGHT
                 elif math.pi <= angle <= 1.5 * math.pi:
-                    ref = (-text_width, 0)
-                x = x + ref[0]
-                y = y + ref[1]
-
-                context.move_to(x, y)
-                context.show_text(label)
+                    ref = REF_BOTTOM_RIGHT
+                
+                show_text(context, rect, x, y, label, font_name, rect.height / 30, slant=font_slant, reference_point=ref)
                 context.fill()
             
             current_angle_position += area_angle
