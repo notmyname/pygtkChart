@@ -133,7 +133,7 @@ class PieArea(chart.ChartObject):
         @type label: string.
         """
         self.set_property("label", label)
-        self.emit("appearance:changed")
+        self.emit("appearance_changed")
         
     def get_label(self):
         """
@@ -310,7 +310,7 @@ class PieChart(chart.Chart):
             if not area.get_visible(): continue
             #set the color or automaticly select one:
             color = area.get_color()
-            if color == COLOR_AUTO: color = COLORS[i % len(COLORS)]
+            #if color == COLOR_AUTO: color = COLORS[i % len(COLORS)]
             #draw the area:
             area_angle = 2 * math.pi * area.get_value() / sum
             context.set_source_rgb(*color)
@@ -368,6 +368,8 @@ class PieChart(chart.Chart):
         context.fill()
         
     def add_area(self, area):
+        color = area.get_color()
+        if color == COLOR_AUTO: area.set_color(COLORS[len(self._areas) % len(COLORS)])
         self._areas.append(area)
         area.connect("appearance_changed", self._cb_appearance_changed)
         
