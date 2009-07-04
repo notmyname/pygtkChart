@@ -165,6 +165,10 @@ class PieChart(chart.Chart):
                         "enable-scroll": (gobject.TYPE_BOOLEAN,
                                         "enable scroll",
                                         "If True, the pie can be rotated by scrolling with the mouse wheel.",
+                                        True, gobject.PARAM_READWRITE),
+                        "enable-mouseover": (gobject.TYPE_BOOLEAN,
+                                        "enable mouseover",
+                                        "Set whether a mouseover effect should be visible if moving the mouse over a pie area.",
                                         True, gobject.PARAM_READWRITE)}
                                         
     __gsignals__ = {"area-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))}
@@ -177,6 +181,7 @@ class PieChart(chart.Chart):
         self._labels = True
         self._percentage = True
         self._enable_scroll = True
+        self._enable_mouseover = True
         
         self._highlighted = None
         
@@ -196,6 +201,8 @@ class PieChart(chart.Chart):
             return self._percentage
         elif property.name == "enable-scroll":
             return self._enable_scroll
+        elif property.name == "enable-mouseover":
+            return self._enable_mouseover
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -210,6 +217,8 @@ class PieChart(chart.Chart):
             self._percentage = value
         elif property.name == "enable-scroll":
             self._enable_scroll = value
+        elif property.name == "enable-mouseover":
+            self._enable_mouseover = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
             
@@ -217,6 +226,7 @@ class PieChart(chart.Chart):
         self.queue_draw()
         
     def _cb_motion_notify(self, widget, event):
+        if not self._enable_mouseover: return
         area = self._get_area_at_pos(event.x, event.y)
         if area != self._highlighted:
             self.queue_draw()
@@ -274,8 +284,6 @@ class PieChart(chart.Chart):
         if rotate < 0: rotate += 360
         self.set_rotate(rotate)
             
-        
-        
     def draw(self, context):
         """
         Draw the widget. This method is called automatically. Don't call it
@@ -473,3 +481,20 @@ class PieChart(chart.Chart):
         @return: boolean.
         """
         return self.get_property("enable-scroll")
+        
+    def set_enable_mouseover(self, mouseover):
+        """
+        Set whether a mouseover effect should be shown when the pointer
+        enters a pie area.
+        
+        @type mouseover: boolean.
+        """
+        self.set_property("enable-mouseover", mouseover)
+        
+    def get_enable_mouseover(self):
+        """
+        Returns True if the mouseover effect is enabled.
+        
+        @return: boolean.
+        """
+        return self.get_property("enable-mouseover")
