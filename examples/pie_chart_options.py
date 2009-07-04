@@ -150,13 +150,18 @@ class ChartControl(gtk.Table):
         self.checkbutton_show_percent.connect("toggled", self._cb_percentage_changed)
         self.attach(self.checkbutton_show_percent, 0, 3, 13, 14, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
-        self.attach(gtk.HSeparator(), 0, 3, 14, 15, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.checkbutton_show_values = gtk.CheckButton("Show values in labels")
+        self.checkbutton_show_values.set_active(self.chart.get_show_values())
+        self.checkbutton_show_values.connect("toggled", self._cb_values_changed)
+        self.attach(self.checkbutton_show_values, 0, 3, 14, 15, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
+        self.attach(gtk.HSeparator(), 0, 3, 15, 16, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
     def _init_mouseover(self):
         self.checkbutton_mouseover = gtk.CheckButton("Enable mouseover effect")
         self.checkbutton_mouseover.set_active(self.chart.get_enable_mouseover())
         self.checkbutton_mouseover.connect("toggled", self._cb_mouseover_changed)
-        self.attach(self.checkbutton_mouseover, 0, 3, 15, 16, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.checkbutton_mouseover, 0, 3, 16, 17, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
     def _cb_title_changed(self, entry):
         self.chart.title.set_text(entry.get_text())
@@ -207,6 +212,9 @@ class ChartControl(gtk.Table):
         
     def _cb_percentage_changed(self, button):
         self.chart.set_show_percentage(button.get_active())
+        
+    def _cb_values_changed(self, button):
+        self.chart.set_show_values(button.get_active())
         
     def _cb_mouseover_changed(self, button):
         self.chart.set_enable_mouseover(button.get_active())

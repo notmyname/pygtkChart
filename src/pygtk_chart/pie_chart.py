@@ -161,6 +161,10 @@ class PieChart(chart.Chart):
                         "show-percentage": (gobject.TYPE_BOOLEAN,
                                         "show percentage",
                                         "Set whether to show percentage in the areas' labels.",
+                                        False, gobject.PARAM_READWRITE),
+                        "show-values": (gobject.TYPE_BOOLEAN,
+                                        "show values",
+                                        "Set whether to show values in the areas' labels.",
                                         True, gobject.PARAM_READWRITE),
                         "enable-scroll": (gobject.TYPE_BOOLEAN,
                                         "enable scroll",
@@ -179,7 +183,8 @@ class PieChart(chart.Chart):
         self._rotate = 0
         self._shadow = True
         self._labels = True
-        self._percentage = True
+        self._percentage = False
+        self._values = True
         self._enable_scroll = True
         self._enable_mouseover = True
         
@@ -199,6 +204,8 @@ class PieChart(chart.Chart):
             return self._labels
         elif property.name == "show-percentage":
             return self._percentage
+        elif property.name == "show-values":
+            return self._values
         elif property.name == "enable-scroll":
             return self._enable_scroll
         elif property.name == "enable-mouseover":
@@ -215,6 +222,8 @@ class PieChart(chart.Chart):
             self._labels = value
         elif property.name == "show-percentage":
             self._percentage = value
+        elif property.name == "show-values":
+            self._values = value
         elif property.name == "enable-scroll":
             self._enable_scroll = value
         elif property.name == "enable-mouseover":
@@ -342,8 +351,14 @@ class PieChart(chart.Chart):
                 context.set_source_rgb(*color)
                 
                 label = area.get_label()
-                if self._percentage:
-                    label = label + " (%s%%)" % round(100. * area.get_value() / sum, 2)
+                label_extra = ""
+                if self._percentage and not self._values:
+                    label_extra = " (%s%%)" % round(100. * area.get_value() / sum, 2)
+                elif not self._percentage and self._values:
+                    label_extra = " (%s)" % area.get_value()
+                elif self._percentage and self._values:
+                    label_extra = " (%s, %s%%)" % (area.get_value(), round(100. * area.get_value() / sum, 2))
+                label += label_extra
                 angle = current_angle_position + area_angle / 2
                 angle = angle % (2 * math.pi)
                 x = center[0] + (radius + 10) * math.cos(angle)
@@ -498,3 +513,21 @@ class PieChart(chart.Chart):
         @return: boolean.
         """
         return self.get_property("enable-mouseover")
+        
+    def set_show_values(self, show):
+        """
+        Set whether the area's value should be shown in its label.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-values", show)
+        self.queue_draw()
+        
+    def get_show_values(self):
+        """
+        Returns True if the value of a pie area is shown in its label.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-values")
+        
