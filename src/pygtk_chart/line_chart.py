@@ -823,9 +823,9 @@ class Graph(chart.ChartObject):
                         "point-size": (gobject.TYPE_INT, "point size",
                                         "Radius of the data points.", 1,
                                         100, 2, gobject.PARAM_READWRITE),
-                        "fill-xaxis": (gobject.TYPE_BOOLEAN, "fill xaxis",
-                                    "Sets whether to fill the area between graph and xaxis.",
-                                    False, gobject.PARAM_READWRITE),
+                        "fill-to": (gobject.TYPE_PYOBJECT, "fill to",
+                                    "Set how to fill space under the graph.",
+                                    gobject.PARAM_READWRITE),
                         "show-values": (gobject.TYPE_BOOLEAN, "show values",
                                     "Sets whether to show the y values.",
                                     False, gobject.PARAM_READWRITE),
@@ -854,9 +854,9 @@ class Graph(chart.ChartObject):
         self._color = COLOR_AUTO
         self._type = GRAPH_BOTH
         self._point_size = 2
-        self._fill_xaxis = False
         self._show_value = False
         self._show_title = True
+        self._fill_to = None
 
         self._range_calc = None
 
@@ -875,8 +875,8 @@ class Graph(chart.ChartObject):
             return self._type
         elif property.name == "point-size":
             return self._point_size
-        elif property.name == "fill-xaxis":
-            return self._fill_xaxis
+        elif property.name == "fill-to":
+            return self._fill_to
         elif property.name == "show-values":
             return self._show_value
         elif property.name == "show-title":
@@ -897,8 +897,8 @@ class Graph(chart.ChartObject):
             self._type = value
         elif property.name == "point-size":
             self._point_size = value
-        elif property.name == "fill-xaxis":
-            self._fill_xaxis = value
+        elif property.name == "fill-to":
+            self._fill_to = value
         elif property.name == "show-values":
             self._show_value = value
         elif property.name == "show-title":
@@ -931,6 +931,55 @@ class Graph(chart.ChartObject):
             context.move_to(last_point[0] + 5, last_point[1] + size[3] / 3)
             context.show_text(self._title)
             context.stroke()
+            
+    def _do_draw_fill(self, context, rect, xrange):
+        if type(self._fill_to) in (int, float):
+            data = []
+            for i, (x, y) in enumerate(self._data):
+                if is_in_range(x, xrange) and not data:
+                    data.append((x, self._fill_to))
+                elif not is_in_range(x, xrange) and len(data) == 1:
+                    data.append((prev, self._fill_to))
+                    break
+                elif i == len(self._data) - 1:
+                    data.append((x, self._fill_to))
+                prev = x
+            graph = Graph("none", "", data)
+        elif type(self._fill_to) == Graph:
+            graph = self._fill_to
+            d = graph.get_data()
+            range_b = d[0][0], d[-1][0]
+            xrange = intersect_ranges(xrange, range_b)
+            
+        if not graph.get_visible(): return
+        
+        c = self._color
+        context.set_source_rgba(c[0], c[1], c[2], 0.3)
+        
+        data_a = self._data
+        data_b = graph.get_data()
+        
+        first = True
+        start_point = (0, 0)
+        for x, y in data_a:
+            if is_in_range(x, xrange):
+                xa, ya = self._range_calc.get_absolute_point(rect, x, y)
+                if first:
+                    context.move_to(xa, ya)
+                    start_point = xa, ya
+                    first = False
+                else:
+                    context.line_to(xa, ya)
+                
+        first = True
+        for i in range(0, len(data_b)):
+            j = len(data_b) - i - 1
+            x, y = data_b[j]
+            xa, ya = self._range_calc.get_absolute_point(rect, x, y)
+            if is_in_range(x, xrange):
+                context.line_to(xa, ya)
+        context.line_to(*start_point)
+        context.fill()
 
     def _do_draw(self, context, rect):
         """
@@ -969,22 +1018,8 @@ class Graph(chart.ChartObject):
             else:
                 previous = None
 
-        if self._fill_xaxis:
-            #fill the space between the graph and the xaxis with the graph's
-            #color (alpha = 0.3)
-            context.set_source_rgba(c[0], c[1], c[2], 0.3)
-            first = True
-            (zx, zy) = self._range_calc.get_absolute_zero(rect)
-            for (x, y) in self._data:
-                if is_in_range(x, xrange) and is_in_range(y, yrange):
-                    (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
-                    if first:
-                        context.move_to(ax, zy)
-                        first = False
-                    context.line_to(ax, ay)
-            if not first:
-                context.line_to(ax, zy)
-                context.fill()
+        if self._fill_to != None:
+            self._do_draw_fill(context, rect, xrange)
 
         if self._show_title:
             self._do_draw_title(context, rect, last)
@@ -1100,22 +1135,29 @@ class Graph(chart.ChartObject):
         self.set_property("point_size", size)
         self.emit("appearance_changed")
 
-    def get_fill_xaxis(self):
+    def get_fill_to(self):
         """
-        Returns True if the area between graph and xaxis is filled.
+        The return value of this method depends on the filling under
+        the graph. See set_fill_to() for details.
+        """
+        return self.get_property("fill-to")
 
-        @return: boolean
+    def set_fill_to(self, fill_to):
         """
-        return self.get_property("fill-xaxis")
-
-    def set_fill_xaxis(self, fill):
+        Use this method to specify how the space under the graph should
+        be filled. fill_to has to be one of these:
+        
+         * None: dont't fill the space under the graph.
+         * int or float: fill the space to the value specified (setting
+           fill_to=0 means filling the space between graph and xaxis).
+         * a Graph object: fill the space between this graph and the
+           graph given as the argument.
+           
+        The color of the filling is the graph's color with 30% opacity.
+           
+        @type fill_to: one of the possibilities listed above.
         """
-        Use set_fill_xaxis() to set whether the area between the graph should
-        be filled with the graphs color (30% opacity) or not.
-
-        @type fill: boolean
-        """
-        self.set_property("fill-xaxis", fill)
+        self.set_property("fill-to", fill_to)
         self.emit("appearance_changed")
 
     def get_show_values(self):
@@ -1161,3 +1203,6 @@ class Graph(chart.ChartObject):
         """
         self._data += data_list
         self._range_calc.add_graph(self)
+        
+    def get_data(self):
+        return self._data

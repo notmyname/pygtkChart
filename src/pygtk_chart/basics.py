@@ -41,6 +41,11 @@ def is_in_range(x, (xmin, xmax)):
     """
     return (xmin <= x and xmax >= x)
     
+def intersect_ranges(range_a, range_b):
+    min_a, max_a = range_a
+    min_b, max_b = range_b
+    return max(min_a, min_b), min(max_a, max_b)
+    
 def get_center(rect):
     """
     Find the center point of a rectangle.
