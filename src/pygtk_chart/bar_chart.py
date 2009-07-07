@@ -14,6 +14,112 @@ from pygtk_chart import chart
 
 COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
 
+class Bar(chart.ChartObject):
+    
+    __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
+                                "A unique name for the bar.",
+                                "", gobject.PARAM_READABLE),
+                        "value": (gobject.TYPE_FLOAT,
+                                    "value",
+                                    "The value.",
+                                    0.0, 9999999999.0, 0.0, gobject.PARAM_READWRITE),
+                        "color": (gobject.TYPE_PYOBJECT, "bar color",
+                                    "The color of the bar.",
+                                    gobject.PARAM_READWRITE),
+                        "label": (gobject.TYPE_STRING, "bar label",
+                                    "The label for the bar.", "",
+                                    gobject.PARAM_READWRITE)}
+    
+    def __init__(self, name, value, label=""):
+        chart.ChartObject.__init__(self)
+        self._name = name
+        self._value = value
+        self._label = label
+        self._color = COLOR_AUTO
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "name":
+            return self._name
+        elif property.name == "value":
+            return self._value
+        elif property.name == "color":
+            return self._color
+        elif property.name == "label":
+            return self._label
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "value":
+            self._value = value
+        elif property.name == "color":
+            self._color = value
+        elif property.name == "label":
+            self._label = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def set_value(self, value):
+        """
+        Set the value of the Bar.
+        
+        @type value: float.
+        """
+        self.set_property("value", value)
+        self.emit("appearance_changed")
+        
+    def get_value(self):
+        """
+        Returns the current value of the Bar.
+        
+        @return: float.
+        """
+        return self.get_property("value")
+        
+    def set_color(self, color):
+        """
+        Set the color of the bar. Color has to either COLOR_AUTO or
+        a tuple (r, g, b) with r, g, b in [0, 1].
+        
+        @type color: a color.
+        """
+        self.set_property("color", color)
+        self.emit("appearance_changed")
+        
+    def get_color(self):
+        """
+        Returns the current color of the bar or COLOR_AUTO.
+        
+        @return: a color.
+        """
+        return self.get_property("color")
+        
+    def set_label(self, label):
+        """
+        Set the label for the bar chart bar.
+        
+        @param label: the new label
+        @type label: string.
+        """
+        self.set_property("label", label)
+        self.emit("appearance_changed")
+        
+    def get_label(self):
+        """
+        Returns the current label of the bar.
+        
+        @return: string.
+        """
+        return self.get_property("label")
+
 class BarChart(chart.Chart):
     """
     A widget that shows a bar chart. The following objects can be accessed:
