@@ -5,12 +5,15 @@ Author: John Dickinson (john@johnandkaren.com)
 __docformat__ = "epytext"
 import cairo
 import gtk
+import gobject
 import os
 import collections # for defaultdict
 import math # for pi
 
 from pygtk_chart.basics import *
 from pygtk_chart import chart
+
+COLOR_AUTO = 0
 
 COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
 
@@ -121,19 +124,94 @@ class Bar(chart.ChartObject):
         return self.get_property("label")
 
 class BarChart(chart.Chart):
-    """
-    A widget that shows a bar chart. The following objects can be accessed:
-     - BarChart.background (inherited from chart.Chart)
-     - BarChart.title (inherited from chart.Chart)
-     - BarChart.data
-    """    
+    __gproperties__ = {"draw-labels": (gobject.TYPE_BOOLEAN,
+                                        "draw bar labels",
+                                        "Set whether to draw bar labels.",
+                                        True, gobject.PARAM_READWRITE),
+                       "show-values": (gobject.TYPE_BOOLEAN,
+                                        "show values",
+                                        "Set whether to show values in the bars' labels.",
+                                        True, gobject.PARAM_READWRITE),
+                       "enable-mouseover": (gobject.TYPE_BOOLEAN,
+                                        "enable mouseover",
+                                        "Set whether a mouseover effect should be visible if moving the mouse over a bar.",
+                                        True, gobject.PARAM_READWRITE)}
+                                        
+    __gsignals__ = {"bar-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))}
+    
     def __init__(self):
         super(BarChart, self).__init__()
-        self.data = {}
-        self._show_labels = True
         self.bar_order = []
+        self._bars = []
+        self._enable_mouseover = True
+        self._values = True
+        self._labels = True
+        self._highlighted = None
         
-    def _do_draw(self, context, rect):
+        self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
+        self.connect("button_press_event", self._cb_button_pressed)
+        self.connect("motion-notify-event", self._cb_motion_notify)
+        
+    def do_get_property(self, property):
+        if property.name == "draw-labels":
+            return self._labels
+        elif property.name == "show-values":
+            return self._values
+        elif property.name == "enable-mouseover":
+            return self._enable_mouseover
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "draw-labels":
+            self._labels = value
+        elif property.name == "show-values":
+            self._values = value
+        elif property.name == "enable-mouseover":
+            self._enable_mouseover = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def _cb_appearance_changed(self, widget):
+        self.queue_draw()
+        
+    def _cb_motion_notify(self, widget, event):
+        if not self._enable_mouseover: return
+        bar = self._get_bar_at_pos(event.x, event.y)
+        if bar != self._highlighted:
+            self.queue_draw()
+        self._highlighted = bar
+        
+    def _cb_button_pressed(self, widget, event):
+        bar = self._get_bar_at_pos(event.x, event.y)
+        if bar:
+            self.emit("bar-clicked", bar)
+                
+    def _get_bar_at_pos(self, x, y):
+        if not self._bars: return None
+        rect = self.get_allocation()
+        
+        number_of_bars = len(self._bars)
+        max_value = max(x.get_value() for x in self._bars)
+        bar_padding = 16 # pixels of padding to either side of each bar
+        bar_height_factor = .8 # percentage of total height the bars will use
+        bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
+        total_height = int(rect.height * bar_height_factor) # maximum height for a bar
+        bottom = rect.height # y-value of bottom of bar chart
+        bar_bottom = bottom * (1.0 - bar_vertical_padding)
+        bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
+        for i,info in enumerate(self._bars):
+            bar_x = int(rect.width / float(number_of_bars) * i) + rect.x + (bar_padding // 2)
+            percent = float(info.get_value()) / float(max_value)
+            bar_height = int(total_height * percent)
+            bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
+            
+            if bar_x <= x <= bar_x+bar_width and bar_top <= y <= bar_bottom:
+                return info
+        
+        return None
+        
+    def _do_draw_bars(self, context, rect):
         """
         Draw the chart.
         
@@ -142,8 +220,9 @@ class BarChart(chart.Chart):
         @type rect: gtk.gdk.Rectangle
         @param rect: A rectangle representing the charts area.
         """
-        number_of_bars = len(self.data)
-        max_value = max(x['n'] for x in self.data.values())
+        if not self._bars: return
+        number_of_bars = len(self._bars)
+        max_value = max(x.get_value() for x in self._bars)
         bar_padding = 16 # pixels of padding to either side of each bar
         bar_height_factor = .8 # percentage of total height the bars will use
         bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
@@ -152,15 +231,15 @@ class BarChart(chart.Chart):
         bar_bottom = bottom * (1.0 - bar_vertical_padding)
         bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
         
-        for i,name in enumerate(self.bar_order):
-            info = self.data[name]
+        for i,info in enumerate(self._bars):
+            if not info.get_visible(): continue
             x = int(rect.width / float(number_of_bars) * i) + rect.x + (bar_padding // 2)
-            percent = float(info['n']) / float(max_value)
+            percent = float(info.get_value()) / float(max_value)
             bar_height = int(total_height * percent)
             bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
             
             # draw the bar
-            c = info['color']
+            c = info.get_color()
             context.set_source_rgb(c[0], c[1], c[2])
             context.move_to(x, bar_bottom)
             context.line_to(x, bar_top)
@@ -170,9 +249,21 @@ class BarChart(chart.Chart):
             context.fill()
             context.stroke()
             
-            if self._show_labels:
+            if info == self._highlighted:
+                context.set_source_rgba(1, 1, 1, 0.1)
+                context.move_to(x, bar_bottom)
+                context.line_to(x, bar_top)
+                context.line_to(x+bar_width, bar_top)
+                context.line_to(x+bar_width, bar_bottom)
+                context.close_path()
+                context.fill()
+                context.stroke()
+            
+            if self._labels:
                 # draw the label below the bar
-                title = info['label']
+                c = info.get_color()
+                context.set_source_rgb(c[0], c[1], c[2])
+                title = info.get_label()
                 label_height, label_width = context.text_extents(title)[3:5]
                 label_x = x + (bar_width // 2) - (label_width // 2)
                 context.move_to(label_x, bottom * .95)
@@ -180,7 +271,7 @@ class BarChart(chart.Chart):
                 context.stroke()
                 
                 # draw the count at the top of the bar
-                count = '%d' % info['n']
+                count = '%d' % info.get_value()
                 count_height, count_width = context.text_extents(count)[3:5]
                 count_x = x + (bar_width // 2) - (count_width // 2)
                 context.move_to(count_x, bar_top-1)
@@ -204,49 +295,79 @@ class BarChart(chart.Chart):
                                     cairo.FONT_WEIGHT_NORMAL)
                                     
         self.draw_basics(context, rect)
-        if self.data:
-            self._do_draw(context, rect)
+        self._do_draw_bars(context, rect)
         
-    def set_data(self, data):
-        """
-        Set the data to show in the bar chart. data has to be a list of
-        (name, label, n) triples. The name value is an identifier, it should
-        be unique. label is the text that will be shown next to the
-        corresponding sector. n has to be a positive number.
+    def add_bar(self, bar):
+        color = bar.get_color()
+        if color == COLOR_AUTO: bar.set_color(COLORS[len(self._bars) % len(COLORS)])
+        self._bars.append(bar)
+        bar.connect("appearance_changed", self._cb_appearance_changed)
         
-        Example (the population of G8 members, source: wikipedia)::
-
-            population = [("usa", "United States", 303346630),
-                            ("d", "Germany", 82244000),
-                            ("uk", "United Kingdom", 60587300),
-                            ("jap", "Japan", 127417244),
-                            ("fr", "France", 64473140),
-                            ("i", "Italy", 59619290),
-                            ("cdn", "Canada", 32976026),
-                            ("rus", "Russia", 142400000)]
-            set_data(population)        
+    def get_bar(self, name):
+        """
+        Returns the Bar with the id 'name' if it exists, None
+        otherwise.
         
-        @type data: list
-        @param data: The data list.
-        """
-        self.data = {}
-        self.bar_order = []
-        for (name, label, n) in data:
-            if name not in self.bar_order:
-                self.bar_order.append(name)
-            self.data[name] = {"label": label,
-                                "n": int(n),
-                                "color": COLORS[len(self.data) % len(COLORS)]}
-            
-    def set_show_labels(self, show):
-        """
-        Use set_show_labels() to set whether labels should be shown at the
-        edges of the sectors.
+        @type name: string
+        @param name: the id of a Bar
         
-        @type show: boolean
-        @param show: If False, labels won't be shown.
+        @return a Bar or None.
         """
-        self._show_labels = show
+        for bar in self._bars:
+            if bar.get_name() == name:
+                return bar
+        return None
+    
+    def set_draw_labels(self, draw):
+        """
+        Set whether to draw the labels of the bars.
+        
+        @type draw: boolean.
+        """
+        self.set_property("draw-labels", draw)
+        self.queue_draw()
+        
+    def get_draw_labels(self):
+        """
+        Returns True if bar labels are shown.
+        
+        @return: boolean.
+        """
+        return self.get_property("draw-labels")
+        
+    def set_enable_mouseover(self, mouseover):
+        """
+        Set whether a mouseover effect should be shown when the pointer
+        enters a bar.
+        
+        @type mouseover: boolean.
+        """
+        self.set_property("enable-mouseover", mouseover)
+        
+    def get_enable_mouseover(self):
+        """
+        Returns True if the mouseover effect is enabled.
+        
+        @return: boolean.
+        """
+        return self.get_property("enable-mouseover")
+        
+    def set_show_values(self, show):
+        """
+        Set whether the bar's value should be shown in its label.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-values", show)
+        self.queue_draw()
+        
+    def get_show_values(self):
+        """
+        Returns True if the value of a bar is shown in its label.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-values")
 
 class MultiBarChart(BarChart):
     def __init__(self):
