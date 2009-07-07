@@ -826,6 +826,12 @@ class Graph(chart.ChartObject):
                         "fill-to": (gobject.TYPE_PYOBJECT, "fill to",
                                     "Set how to fill space under the graph.",
                                     gobject.PARAM_READWRITE),
+                        "fill-color": (gobject.TYPE_PYOBJECT, "fill color",
+                                    "Set which color to use when filling space under the graph.",
+                                    gobject.PARAM_READWRITE),
+                        "fill-opacity": (gobject.TYPE_FLOAT, "fill opacity",
+                                    "Set which opacity to use when filling space under the graph.",
+                                    0.0, 1.0, 0.3, gobject.PARAM_READWRITE),
                         "show-values": (gobject.TYPE_BOOLEAN, "show values",
                                     "Sets whether to show the y values.",
                                     False, gobject.PARAM_READWRITE),
@@ -857,6 +863,8 @@ class Graph(chart.ChartObject):
         self._show_value = False
         self._show_title = True
         self._fill_to = None
+        self._fill_color = COLOR_AUTO
+        self._fill_opacity = 0.3
 
         self._range_calc = None
 
@@ -877,6 +885,10 @@ class Graph(chart.ChartObject):
             return self._point_size
         elif property.name == "fill-to":
             return self._fill_to
+        elif property.name == "fill-color":
+            return self._fill_color
+        elif property.name == "fill-opacity":
+            return self._fill_opacity
         elif property.name == "show-values":
             return self._show_value
         elif property.name == "show-title":
@@ -899,6 +911,10 @@ class Graph(chart.ChartObject):
             self._point_size = value
         elif property.name == "fill-to":
             self._fill_to = value
+        elif property.name == "fill-color":
+            self._fill_color = value
+        elif property.name == "fill-opacity":
+            self._fill_opacity = value
         elif property.name == "show-values":
             self._show_value = value
         elif property.name == "show-title":
@@ -953,8 +969,9 @@ class Graph(chart.ChartObject):
             
         if not graph.get_visible(): return
         
-        c = self._color
-        context.set_source_rgba(c[0], c[1], c[2], 0.3)
+        c = self._fill_color
+        if c == COLOR_AUTO: c = self._color
+        context.set_source_rgba(c[0], c[1], c[2], self._fill_opacity)
         
         data_a = self._data
         data_b = graph.get_data()
@@ -1158,6 +1175,40 @@ class Graph(chart.ChartObject):
         @type fill_to: one of the possibilities listed above.
         """
         self.set_property("fill-to", fill_to)
+        self.emit("appearance_changed")
+        
+    def get_fill_color(self):
+        """
+        Returns the color that is used to fill space under the graph
+        or COLOR_AUTO.
+        """
+        return self.get_property("fill-color")
+        
+    def set_fill_color(self, color):
+        """
+        Set which color should be used when filling the space under a
+        graph.
+        If color is COLOR_AUTO, the graph's color will be used.
+        
+        @type color: a color or COLOR_AUTO.
+        """
+        self.set_property("fill-color", color)
+        self.emit("appearance_changed")
+        
+    def get_fill_opacity(self):
+        """
+        Returns the opacity that is used to fill space under the graph.
+        """
+        return self.get_property("fill-opacity")
+        
+    def set_fill_opacity(self, opacity):
+        """
+        Set which opacity should be used when filling the space under a
+        graph. The default is 0.3.
+        
+        @type color: float in [0, 1].
+        """
+        self.set_property("fill-opacity", opacity)
         self.emit("appearance_changed")
 
     def get_show_values(self):

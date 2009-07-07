@@ -133,7 +133,7 @@ class GraphControl(gtk.Table):
         self.radio_fill_value.connect("toggled", self._cb_fill_changed)
         self.spin_fill_value = gtk.SpinButton()
         self.spin_fill_value.connect("value-changed", self._cb_fill_value_changed)
-        self.spin_fill_value.set_range(-1, 10)
+        self.spin_fill_value.set_range(-1, 15)
         self.spin_fill_value.set_increments(0.1, 0.1)
         self.spin_fill_value.set_digits(1)
         self.attach(self.radio_fill_value, 0, 1, 12, 13, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
