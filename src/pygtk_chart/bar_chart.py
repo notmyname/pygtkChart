@@ -460,6 +460,7 @@ class MultiBar(chart.ChartObject):
         self.emit("appearance_changed")
 
 class MultiBarChart(BarChart):
+    __gsignals__ = {"multibar-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,gobject.TYPE_PYOBJECT,))}
     def __init__(self):
         super(MultiBarChart, self).__init__()
         self.name_map = {}
@@ -468,6 +469,19 @@ class MultiBarChart(BarChart):
     def add_bar(self, bar):
         self._bars.append(bar)
         bar.connect("appearance_changed", self._cb_appearance_changed)
+    
+    def _cb_motion_notify(self, widget, event):
+        if not self._enable_mouseover: return
+        multibar, subbar = self._get_bar_at_pos(event.x, event.y)
+        if subbar != self._highlighted:
+            self.queue_draw()
+        self._highlighted = subbar
+    
+    def _cb_button_pressed(self, widget, event):
+        multibar, subbar = self._get_bar_at_pos(event.x, event.y)
+        if subbar:
+            self.emit("multibar-clicked", multibar, subbar)
+            self.emit("bar-clicked", multibar)
     
     def _do_draw_bars(self, context, rect):
         """
@@ -562,7 +576,8 @@ class MultiBarChart(BarChart):
                 context.stroke()
     
     def _get_bar_at_pos(self, x, y):
-        if not self._bars: return
+        if not self._bars:
+            return None,None
         rect = self.get_allocation()
         number_of_bars = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
@@ -586,8 +601,8 @@ class MultiBarChart(BarChart):
                 bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
             
                 if sub_bar_x <= x <= sub_bar_x+sub_bar_width and bar_top <= y <= bar_bottom:
-                    return sub_bar
+                    return multibar, sub_bar
         
-        return None
+        return None,None
     
 

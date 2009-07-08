@@ -25,8 +25,12 @@ for city in 'dallas austin houston waco beaumont'.split():
         multibar.add_bar(sub_bar)
     barchart.add_bar(multibar)
 
-def cb_bar_clicked(barchart, bar):
-    print "Bar '%s' clicked." % bar.get_label()
+def cb_multibar_clicked(barchart, multibar, subbar):
+    print "Bar ('%s', '%s') clicked." % (multibar.get_label(), subbar.get_label())
+barchart.connect("multibar-clicked", cb_multibar_clicked)
+
+def cb_bar_clicked(barchart, multibar):
+    print "Bar '%s' clicked." % multibar.get_label()
 barchart.connect("bar-clicked", cb_bar_clicked)
 
 window = gtk.Window()
