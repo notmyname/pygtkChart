@@ -310,7 +310,7 @@ class BarChart(chart.Chart):
         @type name: string
         @param name: the id of a Bar
         
-        @return a Bar or None.
+        @return: Bar or None.
         """
         for bar in self._bars:
             if bar.get_name() == name:
