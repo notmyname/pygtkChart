@@ -18,7 +18,6 @@ COLOR_AUTO = 0
 COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
 
 class Bar(chart.ChartObject):
-    
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
                                 "A unique name for the bar.",
                                 "", gobject.PARAM_READABLE),
@@ -39,7 +38,7 @@ class Bar(chart.ChartObject):
         self._value = value
         self._label = label
         self._color = COLOR_AUTO
-        
+    
     def do_get_property(self, property):
         if property.name == "visible":
             return self._show
@@ -55,7 +54,7 @@ class Bar(chart.ChartObject):
             return self._label
         else:
             raise AttributeError, "Property %s does not exist." % property.name
-
+    
     def do_set_property(self, property, value):
         if property.name == "visible":
             self._show = value
@@ -69,7 +68,7 @@ class Bar(chart.ChartObject):
             self._label = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
-            
+    
     def set_value(self, value):
         """
         Set the value of the Bar.
@@ -78,7 +77,7 @@ class Bar(chart.ChartObject):
         """
         self.set_property("value", value)
         self.emit("appearance_changed")
-        
+    
     def get_value(self):
         """
         Returns the current value of the Bar.
@@ -86,7 +85,7 @@ class Bar(chart.ChartObject):
         @return: float.
         """
         return self.get_property("value")
-        
+    
     def set_color(self, color):
         """
         Set the color of the bar. Color has to either COLOR_AUTO or
@@ -96,7 +95,7 @@ class Bar(chart.ChartObject):
         """
         self.set_property("color", color)
         self.emit("appearance_changed")
-        
+    
     def get_color(self):
         """
         Returns the current color of the bar or COLOR_AUTO.
@@ -104,7 +103,7 @@ class Bar(chart.ChartObject):
         @return: a color.
         """
         return self.get_property("color")
-        
+    
     def set_label(self, label):
         """
         Set the label for the bar chart bar.
@@ -114,7 +113,7 @@ class Bar(chart.ChartObject):
         """
         self.set_property("label", label)
         self.emit("appearance_changed")
-        
+    
     def get_label(self):
         """
         Returns the current label of the bar.
@@ -136,7 +135,7 @@ class BarChart(chart.Chart):
                                         "enable mouseover",
                                         "Set whether a mouseover effect should be visible if moving the mouse over a bar.",
                                         True, gobject.PARAM_READWRITE)}
-                                        
+    
     __gsignals__ = {"bar-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))}
     
     def __init__(self):
@@ -151,7 +150,7 @@ class BarChart(chart.Chart):
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
         self.connect("button_press_event", self._cb_button_pressed)
         self.connect("motion-notify-event", self._cb_motion_notify)
-        
+    
     def do_get_property(self, property):
         if property.name == "draw-labels":
             return self._labels
@@ -161,7 +160,7 @@ class BarChart(chart.Chart):
             return self._enable_mouseover
         else:
             raise AttributeError, "Property %s does not exist." % property.name
-
+    
     def do_set_property(self, property, value):
         if property.name == "draw-labels":
             self._labels = value
@@ -171,22 +170,22 @@ class BarChart(chart.Chart):
             self._enable_mouseover = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
-            
+    
     def _cb_appearance_changed(self, widget):
         self.queue_draw()
-        
+    
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
         bar = self._get_bar_at_pos(event.x, event.y)
         if bar != self._highlighted:
             self.queue_draw()
         self._highlighted = bar
-        
+    
     def _cb_button_pressed(self, widget, event):
         bar = self._get_bar_at_pos(event.x, event.y)
         if bar:
             self.emit("bar-clicked", bar)
-                
+    
     def _get_bar_at_pos(self, x, y):
         if not self._bars: return None
         rect = self.get_allocation()
@@ -210,7 +209,7 @@ class BarChart(chart.Chart):
                 return info
         
         return None
-        
+    
     def _do_draw_bars(self, context, rect):
         """
         Draw the chart.
@@ -277,7 +276,7 @@ class BarChart(chart.Chart):
                 context.move_to(count_x, bar_top-1)
                 context.show_text(count)
                 context.stroke()
-        
+    
     def draw(self, context):
         """
         Draw the widget. This method is called automatically. Don't call it
@@ -296,13 +295,13 @@ class BarChart(chart.Chart):
                                     
         self.draw_basics(context, rect)
         self._do_draw_bars(context, rect)
-        
+    
     def add_bar(self, bar):
         color = bar.get_color()
         if color == COLOR_AUTO: bar.set_color(COLORS[len(self._bars) % len(COLORS)])
         self._bars.append(bar)
         bar.connect("appearance_changed", self._cb_appearance_changed)
-        
+    
     def get_bar(self, name):
         """
         Returns the Bar with the id 'name' if it exists, None
@@ -326,7 +325,7 @@ class BarChart(chart.Chart):
         """
         self.set_property("draw-labels", draw)
         self.queue_draw()
-        
+    
     def get_draw_labels(self):
         """
         Returns True if bar labels are shown.
@@ -334,7 +333,7 @@ class BarChart(chart.Chart):
         @return: boolean.
         """
         return self.get_property("draw-labels")
-        
+    
     def set_enable_mouseover(self, mouseover):
         """
         Set whether a mouseover effect should be shown when the pointer
@@ -343,7 +342,7 @@ class BarChart(chart.Chart):
         @type mouseover: boolean.
         """
         self.set_property("enable-mouseover", mouseover)
-        
+    
     def get_enable_mouseover(self):
         """
         Returns True if the mouseover effect is enabled.
@@ -351,7 +350,7 @@ class BarChart(chart.Chart):
         @return: boolean.
         """
         return self.get_property("enable-mouseover")
-        
+    
     def set_show_values(self, show):
         """
         Set whether the bar's value should be shown in its label.
@@ -360,7 +359,7 @@ class BarChart(chart.Chart):
         """
         self.set_property("show-values", show)
         self.queue_draw()
-        
+    
     def get_show_values(self):
         """
         Returns True if the value of a bar is shown in its label.
@@ -456,7 +455,7 @@ class MultiBarChart(BarChart):
                 context.move_to(label_x, label_y)
                 context.show_text(title)
                 context.stroke()
-        
+    
     def set_data(self, data):
         """
         Set the data to show in the bar chart. data has to be a list of
@@ -465,7 +464,7 @@ class MultiBarChart(BarChart):
         corresponding sector. n has to be a positive number.
         
         Example (the population of G8 members, source: wikipedia)::
-
+        
             population = [("usa", "United States", "United States", 303346630),
                             ("d", "Germany", "Germany", 82244000),
                             ("uk", "United Kingdom", "United Kingdom", 60587300),
@@ -505,3 +504,4 @@ class MultiBarChart(BarChart):
                 if sub_label not in self.data[name]:
                     self.data[name][sub_label] = {'n': 0,
                                                   'color': color_map[sub_label]}
+    
