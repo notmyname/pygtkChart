@@ -35,6 +35,7 @@ class GraphControl(gtk.Table):
         gtk.Table.__init__(self, 14, 2)
         self.set_row_spacings(2)
         self.set_col_spacings(6)
+        self.set_border_width(6)
         self.graphs = graphs
         self.selected = None
         self._init_combo()
@@ -149,6 +150,25 @@ class GraphControl(gtk.Table):
         self.combo_fill_graph.connect("changed", self._cb_fill_graph_changed)
         self.attach(self.combo_fill_graph, 1, 2, 13, 14, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
+        self.fill_color_chooser = gtk.ColorButton()
+        self.fill_color_chooser.connect("color-set", self._cb_graph_fill_color_changed)
+        label = gtk.Label("Filling color:")
+        label.set_alignment(0.0, 0.5)
+        self.attach(label, 0, 1, 14, 15, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.fill_color_chooser, 1, 2, 14, 15, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
+        self.spin_fill_opacity = gtk.SpinButton()
+        self.spin_fill_opacity.set_range(0, 1)
+        self.spin_fill_opacity.set_increments(0.1, 0.1)
+        self.spin_fill_opacity.set_digits(1)
+        self.spin_fill_opacity.set_value(0.3)
+        self.spin_fill_opacity.connect("value-changed", self._cb_fill_opacity_changed)
+        label = gtk.Label("Filling opacity:")
+        label.set_alignment(0.0, 0.5)
+        self.attach(label, 0, 1, 15, 16, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.spin_fill_opacity, 1, 2, 15, 16, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
+        
     def _load_from_selected(self):
         try:
             self.checkbox_visible.set_active(self.selected.get_visible())
@@ -159,6 +179,7 @@ class GraphControl(gtk.Table):
             self.checkbox_show_values.set_active(self.selected.get_show_values())
             self.checkbox_show_title.set_active(self.selected.get_show_title())
             self.color_chooser.set_color(to_gdkColor(*self.selected.get_color()))
+            self.spin_fill_opacity.set_value(self.selected.get_fill_opacity())
             
             fill_to = self.selected.get_fill_to()
             if fill_to == None:
@@ -182,6 +203,11 @@ class GraphControl(gtk.Table):
                 i += 1
             self.combo_fill_graph.set_model(store)
             self.combo_fill_graph.set_active(active)
+            
+            if self.selected.get_fill_color() == line_chart.COLOR_AUTO:
+                self.fill_color_chooser.set_color(to_gdkColor(*self.selected.get_color()))
+            else:
+                self.fill_color_chooser.set_color(to_gdkColor(*self.selected.get_fill_color()))
         except:
             pass
         
@@ -216,6 +242,8 @@ class GraphControl(gtk.Table):
 
     def _cb_graph_color_changed(self, chooser):
         self.selected.set_color(from_gdkColor(chooser.get_color()))
+        if self.selected.get_fill_color() == line_chart.COLOR_AUTO:
+            self.fill_color_chooser.set_color(to_gdkColor(*self.selected.get_color()))
         
     def _cb_fill_changed(self, button):
         self.spin_fill_value.set_sensitive(self.radio_fill_value.get_active())
@@ -239,3 +267,9 @@ class GraphControl(gtk.Table):
             active = self.combo_fill_graph.get_active_iter()
             graph = self.combo_fill_graph.get_model().get_value(active, 0)
             self.selected.set_fill_to(graph)
+            
+    def _cb_graph_fill_color_changed(self, chooser):
+        self.selected.set_fill_color(from_gdkColor(chooser.get_color()))
+        
+    def _cb_fill_opacity_changed(self, spin):
+        self.selected.set_fill_opacity(spin.get_value())

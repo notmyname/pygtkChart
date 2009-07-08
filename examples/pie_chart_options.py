@@ -53,6 +53,7 @@ class ChartControl(gtk.Table):
         gtk.Table.__init__(self, 21, 3)
         self.set_row_spacings(2)
         self.set_col_spacings(6)
+        self.set_border_width(6)
         self.chart = chart
         self._init_title()
         self._init_background()

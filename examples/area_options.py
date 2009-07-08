@@ -36,6 +36,7 @@ class AreaControl(gtk.Table):
         self.selected = None
         self.set_row_spacings(2)
         self.set_col_spacings(6)
+        self.set_border_width(6)
         self._init_combo()
         self._init_draw_options()
         self._init_title()

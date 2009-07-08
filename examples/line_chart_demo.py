@@ -29,7 +29,7 @@ def make_modulated_cos_data(offset=0):
 
 window = gtk.Window()
 window.connect("destroy", gtk.main_quit)
-window.set_default_size(800, 400)
+window.set_default_size(1000, 400)
 
 hbox = gtk.HBox()
 
