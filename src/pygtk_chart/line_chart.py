@@ -1257,3 +1257,13 @@ class Graph(chart.ChartObject):
         
     def get_data(self):
         return self._data
+        
+        
+def graph_new_from_function(func, xmin, xmax, graph_name, samples=100):
+    delta = (xmax - xmin) / float(samples)
+    data = []
+    x = xmin
+    while x <= xmax:
+        data.append((x, func(x)))
+        x += delta
+    return Graph(graph_name, "", data)

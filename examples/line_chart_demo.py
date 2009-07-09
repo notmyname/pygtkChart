@@ -8,24 +8,6 @@ import line_chart_options
 
 def cb_chart_title(entry, chart):
     chart.title.set_text(entry.get_text())
-    
-def make_sin_data(factor=1, offset=0):
-    data = []
-    for x in range(0, 100):
-        data.append((x / 10.0, math.sin(factor * x / 10.0) + offset))
-    return data
-    
-def make_cos_data(offset=0):
-    data = []
-    for x in range(0, 100):
-        data.append((x / 10.0, math.cos(x / 10.0) + offset))
-    return data
-    
-def make_modulated_cos_data(offset=0):
-    data = []
-    for x in range(0, 100):
-        data.append((x / 10.0, math.exp(-x / 50.0) * math.cos(x / 5.0) + offset))
-    return data
 
 window = gtk.Window()
 window.connect("destroy", gtk.main_quit)
@@ -37,16 +19,19 @@ chart = line_chart.LineChart()
 chart.title.set_text("LineChart example")
 hbox.pack_start(chart)
 
-grapha = line_chart.Graph("sin", "Sine", make_sin_data(offset=4))
-chart.add_graph(grapha)
+sine = line_chart.graph_new_from_function(math.sin, -10, 10, "sine", 200)
+sine.set_title("Sine")
+chart.add_graph(sine)
 
-graphb = line_chart.Graph("cos", "Cosine", make_cos_data(2))
-chart.add_graph(graphb)
+gauss = line_chart.graph_new_from_function(lambda x: math.exp(- (x / 2)**2), -10, 10, "gauss", 150)
+gauss.set_title("Normal distribution")
+chart.add_graph(gauss)
 
-graphc = line_chart.Graph("modulated cos", "Modulated Cosine", make_modulated_cos_data())
-chart.add_graph(graphc)
+sqrt = line_chart.graph_new_from_function(math.sqrt, 0, 10, "sqrt")
+sqrt.set_title("Square root")
+chart.add_graph(sqrt)
 
-graphs = [grapha, graphb, graphc]
+graphs = [sine, gauss, sqrt]
 
 vbox_chart = line_chart_options.ChartControl(chart)
 
