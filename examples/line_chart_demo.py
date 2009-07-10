@@ -19,15 +19,15 @@ chart = line_chart.LineChart()
 chart.title.set_text("LineChart example")
 hbox.pack_start(chart)
 
-sine = line_chart.graph_new_from_function(math.sin, -10, 10, "sine", 200)
+sine = line_chart.graph_new_from_function(math.sin, -10, 10, "sine", 50)
 sine.set_title("Sine")
 chart.add_graph(sine)
 
-gauss = line_chart.graph_new_from_function(lambda x: math.exp(- (x / 2)**2), -10, 10, "gauss", 150)
+gauss = line_chart.graph_new_from_function(lambda x: math.exp(- (x / 2)**2), -10, 10, "gauss", 50)
 gauss.set_title("Normal distribution")
 chart.add_graph(gauss)
 
-sqrt = line_chart.graph_new_from_function(math.sqrt, 0, 10, "sqrt")
+sqrt = line_chart.graph_new_from_function(math.sqrt, 0, 10, "sqrt", 50)
 sqrt.set_title("Square root")
 chart.add_graph(sqrt)
 

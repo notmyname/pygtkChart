@@ -1266,4 +1266,33 @@ def graph_new_from_function(func, xmin, xmax, graph_name, samples=100):
     while x <= xmax:
         data.append((x, func(x)))
         x += delta
+        
+    data = optimize_sampling(func, data)
+        
     return Graph(graph_name, "", data)
+    
+def optimize_sampling(func, data):
+    new_data = []
+    prev_point = None
+    prev_slope = None
+    for x, y in data:
+        if prev_point != None:
+            if (x - prev_point[0]) == 0: return data
+            print x, prev_point[0]
+            slope = (y - prev_point[1]) / (x - prev_point[0])
+            if prev_slope != None:
+                if abs(slope - prev_slope) >= 0.1:
+                    nx = prev_point[0] + (x - prev_point[0]) / 2.0
+                    ny = func(nx)
+                    new_data.append((nx, ny))
+                    #print abs(slope - prev_slope), prev_point[0], nx, x
+            prev_slope = slope
+        
+        prev_point = x, y
+    
+    if new_data:
+        data += new_data
+        data.sort(lambda x, y: cmp(x[0], y[0]))
+        return optimize_sampling(func, data)
+    else:
+        return data
