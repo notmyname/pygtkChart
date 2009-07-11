@@ -36,7 +36,7 @@ from pygtk_chart import chart
 COLOR_AUTO = 0
 
 #load default color palette
-COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
+COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"])
 
 
 class PieArea(chart.ChartObject):

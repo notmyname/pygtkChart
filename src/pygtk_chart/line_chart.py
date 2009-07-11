@@ -47,7 +47,7 @@ POSITION_BOTTOM = 6
 POSITION_TOP = 7
 
 #load default color palette
-COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
+COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"])
 
 
 class RangeCalculator:
