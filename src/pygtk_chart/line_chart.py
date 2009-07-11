@@ -1264,14 +1264,14 @@ class Graph(chart.ChartObject):
         return self._data
         
         
-def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, optimize_sampling=True):
+def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimize_sampling=True):
     """
     Returns a line_chart.Graph with data created from the function
     y = func(x) with x in [xmin, xmax]. The id of the new graph is
     graph_name.
     The parameter samples gives the number of points that should be
     evaluated in [xmin, xmax] (default: 100).
-    If optimize_sampling is True (default) additional points will be
+    If do_optimize_sampling is True (default) additional points will be
     evaluated to smoothen the curve.
     
     @type func: a function
@@ -1296,7 +1296,7 @@ def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, optimize_
         data.append((x, func(x)))
         x += delta
         
-    if optimize_sampling:
+    if do_optimize_sampling:
         data = optimize_sampling(func, data)
         
     return Graph(graph_name, "", data)
@@ -1308,7 +1308,6 @@ def optimize_sampling(func, data):
     for x, y in data:
         if prev_point != None:
             if (x - prev_point[0]) == 0: return data
-            print x, prev_point[0]
             slope = (y - prev_point[1]) / (x - prev_point[0])
             if prev_slope != None:
                 if abs(slope - prev_slope) >= 0.1:
@@ -1326,3 +1325,57 @@ def optimize_sampling(func, data):
         return optimize_sampling(func, data)
     else:
         return data
+        
+def graph_new_from_file(filename, graph_name, x_col=0, y_col=1):
+    """
+    Returns a line_chart.Graph with point taken from data file
+    filename.
+    The id of the new graph is graph_name.    
+    
+    Data file format:
+    The columns in the file have to be separated by tabs or one
+    or more spaces. Everything after '#' is ignored (comment).
+    
+    Use the parameters x_col and y_col to control which columns to use
+    for plotting. By default, the first column (x_col=0) is used for
+    x values, the second (y_col=1) is used for y values.
+    
+    @type filename: string
+    @param filename: path to the data file
+    @type graph_name: string
+    @param graph_name: a unique name for the graph
+    @type x_col: int
+    @param x_col: the number of the column to use for x values
+    @type y_col: int
+    @param y_col: the number of the column to use for y values
+    
+    @return: line_chart.Graph
+    """
+    points = []
+    f = open(filename, "r")
+    data = f.read()
+    f.close()
+    lines = data.split("\n")
+    
+    for line in lines:
+        line = line.strip() #remove special characters at beginning and end
+        
+        #remove comments:
+        a = line.split("#", 1)
+        if a and a[0]:
+            line = a[0]
+            #get data from line:
+            if line.find("\t") != -1:
+                #col separator is tab
+                d = line.split("\t")
+            else:
+                #col separator is one or more space
+                #normalize to one space:
+                while line.find("  ") != -1:
+                    line = line.replace("  ", " ")
+                d = line.split(" ")
+            d = filter(lambda x: x, d)
+            d = map(lambda x: float(x), d)
+            
+            points.append((d[x_col], d[y_col]))
+    return Graph(graph_name, "", points)

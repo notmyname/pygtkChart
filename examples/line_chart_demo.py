@@ -31,7 +31,15 @@ sqrt = line_chart.graph_new_from_function(math.sqrt, 0, 10, "sqrt", 50)
 sqrt.set_title("Square root")
 chart.add_graph(sqrt)
 
-graphs = [sine, gauss, sqrt]
+filegrapha = line_chart.graph_new_from_file("line_chart_test_data", "filea", 0, 1)
+filegrapha.set_title("File data 0:1")
+chart.add_graph(filegrapha)
+
+filegraphb = line_chart.graph_new_from_file("line_chart_test_data", "fileb", 0, 2)
+filegraphb.set_title("File data 0:2")
+chart.add_graph(filegraphb)
+
+graphs = [sine, gauss, sqrt, filegrapha, filegraphb]
 
 vbox_chart = line_chart_options.ChartControl(chart)
 
