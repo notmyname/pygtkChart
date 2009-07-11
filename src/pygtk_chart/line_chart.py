@@ -1256,10 +1256,39 @@ class Graph(chart.ChartObject):
         self._range_calc.add_graph(self)
         
     def get_data(self):
+        """
+        Returns the data of the graph.
+        
+        @return: a list of x, y pairs.
+        """
         return self._data
         
         
-def graph_new_from_function(func, xmin, xmax, graph_name, samples=100):
+def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, optimize_sampling=True):
+    """
+    Returns a line_chart.Graph with data created from the function
+    y = func(x) with x in [xmin, xmax]. The id of the new graph is
+    graph_name.
+    The parameter samples gives the number of points that should be
+    evaluated in [xmin, xmax] (default: 100).
+    If optimize_sampling is True (default) additional points will be
+    evaluated to smoothen the curve.
+    
+    @type func: a function
+    @param func: the function to evaluate
+    @type xmin: float
+    @param xmin: the minimum x value to evaluate
+    @type xmax: float
+    @param xmax: the maximum x value to evaluate
+    @type graph_name: string
+    @param graph_name: a unique name for the new graph
+    @type samples: int
+    @param samples: number of samples
+    @type optimize_sampling: boolean
+    @param optimize_sampling: set whether to add additional points
+    
+    @return line_chart.Graph    
+    """
     delta = (xmax - xmin) / float(samples)
     data = []
     x = xmin
@@ -1267,7 +1296,8 @@ def graph_new_from_function(func, xmin, xmax, graph_name, samples=100):
         data.append((x, func(x)))
         x += delta
         
-    data = optimize_sampling(func, data)
+    if optimize_sampling:
+        data = optimize_sampling(func, data)
         
     return Graph(graph_name, "", data)
     
