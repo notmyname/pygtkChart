@@ -4,16 +4,23 @@ import pygtk
 from pygtk_chart import bar_chart
 
 
-data = [('wheat', 'Wheat', 276),
-        ('oat', 'Oat', 52),
-        ('white', 'White', 652),
-        ('sour', 'Sourdough', 65),
-        ('raisin', 'Raisin', 120),
+data = [('wheat', 276, 'Wheat'),
+        ('oat', 52, 'Oat'),
+        ('white', 652, 'White'),
+        ('sour', 65, 'Sourdough'),
+        ('raisin', 120, 'Raisin'),
        ]
 
 barchart = bar_chart.BarChart()
-barchart.set_data(data)
 barchart.title.set_text('Loaves of Bread Made')
+
+for bar_info in data:
+    bar = bar_chart.Bar(*bar_info)
+    barchart.add_bar(bar)
+
+def cb_bar_clicked(barchart, bar):
+    print "Bar '%s' clicked." % bar.get_label()
+barchart.connect("bar-clicked", cb_bar_clicked)
 
 window = gtk.Window()
 window.connect("destroy", gtk.main_quit)

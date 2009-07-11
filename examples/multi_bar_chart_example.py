@@ -13,37 +13,25 @@ def rand():
 
 r = rand().next
 
-data = [('dallas', 'Dallas', 'Wheat', r()),
-        ('dallas', 'Dallas', 'Oat', r()),
-        ('dallas', 'Dallas', 'Raisin', r()),
-        ('dallas', 'Dallas', 'Sourdough', r()),
-        ('dallas', 'Dallas', 'Raisin', r()),
-
-        ('austin', 'Austin', 'Oat', r()),
-        ('austin', 'Austin', 'Wheat', r()),
-        ('austin', 'Austin', 'Sourdough', r()),
-        ('austin', 'Austin', 'Raisin', r()),
-
-        ('sa', 'San Antonio', 'White', r()),
-        ('sa', 'San Antonio', 'Wheat', r()),
-        ('sa', 'San Antonio', 'Raisin', r()),
-        ('sa', 'San Antonio', 'Oat', r()),
-
-        ('houston', 'Houston', 'Wheat', r()),
-        ('houston', 'Houston', 'Oat', r()),
-        ('houston', 'Houston', 'White', r()),
-        ('houston', 'Houston', 'Sourdough', r()),
-        ('houston', 'Houston', 'Raisin', r()),
-
-        ('fw', 'Ft. Worth', 'Raisin', r()),
-        ('fw', 'Ft. Worth', 'Oat', r()),
-        ('fw', 'Ft. Worth', 'Wheat', r()),
-        ('fw', 'Ft. Worth', 'White', r()),
-       ]
-
 barchart = bar_chart.MultiBarChart()
-barchart.set_data(data)
 barchart.title.set_text('Loaves of Bread Made per City')
+
+for city in 'dallas austin houston waco beaumont'.split():
+    city_label = city.capitalize()
+    multibar = bar_chart.MultiBar(city, city_label)
+    for bread in 'wheat oat raisin sourdough white'.split():
+        bread_label = bread.capitalize()
+        sub_bar = bar_chart.Bar(bread, r(), bread_label)
+        multibar.add_bar(sub_bar)
+    barchart.add_bar(multibar)
+
+def cb_multibar_clicked(barchart, multibar, subbar):
+    print "Bar ('%s', '%s') clicked." % (multibar.get_label(), subbar.get_label())
+barchart.connect("multibar-clicked", cb_multibar_clicked)
+
+def cb_bar_clicked(barchart, multibar):
+    print "Bar '%s' clicked." % multibar.get_label()
+barchart.connect("bar-clicked", cb_bar_clicked)
 
 window = gtk.Window()
 window.connect("destroy", gtk.main_quit)

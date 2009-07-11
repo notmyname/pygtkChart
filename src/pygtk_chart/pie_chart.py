@@ -404,7 +404,7 @@ class PieChart(chart.Chart):
         @type name: string
         @param name: the id of a PieArea
         
-        @return a PieArea or None.
+        @return: a PieArea or None.
         """
         for area in self._areas:
             if area.get_name() == name:
@@ -425,7 +425,7 @@ class PieChart(chart.Chart):
         """
         Get the current rotation angle in degrees.
         
-        @return integer.
+        @return: integer.
         """
         return self.get_property("rotate")
         
