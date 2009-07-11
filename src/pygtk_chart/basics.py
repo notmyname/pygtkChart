@@ -20,6 +20,8 @@
 #       MA 02110-1301, USA.
 """
 This module contains simple functions needed by all other modules.
+
+Author: Sven Festersen (sven@sven-festersen.de)
 """
 __docformat__ = "epytext"
 import cairo

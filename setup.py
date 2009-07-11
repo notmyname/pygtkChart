@@ -21,10 +21,10 @@
 from distutils.core import setup
 
 setup(name='pygtkChart',
-      version='alpha',
+      version='beta',
       license='GPL',
-      description='A gtk chart widget written in Python',
-      author='Sven Festersen',
+      description='A collection of gtk chart widgets written in Python',
+      author='Sven Festersen, John Dickinson',
       author_email='sven@sven-festersen.de',
       url='http://pygtkchart.sven-festersen.de',
       packages=['pygtk_chart'],

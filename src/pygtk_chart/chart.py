@@ -33,6 +33,8 @@ Colors
 All colors have to be C{(r, g, b)} tuples. The value of C{r, g} and C{b}
 has to be between 0.0 and 1.0.
 For example C{(0, 0, 0)} is black and C{(1, 1, 1)} is white.
+
+Author: Sven Festersen (sven@sven-festersen.de)
 """
 __docformat__ = "epytext"
 import cairo

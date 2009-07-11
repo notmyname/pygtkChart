@@ -20,6 +20,8 @@
 #       MA 02110-1301, USA.
 """
 Contains the PieChart widget.
+
+Author: Sven Festersen (sven@sven-festersen.de)
 """
 __docformat__ = "epytext"
 import cairo

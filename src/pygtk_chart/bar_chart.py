@@ -1,5 +1,6 @@
 """
 Contains the BarChart widget.
+
 Author: John Dickinson (john@johnandkaren.com)
 """
 __docformat__ = "epytext"

@@ -20,6 +20,8 @@
 #       MA 02110-1301, USA.
 """
 Contains the LineChart widget.
+
+Author: Sven Festersen (sven@sven-festersen.de)
 """
 __docformat__ = "epytext"
 import gobject
@@ -1164,10 +1166,10 @@ class Graph(chart.ChartObject):
         Use this method to specify how the space under the graph should
         be filled. fill_to has to be one of these:
         
-         * None: dont't fill the space under the graph.
-         * int or float: fill the space to the value specified (setting
+         - None: dont't fill the space under the graph.
+         - int or float: fill the space to the value specified (setting
            fill_to=0 means filling the space between graph and xaxis).
-         * a Graph object: fill the space between this graph and the
+         - a Graph object: fill the space between this graph and the
            graph given as the argument.
            
         The color of the filling is the graph's color with 30% opacity.
@@ -1206,7 +1208,7 @@ class Graph(chart.ChartObject):
         Set which opacity should be used when filling the space under a
         graph. The default is 0.3.
         
-        @type color: float in [0, 1].
+        @type opacity: float in [0, 1].
         """
         self.set_property("fill-opacity", opacity)
         self.emit("appearance_changed")
@@ -1284,10 +1286,10 @@ def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimi
     @param graph_name: a unique name for the new graph
     @type samples: int
     @param samples: number of samples
-    @type optimize_sampling: boolean
-    @param optimize_sampling: set whether to add additional points
+    @type do_optimize_sampling: boolean
+    @param do_optimize_sampling: set whether to add additional points
     
-    @return line_chart.Graph    
+    @return: line_chart.Graph    
     """
     delta = (xmax - xmin) / float(samples)
     data = []

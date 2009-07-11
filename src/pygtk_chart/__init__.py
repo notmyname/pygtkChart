@@ -19,13 +19,15 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 """
-This package contains two pygtk widgets for drawing simple charts:
+This package contains four pygtk widgets for drawing simple charts:
  - line_chart.LineChart for line charts,
- - pie_chart.PieChart for pie charts.
+ - pie_chart.PieChart for pie charts,
+ - bar_chart.BarChart for bar charts,
+ - bar_chart.MultiBarChart for charts with groups of bars.
 """
 __docformat__ = "epytext"
 
-__version__ = "alpha"
-__author__ = "Sven Festersen"
+__version__ = "beta"
+__author__ = "Sven Festersen, John Dickinson"
 __license__ = "GPL"
-__url__ = "http://sven-festersen.de"
+__url__ = "http://pygtkchart.sven-festersen.de"
