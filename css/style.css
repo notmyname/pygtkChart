@@ -25,6 +25,7 @@ margin: 10px 2px;
 
 h1, h2{
 color: #2C2C2C;
+
 }
 
 /*start links*/
@@ -75,6 +76,34 @@ color: #ffffff;
 text-decoration: underline;
 }
 /*end navigation*/
+
+/*start content*/
+.img{
+background-color: #efefef;
+border-color: #cccccc;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+margin: 2px 10px;
+width: 200px;
+}
+
+.img p{
+margin: 1px 0px;
+font-size: 9px;
+}
+
+.img img{
+border-width: 0px;
+}
+
+.left{
+float: left;
+}
+.right{
+float: right;
+}
+/*end content*/
 
 /*start footer*/
 #footer{
