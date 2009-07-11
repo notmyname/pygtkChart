@@ -1,0 +1,1267 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygtk_chart.bar_chart.BarChart</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygtk_chart-module.html">Package&nbsp;pygtk_chart</a> ::
+        <a href="pygtk_chart.bar_chart-module.html">Module&nbsp;bar_chart</a> ::
+        Class&nbsp;BarChart
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygtk_chart.bar_chart.BarChart-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class BarChart</h1><p class="nomargin-top"><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pygtk_ch_2" name="uml_class_diagram_for_pygtk_ch_2">
+<area shape="rect" href="javascript:void(0);" title="Interface GInterface" alt="" coords="133,154,248,186"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.add_child" alt="" coords="17,385,169,404"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.construct_child" alt="" coords="17,404,169,422"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.do_add_child" alt="" coords="17,422,169,441"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.do_construct_child" alt="" coords="17,441,169,460"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.do_get_internal_child" alt="" coords="17,460,169,478"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.do_parser_finished" alt="" coords="17,478,169,497"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.do_set_name" alt="" coords="17,497,169,516"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.get_internal_child" alt="" coords="17,516,169,534"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable.parser_finished" alt="" coords="17,534,169,553"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Buildable" alt="" coords="16,360,171,554"/>
+<area shape="rect" href="javascript:void(0);" title="atk.ImplementorIface.ref_accessible" alt="" coords="223,460,351,478"/>
+<area shape="rect" href="javascript:void(0);" title="atk.ImplementorIface" alt="" coords="221,434,352,480"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Object.do_destroy" alt="" coords="404,413,535,432"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Object.flags" alt="" coords="404,432,535,450"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Object.remove_data" alt="" coords="404,450,535,469"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Object.remove_no_notify" alt="" coords="404,469,535,488"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Object.set_flags" alt="" coords="404,488,535,506"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Object.unset_flags" alt="" coords="404,506,535,525"/>
+<area shape="rect" href="javascript:void(0);" title="Object GtkObject" alt="" coords="403,388,536,526"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.allocation" alt="" coords="197,601,376,620"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.name" alt="" coords="197,620,376,638"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.parent" alt="" coords="197,638,376,657"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.requisition" alt="" coords="197,657,376,676"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.saved_state" alt="" coords="197,676,376,694"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.state" alt="" coords="197,694,376,713"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.style" alt="" coords="197,713,376,732"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.window" alt="" coords="197,732,376,750"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.activate" alt="" coords="197,753,376,772"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.add_accelerator" alt="" coords="197,772,376,790"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.add_events" alt="" coords="197,790,376,809"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.add_mnemonic_label" alt="" coords="197,809,376,828"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.can_activate_accel" alt="" coords="197,828,376,846"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.child_focus" alt="" coords="197,846,376,865"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.child_notify" alt="" coords="197,865,376,884"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.class_path" alt="" coords="197,884,376,902"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.create_pango_context" alt="" coords="197,902,376,921"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.create_pango_layout" alt="" coords="197,921,376,940"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.destroy" alt="" coords="197,940,376,958"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.do_button_press_event" alt="" coords="197,958,376,977"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.do_button_release_event" alt="" coords="197,977,376,996"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.Widget.unrealize" alt="" coords="197,1014,376,1033"/>
+<area shape="rect" href="javascript:void(0);" title="Object GtkWidget" alt="" coords="196,584,377,1034"/>
+<area shape="rect" href="javascript:void(0);" title="gtk.DrawingArea.size" alt="" coords="236,1089,337,1108"/>
+<area shape="rect" href="javascript:void(0);" title="Object GtkDrawingArea" alt="" coords="235,1064,339,1109"/>
+<area shape="rect" href="pygtk_chart.chart.Chart&#45;class.html#expose" title="This method is called when an instance of Chart receives the gtk  expose_event." alt="" coords="189,1164,384,1182"/>
+<area shape="rect" href="pygtk_chart.chart.Chart&#45;class.html#draw_basics" title="Draw basic things that every plot has (background, title, ...)." alt="" coords="189,1182,384,1201"/>
+<area shape="rect" href="pygtk_chart.chart.Chart&#45;class.html#export_svg" title="Saves the contents of the widget to svg file." alt="" coords="189,1201,384,1220"/>
+<area shape="rect" href="pygtk_chart.chart.Chart&#45;class.html#export_png" title="Saves the contents of the widget to png file." alt="" coords="189,1220,384,1238"/>
+<area shape="rect" href="pygtk_chart.chart.Chart&#45;class.html" title="This is the base class for all chart widgets." alt="" coords="188,1138,385,1240"/>
+<area shape="rect" href="pygtk_chart.bar_chart.MultiBarChart&#45;class.html" title="pygtk_chart.bar_chart.MultiBarChart" alt="" coords="239,1600,335,1626"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#__gproperties__" title="pygtk_chart.bar_chart.BarChart.__gproperties__" alt="" coords="160,1286,413,1305"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#__gsignals__" title="pygtk_chart.bar_chart.BarChart.__gsignals__" alt="" coords="160,1305,413,1324"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#__gtype__" title="pygtk_chart.bar_chart.BarChart.__gtype__" alt="" coords="160,1324,413,1342"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="160,1345,413,1364"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#do_get_property" title="pygtk_chart.bar_chart.BarChart.do_get_property" alt="" coords="160,1364,413,1382"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#do_set_property" title="pygtk_chart.bar_chart.BarChart.do_set_property" alt="" coords="160,1382,413,1401"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#draw" title="Draw the widget." alt="" coords="160,1401,413,1420"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#add_bar" title="pygtk_chart.bar_chart.BarChart.add_bar" alt="" coords="160,1420,413,1438"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#get_bar" title="Returns the Bar with the id &#39;name&#39; if it exists, None otherwise." alt="" coords="160,1438,413,1457"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#set_draw_labels" title="Set whether to draw the labels of the bars." alt="" coords="160,1457,413,1476"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#get_draw_labels" title="Returns True if bar labels are shown." alt="" coords="160,1476,413,1494"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#set_enable_mouseover" title="Set whether a mouseover effect should be shown when the pointer enters a  bar." alt="" coords="160,1494,413,1513"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#get_enable_mouseover" title="Returns True if the mouseover effect is enabled." alt="" coords="160,1513,413,1532"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#set_show_values" title="Set whether the bar&#39;s value should be shown in its label." alt="" coords="160,1532,413,1550"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html#get_show_values" title="Returns True if the value of a bar is shown in its label." alt="" coords="160,1550,413,1569"/>
+<area shape="rect" href="pygtk_chart.bar_chart.BarChart&#45;class.html" title="pygtk_chart.bar_chart.BarChart" alt="" coords="159,1269,415,1570"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__grefcount__" alt="" coords="408,28,531,46"/>
+<area shape="rect" href="javascript:void(0);" title="cmp(x,y)" alt="" coords="408,49,531,68"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__copy__" alt="" coords="408,68,531,86"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__deepcopy__" alt="" coords="408,86,531,105"/>
+<area shape="rect" href="javascript:void(0);" title="x.__delattr__(&#39;name&#39;) &lt;==&gt; del x.name" alt="" coords="408,105,531,124"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gdoc__" alt="" coords="408,124,531,142"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gobject_init__" alt="" coords="408,142,531,161"/>
+<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="408,161,531,180"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__new__" alt="" coords="408,180,531,198"/>
+<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="408,198,531,217"/>
+<area shape="rect" href="javascript:void(0);" title="x.__setattr__(&#39;name&#39;, value) &lt;==&gt; x.name = value" alt="" coords="408,217,531,236"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.chain" alt="" coords="408,236,531,254"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect" alt="" coords="408,254,531,273"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect_after" alt="" coords="408,273,531,292"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.weak_ref" alt="" coords="408,310,531,329"/>
+<area shape="rect" href="javascript:void(0);" title="Object GObject" alt="" coords="407,10,532,330"/>
+</map>
+  <img src="uml_class_diagram_for_pygtk_ch_2.gif" alt='' usemap="#uml_class_diagram_for_pygtk_ch_2" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      x.__init__(...) initializes x; see x.__class__.__doc__ for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_get_property"></a><span class="summary-sig-name">do_get_property</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.do_get_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="do_set_property"></a><span class="summary-sig-name">do_set_property</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>,
+        <span class="summary-sig-arg">value</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.do_set_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#_cb_appearance_changed" class="summary-sig-name" onclick="show_private();">_cb_appearance_changed</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">widget</span>)</span><br />
+      This method is called after the appearance of an object changed and 
+      forces a redraw.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._cb_appearance_changed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_cb_motion_notify"></a><span class="summary-sig-name">_cb_motion_notify</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">widget</span>,
+        <span class="summary-sig-arg">event</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._cb_motion_notify">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_cb_button_pressed"></a><span class="summary-sig-name">_cb_button_pressed</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">widget</span>,
+        <span class="summary-sig-arg">event</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._cb_button_pressed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_get_bar_at_pos"></a><span class="summary-sig-name">_get_bar_at_pos</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._get_bar_at_pos">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#_do_draw_bars" class="summary-sig-name" onclick="show_private();">_do_draw_bars</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">rect</span>)</span><br />
+      Draw the chart.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._do_draw_bars">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#draw" class="summary-sig-name">draw</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">context</span>)</span><br />
+      Draw the widget.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.draw">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="add_bar"></a><span class="summary-sig-name">add_bar</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bar</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.add_bar">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#get_bar" class="summary-sig-name">get_bar</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      Returns the Bar with the id 'name' if it exists, None otherwise.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_bar">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#set_draw_labels" class="summary-sig-name">set_draw_labels</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">draw</span>)</span><br />
+      Set whether to draw the labels of the bars.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.set_draw_labels">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#get_draw_labels" class="summary-sig-name">get_draw_labels</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if bar labels are shown.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_draw_labels">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#set_enable_mouseover" class="summary-sig-name">set_enable_mouseover</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">mouseover</span>)</span><br />
+      Set whether a mouseover effect should be shown when the pointer 
+      enters a bar.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.set_enable_mouseover">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#get_enable_mouseover" class="summary-sig-name">get_enable_mouseover</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if the mouseover effect is enabled.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_enable_mouseover">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#set_show_values" class="summary-sig-name">set_show_values</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">show</span>)</span><br />
+      Set whether the bar's value should be shown in its label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.set_show_values">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.BarChart-class.html#get_show_values" class="summary-sig-name">get_show_values</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if the value of a bar is shown in its label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_show_values">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart.Chart-class.html">chart.Chart</a></code></b>:
+      <code><a href="pygtk_chart.chart.Chart-class.html#draw_basics">draw_basics</a></code>,
+      <code><a href="pygtk_chart.chart.Chart-class.html#export_png">export_png</a></code>,
+      <code><a href="pygtk_chart.chart.Chart-class.html#export_svg">export_svg</a></code>,
+      <code><a href="pygtk_chart.chart.Chart-class.html#expose">expose</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gtk.DrawingArea</code></b>:
+      <code>size</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gtk.Widget</code></b>:
+      <code>activate</code>,
+      <code>add_accelerator</code>,
+      <code>add_events</code>,
+      <code>add_mnemonic_label</code>,
+      <code>can_activate_accel</code>,
+      <code>child_focus</code>,
+      <code>child_notify</code>,
+      <code>class_path</code>,
+      <code>create_pango_context</code>,
+      <code>create_pango_layout</code>,
+      <code>destroy</code>,
+      <code>do_button_press_event</code>,
+      <code>do_button_release_event</code>,
+      <code>do_can_activate_accel</code>,
+      <code>do_client_event</code>,
+      <code>do_composited_changed</code>,
+      <code>do_configure_event</code>,
+      <code>do_delete_event</code>,
+      <code>do_destroy_event</code>,
+      <code>do_direction_changed</code>,
+      <code>do_drag_begin</code>,
+      <code>do_drag_data_delete</code>,
+      <code>do_drag_data_get</code>,
+      <code>do_drag_data_received</code>,
+      <code>do_drag_drop</code>,
+      <code>do_drag_end</code>,
+      <code>do_drag_leave</code>,
+      <code>do_drag_motion</code>,
+      <code>do_enter_notify_event</code>,
+      <code>do_event</code>,
+      <code>do_expose_event</code>,
+      <code>do_focus</code>,
+      <code>do_focus_in_event</code>,
+      <code>do_focus_out_event</code>,
+      <code>do_get_accessible</code>,
+      <code>do_grab_broken_event</code>,
+      <code>do_grab_focus</code>,
+      <code>do_grab_notify</code>,
+      <code>do_hide</code>,
+      <code>do_hide_all</code>,
+      <code>do_hierarchy_changed</code>,
+      <code>do_key_press_event</code>,
+      <code>do_key_release_event</code>,
+      <code>do_leave_notify_event</code>,
+      <code>do_map</code>,
+      <code>do_map_event</code>,
+      <code>do_mnemonic_activate</code>,
+      <code>do_motion_notify_event</code>,
+      <code>do_no_expose_event</code>,
+      <code>do_parent_set</code>,
+      <code>do_popup_menu</code>,
+      <code>do_property_notify_event</code>,
+      <code>do_proximity_in_event</code>,
+      <code>do_proximity_out_event</code>,
+      <code>do_realize</code>,
+      <code>do_screen_changed</code>,
+      <code>do_scroll_event</code>,
+      <code>do_selection_clear_event</code>,
+      <code>do_selection_get</code>,
+      <code>do_selection_notify_event</code>,
+      <code>do_selection_received</code>,
+      <code>do_selection_request_event</code>,
+      <code>do_show</code>,
+      <code>do_show_all</code>,
+      <code>do_show_help</code>,
+      <code>do_size_allocate</code>,
+      <code>do_size_request</code>,
+      <code>do_state_changed</code>,
+      <code>do_style_set</code>,
+      <code>do_unmap</code>,
+      <code>do_unmap_event</code>,
+      <code>do_unrealize</code>,
+      <code>do_visibility_notify_event</code>,
+      <code>do_window_state_event</code>,
+      <code>drag_begin</code>,
+      <code>drag_check_threshold</code>,
+      <code>drag_dest_add_image_targets</code>,
+      <code>drag_dest_add_text_targets</code>,
+      <code>drag_dest_add_uri_targets</code>,
+      <code>drag_dest_find_target</code>,
+      <code>drag_dest_get_target_list</code>,
+      <code>drag_dest_get_track_motion</code>,
+      <code>drag_dest_set</code>,
+      <code>drag_dest_set_proxy</code>,
+      <code>drag_dest_set_target_list</code>,
+      <code>drag_dest_set_track_motion</code>,
+      <code>drag_dest_unset</code>,
+      <code>drag_get_data</code>,
+      <code>drag_highlight</code>,
+      <code>drag_source_add_image_targets</code>,
+      <code>drag_source_add_text_targets</code>,
+      <code>drag_source_add_uri_targets</code>,
+      <code>drag_source_get_target_list</code>,
+      <code>drag_source_set</code>,
+      <code>drag_source_set_icon</code>,
+      <code>drag_source_set_icon_name</code>,
+      <code>drag_source_set_icon_pixbuf</code>,
+      <code>drag_source_set_icon_stock</code>,
+      <code>drag_source_set_target_list</code>,
+      <code>drag_source_unset</code>,
+      <code>drag_unhighlight</code>,
+      <code>ensure_style</code>,
+      <code>error_bell</code>,
+      <code>event</code>,
+      <code>freeze_child_notify</code>,
+      <code>get_accessible</code>,
+      <code>get_action</code>,
+      <code>get_activate_signal</code>,
+      <code>get_allocation</code>,
+      <code>get_ancestor</code>,
+      <code>get_child_requisition</code>,
+      <code>get_child_visible</code>,
+      <code>get_clipboard</code>,
+      <code>get_colormap</code>,
+      <code>get_composite_name</code>,
+      <code>get_direction</code>,
+      <code>get_display</code>,
+      <code>get_events</code>,
+      <code>get_extension_events</code>,
+      <code>get_has_tooltip</code>,
+      <code>get_modifier_style</code>,
+      <code>get_name</code>,
+      <code>get_no_show_all</code>,
+      <code>get_pango_context</code>,
+      <code>get_parent</code>,
+      <code>get_parent_window</code>,
+      <code>get_pointer</code>,
+      <code>get_root_window</code>,
+      <code>get_screen</code>,
+      <code>get_settings</code>,
+      <code>get_size_request</code>,
+      <code>get_snapshot</code>,
+      <code>get_style</code>,
+      <code>get_tooltip_markup</code>,
+      <code>get_tooltip_text</code>,
+      <code>get_tooltip_window</code>,
+      <code>get_toplevel</code>,
+      <code>get_visual</code>,
+      <code>get_window</code>,
+      <code>grab_add</code>,
+      <code>grab_default</code>,
+      <code>grab_focus</code>,
+      <code>grab_remove</code>,
+      <code>has_screen</code>,
+      <code>hide</code>,
+      <code>hide_all</code>,
+      <code>hide_on_delete</code>,
+      <code>input_shape_combine_mask</code>,
+      <code>intersect</code>,
+      <code>is_ancestor</code>,
+      <code>is_composited</code>,
+      <code>is_focus</code>,
+      <code>keynav_failed</code>,
+      <code>list_mnemonic_labels</code>,
+      <code>map</code>,
+      <code>menu_get_for_attach_widget</code>,
+      <code>mnemonic_activate</code>,
+      <code>modify_base</code>,
+      <code>modify_bg</code>,
+      <code>modify_cursor</code>,
+      <code>modify_fg</code>,
+      <code>modify_font</code>,
+      <code>modify_style</code>,
+      <code>modify_text</code>,
+      <code>path</code>,
+      <code>queue_clear</code>,
+      <code>queue_clear_area</code>,
+      <code>queue_draw</code>,
+      <code>queue_draw_area</code>,
+      <code>queue_resize</code>,
+      <code>queue_resize_no_redraw</code>,
+      <code>rc_get_style</code>,
+      <code>realize</code>,
+      <code>region_intersect</code>,
+      <code>remove_accelerator</code>,
+      <code>remove_mnemonic_label</code>,
+      <code>render_icon</code>,
+      <code>reparent</code>,
+      <code>reset_rc_styles</code>,
+      <code>reset_shapes</code>,
+      <code>selection_add_target</code>,
+      <code>selection_add_targets</code>,
+      <code>selection_clear_targets</code>,
+      <code>selection_convert</code>,
+      <code>selection_owner_set</code>,
+      <code>selection_remove_all</code>,
+      <code>send_expose</code>,
+      <code>set_accel_path</code>,
+      <code>set_activate_signal</code>,
+      <code>set_app_paintable</code>,
+      <code>set_child_visible</code>,
+      <code>set_colormap</code>,
+      <code>set_composite_name</code>,
+      <code>set_direction</code>,
+      <code>set_double_buffered</code>,
+      <code>set_events</code>,
+      <code>set_extension_events</code>,
+      <code>set_has_tooltip</code>,
+      <code>set_name</code>,
+      <code>set_no_show_all</code>,
+      <code>set_parent</code>,
+      <code>set_parent_window</code>,
+      <code>set_redraw_on_allocate</code>,
+      <code>set_scroll_adjustments</code>,
+      <code>set_sensitive</code>,
+      <code>set_set_scroll_adjustments_signal</code>,
+      <code>set_size_request</code>,
+      <code>set_state</code>,
+      <code>set_style</code>,
+      <code>set_tooltip_markup</code>,
+      <code>set_tooltip_text</code>,
+      <code>set_tooltip_window</code>,
+      <code>set_uposition</code>,
+      <code>set_usize</code>,
+      <code>shape_combine_mask</code>,
+      <code>show</code>,
+      <code>show_all</code>,
+      <code>show_now</code>,
+      <code>size_allocate</code>,
+      <code>size_request</code>,
+      <code>style_get_property</code>,
+      <code>thaw_child_notify</code>,
+      <code>translate_coordinates</code>,
+      <code>trigger_tooltip_query</code>,
+      <code>unmap</code>,
+      <code>unparent</code>,
+      <code>unrealize</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gtk.Object</code></b>:
+      <code>do_destroy</code>,
+      <code>flags</code>,
+      <code>remove_data</code>,
+      <code>remove_no_notify</code>,
+      <code>set_flags</code>,
+      <code>unset_flags</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__cmp__</code>,
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__gdoc__</code>,
+      <code>__gobject_init__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>atk.ImplementorIface</code></b>:
+      <code>ref_accessible</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gtk.Buildable</code></b>:
+      <code>add_child</code>,
+      <code>construct_child</code>,
+      <code>do_add_child</code>,
+      <code>do_construct_child</code>,
+      <code>do_get_internal_child</code>,
+      <code>do_parser_finished</code>,
+      <code>do_set_name</code>,
+      <code>get_internal_child</code>,
+      <code>parser_finished</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__str__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.bar_chart.BarChart-class.html#__gproperties__" class="summary-name">__gproperties__</a> = <code title="{&quot;draw-labels&quot;:(gobject.TYPE_BOOLEAN, &quot;draw bar labels&quot;, &quot;Set whether \
+to draw bar labels.&quot;, True, gobject.PARAM_READWRITE), &quot;show-values&quot;:(g\
+object.TYPE_BOOLEAN, &quot;show values&quot;, &quot;Set whether to show values in the\
+ bars' labels.&quot;, True, gobject.PARAM_READWRITE), &quot;enable-mouseover&quot;:(g\
+object.TYPE_BOOLEAN, &quot;enable mouseover&quot;, &quot;Set whether a mouseover effe\
+ct should be visible if moving the mouse over a bar.&quot;, True, gobject.P\
+ARAM_READWRITE)}">{&quot;draw-labels&quot;:(gobject.TYPE_BOOLEAN, &quot;draw <code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.bar_chart.BarChart-class.html#__gsignals__" class="summary-name">__gsignals__</a> = <code title="{&quot;bar-clicked&quot;:(gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.T\
+YPE_PYOBJECT,))}">{&quot;bar-clicked&quot;:(gobject.SIGNAL_RUN_LAST, gobjec<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType pygtk_chart+bar_chart+BarChart (165239712)&gt;">&lt;GType pygtk_chart+bar_chart+BarChart (165239712)&gt;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>gtk.Widget</code></b>:
+      <code>allocation</code>,
+      <code>name</code>,
+      <code>parent</code>,
+      <code>requisition</code>,
+      <code>saved_state</code>,
+      <code>state</code>,
+      <code>style</code>,
+      <code>window</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see x.__class__.__doc__ for 
+  signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_cb_appearance_changed"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_cb_appearance_changed</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">widget</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._cb_appearance_changed">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>This method is called after the appearance of an object changed and 
+  forces a redraw.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart.Chart-class.html#_cb_appearance_changed" onclick="show_private();">chart.Chart._cb_appearance_changed</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_do_draw_bars"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_do_draw_bars</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">context</span>,
+        <span class="sig-arg">rect</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart._do_draw_bars">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Draw the chart.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>context</code></strong> (cairo.Context) - The context to draw on.</li>
+        <li><strong class="pname"><code>rect</code></strong> (gtk.gdk.Rectangle) - A rectangle representing the charts area.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="draw"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">draw</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">context</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.draw">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Draw the widget. This method is called automatically. Don't call it 
+  yourself. If you want to force a redrawing of the widget, call the 
+  queue_draw() method.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>context</code></strong> (cairo.Context) - The context to draw on.</li>
+    </ul></dd>
+    <dt>Overrides:
+        gtk.Widget.draw
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_bar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_bar</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_bar">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the Bar with the id 'name' if it exists, None otherwise.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> (string) - the id of a Bar</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Bar or None.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_draw_labels"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_draw_labels</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">draw</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.set_draw_labels">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether to draw the labels of the bars.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>draw</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_draw_labels"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_draw_labels</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_draw_labels">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if bar labels are shown.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_enable_mouseover"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_enable_mouseover</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">mouseover</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.set_enable_mouseover">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether a mouseover effect should be shown when the pointer enters
+  a bar.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>mouseover</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_enable_mouseover"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_enable_mouseover</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_enable_mouseover">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if the mouseover effect is enabled.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_show_values"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_show_values</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">show</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.set_show_values">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether the bar's value should be shown in its label.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>show</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_show_values"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_show_values</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#BarChart.get_show_values">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if the value of a bar is shown in its label.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__gproperties__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__gproperties__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;draw-labels&quot;:(gobject.TYPE_BOOLEAN, &quot;draw bar labels&quot;, &quot;Set whether <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+to draw bar labels.&quot;, True, gobject.PARAM_READWRITE), &quot;show-values&quot;:(g<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+object.TYPE_BOOLEAN, &quot;show values&quot;, &quot;Set whether to show values in the<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ bars' labels.&quot;, True, gobject.PARAM_READWRITE), &quot;enable-mouseover&quot;:(g<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+object.TYPE_BOOLEAN, &quot;enable mouseover&quot;, &quot;Set whether a mouseover effe<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ct should be visible if moving the mouse over a bar.&quot;, True, gobject.P<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ARAM_READWRITE)}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__gsignals__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__gsignals__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;bar-clicked&quot;:(gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.T<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+YPE_PYOBJECT,))}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:29 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
