@@ -16,7 +16,7 @@ from pygtk_chart import chart
 
 COLOR_AUTO = 0
 
-COLORS = color_list_from_file(os.path.dirname(__file__) + "/data/tango.color")
+COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 class Bar(chart.ChartObject):
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
