@@ -92,12 +92,14 @@ class Label(ChartObject):
         label = gtk.Label()
         pango_context = label.create_pango_context()
         #if self._font == None:
-        #    font = label.style.font_desc.get_family()
+        #    font = label.style.font_desc.get_family()            
         
         attrs = pango.AttrList()
-        attrs.insert(pango.AttrWeight(self._weight, 0, len(self._text) - 1))
-        attrs.insert(pango.AttrStyle(self._slant, 0, len(self._text) - 1))
-        attrs.insert(pango.AttrUnderline(self._underline, 0, len(self._text) - 1))
+        attrs.insert(pango.AttrWeight(self._weight, 0, len(self._text)))
+        attrs.insert(pango.AttrStyle(self._slant, 0, len(self._text)))
+        attrs.insert(pango.AttrUnderline(self._underline, 0, len(self._text)))
+        if self._size != None:
+            attrs.insert(pango.AttrSize(1000 * self._size, 0, len(self._text)))
         
         layout = pango.Layout(pango_context)
         layout.set_text(self._text)
