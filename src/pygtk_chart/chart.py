@@ -285,9 +285,9 @@ class Title(label.Label):
     """    
     
     def __init__(self, text=""):
-        label.Label.__init__(self, (0, 0), text, weight=pango.WEIGHT_BOLD, anchor=label.ANCHOR_CENTER)
+        label.Label.__init__(self, (0, 0), text, weight=pango.WEIGHT_BOLD, anchor=label.ANCHOR_TOP_CENTER)
         
     def _do_draw(self, context, rect):
         self._size = int(rect.height / 50.0)
-        self._position = rect.width / 2, self._size / 2 + rect.height / 80
+        self._position = rect.width / 2, rect.height / 80
         self._do_draw_label(context, rect)

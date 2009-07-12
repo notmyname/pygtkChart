@@ -34,6 +34,8 @@ ANCHOR_TOP_LEFT = 1
 ANCHOR_TOP_RIGHT = 2
 ANCHOR_BOTTOM_RIGHT = 4
 ANCHOR_CENTER = 5
+ANCHOR_TOP_CENTER = 6
+ANCHOR_BOTTOM_CENTER = 7
 
 
 class Label(ChartObject):
@@ -107,19 +109,17 @@ class Label(ChartObject):
         
         text_width, text_height = layout.get_pixel_size()
         
-        #find out where to draw the layout
-        x, y = self._position
-        ref = (0, 0)
-        if self._anchor == ANCHOR_TOP_LEFT:
-            ref = (0, text_height)
-        elif self._anchor == ANCHOR_TOP_RIGHT:
-            ref = (-text_width, text_height)
-        elif self._anchor == ANCHOR_BOTTOM_RIGHT:
-            ref = (-text_width, 0)
-        elif self._anchor == ANCHOR_CENTER:
-            ref = (-text_width / 2, -text_height / 2)
-        x += ref[0]
-        y += ref[1]
+        #find out where to draw the layout and calculate the maximum width
+        x, y = get_text_pos(layout, self._position, self._anchor)
+        if x < 0: x = 0
+        width = rect.width - x
+        layout.set_width(1000 * width)
+        
+        if text_width >= 0.9 * width:
+            #text has to be wrapped => new position needed
+            layout.set_wrap(pango.WRAP_WORD_CHAR)
+            x, y = get_text_pos(layout, self._position, self._anchor)
+            if x < 0: x = 0
         
         #draw layout
         context.move_to(x, y)
@@ -141,3 +141,22 @@ class Label(ChartObject):
     def get_color(self):
         return self.get_property("color")
         
+def get_text_pos(layout, pos, anchor):
+    text_width, text_height = layout.get_pixel_size()
+    x, y = pos
+    ref = (0, 0)
+    if anchor == ANCHOR_TOP_LEFT:
+        ref = (0, text_height)
+    elif anchor == ANCHOR_TOP_RIGHT:
+        ref = (-text_width, text_height)
+    elif anchor == ANCHOR_BOTTOM_RIGHT:
+        ref = (-text_width, 0)
+    elif anchor == ANCHOR_CENTER:
+        ref = (-text_width / 2, -text_height / 2)
+    elif anchor == ANCHOR_TOP_CENTER:
+        ref = (-text_width / 2, 0)
+    elif anchor == ANCHOR_BOTTOM_CENTER:
+        ref = (-text_width / 2, -text_height)
+    x += ref[0]
+    y += ref[1]
+    return x, y
