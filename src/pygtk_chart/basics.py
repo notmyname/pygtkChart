@@ -58,6 +58,16 @@ def get_center(rect):
     """
     return rect.width / 2, rect.height / 2
     
+def color_gdk_to_cairo(color):
+    """
+    Convert a gtk.gdk.Color to cairo color.
+    
+    @type color: gtk.gdk.Color
+    @param color: the color to convert
+    @return: a color in cairo format.
+    """
+    return (color.red / 65535.0, color.green / 65535.0, color.blue / 65535.0)
+    
 def color_rgb_to_cairo(color):
     """
     Convert a 8 bit RGB value to cairo color.

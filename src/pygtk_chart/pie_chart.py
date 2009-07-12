@@ -31,6 +31,7 @@ import math
 import os
 
 from pygtk_chart.basics import *
+from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 
 COLOR_AUTO = 0
@@ -39,7 +40,7 @@ COLOR_AUTO = 0
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
-class PieArea(chart.ChartObject):
+class PieArea(ChartObject):
     
     __gproperties__ = {"name": (gobject.TYPE_STRING, "pie are name",
                                 "A unique name for the pie area.",
@@ -56,7 +57,7 @@ class PieArea(chart.ChartObject):
                                     gobject.PARAM_READWRITE)}
     
     def __init__(self, name, value, label=""):
-        chart.ChartObject.__init__(self)
+        ChartObject.__init__(self)
         self._name = name
         self._value = value
         self._label = label

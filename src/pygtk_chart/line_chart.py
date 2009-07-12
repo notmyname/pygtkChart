@@ -32,6 +32,7 @@ import math
 import os
 
 from pygtk_chart.basics import *
+from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 
 RANGE_AUTO = 0
@@ -306,7 +307,7 @@ class LineChart(chart.Chart):
         self._range_calc.set_yrange(yrange)
 
 
-class Axis(chart.ChartObject):
+class Axis(ChartObject):
 
     __gproperties__ = {"label": (gobject.TYPE_STRING, "axis label",
                                     "The label of the axis.", "",
@@ -331,7 +332,7 @@ class Axis(chart.ChartObject):
                                             gobject.PARAM_READWRITE)}
 
     def __init__(self, range_calc, label):
-        chart.ChartObject.__init__(self)
+        ChartObject.__init__(self)
         self.set_property("antialias", False)
 
         self._label = label
@@ -672,7 +673,7 @@ class YAxis(Axis):
             self._do_draw_tics(context, rect, xaxis)
 
 
-class Grid(chart.ChartObject):
+class Grid(ChartObject):
     """
     A class representing the grid of the chart. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
@@ -692,7 +693,7 @@ class Grid(chart.ChartObject):
                                     gobject.PARAM_READWRITE)}
 
     def __init__(self, range_calc):
-        chart.ChartObject.__init__(self)
+        ChartObject.__init__(self)
         self.set_property("antialias", False)
         self._range_calc = range_calc
         self._color = (0.9, 0.9, 0.9)
@@ -803,7 +804,7 @@ class Grid(chart.ChartObject):
         return self.get_property("color")
 
 
-class Graph(chart.ChartObject):
+class Graph(ChartObject):
     """
     This class represents a graph or the data you want to plot on your
     LineChart widget.
@@ -855,7 +856,7 @@ class Graph(chart.ChartObject):
         @param data: This is the data you want to be visualized. data has to
         be a list of (x, y) pairs.
         """
-        chart.ChartObject.__init__(self)
+        ChartObject.__init__(self)
         self._name = name
         self._title = title
         self._data = data

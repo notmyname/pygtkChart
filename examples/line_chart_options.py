@@ -51,7 +51,7 @@ class ChartControl(gtk.Table):
         self.attach(self.entry_chart_title, 1, 3, 0, 1, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.color_title_chooser = gtk.ColorButton()
-        self.color_title_chooser.set_color(to_gdkColor(*self.chart.title.get_color()))
+        self.color_title_chooser.set_color(self.chart.title.get_color())
         self.color_title_chooser.connect("color-set", self._cb_title_color_changed)
         label = gtk.Label("Title color:")
         label.set_alignment(0.0, 0.5)
@@ -184,7 +184,7 @@ class ChartControl(gtk.Table):
         self.chart.title.set_text(entry.get_text())
         
     def _cb_title_color_changed(self, chooser):
-        self.chart.title.set_color(from_gdkColor(chooser.get_color()))
+        self.chart.title.set_color(chooser.get_color())
         
     def _cb_title_visible_changed(self, button):
         self.chart.title.set_visible(button.get_active())

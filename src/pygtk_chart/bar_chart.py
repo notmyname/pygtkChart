@@ -12,13 +12,14 @@ import collections # for defaultdict
 import math # for pi
 
 from pygtk_chart.basics import *
+from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 
 COLOR_AUTO = 0
 
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
-class Bar(chart.ChartObject):
+class Bar(ChartObject):
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
                                 "A unique name for the bar.",
                                 "", gobject.PARAM_READABLE),
@@ -368,7 +369,7 @@ class BarChart(chart.Chart):
         """
         return self.get_property("show-values")
 
-class MultiBar(chart.ChartObject):
+class MultiBar(ChartObject):
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
                                 "A unique name for the bar.",
                                 "", gobject.PARAM_READABLE),

@@ -43,7 +43,9 @@ import gtk
 import os
 import pygtk
 
+from pygtk_chart.chart_object import ChartObject
 from pygtk_chart.basics import *
+from pygtk_chart import label
 
 
 class Chart(gtk.DrawingArea):
@@ -136,108 +138,7 @@ class Chart(gtk.DrawingArea):
                                         rect.height)
         context = cairo.Context(surface)
         self.draw(context)
-        surface.write_to_png(filename)
-        
-
-class ChartObject(gobject.GObject):
-    """
-    This is the base class for all things that can be drawn in a chart,
-    e.g. title, axes, graphs,...
-    """
-    
-    __gsignals__ = {"appearance-changed": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])}
-
-    
-    __gproperties__ = {"visible": (gobject.TYPE_BOOLEAN,
-                                    "visibilty of the object",
-                                    "Set whether to draw the object or not.",
-                                    True, gobject.PARAM_READWRITE),
-                        "antialias": (gobject.TYPE_BOOLEAN,
-                                    "use antialiasing",
-                                    "Set whether to use antialiasing when drawing the object.",
-                                    True, gobject.PARAM_READWRITE)}
-    
-    def __init__(self):
-        gobject.GObject.__init__(self)
-        self._show = True
-        self._antialias = True
-        
-    def do_get_property(self, property):
-        if property.name == "visible":
-            return self._show
-        elif property.name == "antialias":
-            return self._antialias
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
-
-    def do_set_property(self, property, value):
-        if property.name == "visible":
-            self._show = value
-        elif property.name == "antialias":
-            self._antialias = value
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
-        
-    def _do_draw(self, context, rect):
-        """
-        A derived class should override this method. The drawing stuff
-        should happen here.
-        
-        @type context: cairo.Context
-        @param context: The context to draw on.
-        @type rect: gtk.gdk.Rectangle
-        @param rect: A rectangle representing the charts area.
-        """
-        pass
-        
-    def draw(self, context, rect):
-        """
-        This method is called by the parent Chart instance. It
-        calls _do_draw.
-        
-        @type context: cairo.Context
-        @param context: The context to draw on.
-        @type rect: gtk.gdk.Rectangle
-        @param rect: A rectangle representing the charts area.
-        """
-        if self._show:
-            if not self._antialias:
-                context.set_antialias(cairo.ANTIALIAS_NONE)
-            self._do_draw(context, rect)
-            context.set_antialias(cairo.ANTIALIAS_DEFAULT)
-        
-    def set_antialias(self, antialias):
-        """
-        This method sets the antialiasing mode of the ChartObject. Antialiasing
-        is enabled by default.
-        
-        @type antialias: boolean
-        @param antialias: If False, antialiasing is disabled for this 
-        ChartObject.
-        """
-        self.set_property("antialias", antialias)
-        self.emit("appearance_changed")
-        
-    def get_antialias(self):
-        return self.get_property("antialias")
-        
-    def set_visible(self, visible):
-        """
-        Use this method to set whether the ChartObject should be visible or
-        not.
-        
-        @type visible: boolean
-        @param visible: If False, the PlotObject won't be drawn.
-        """
-        self.set_property("visible", visible)
-        self.emit("appearance_changed")
-        
-    def get_visible(self):
-        return self.get_property("visible")
-        
-
-gobject.type_register(ChartObject)
-        
+        surface.write_to_png(filename)        
         
 class Background(ChartObject):
     """
@@ -376,102 +277,15 @@ class Background(ChartObject):
         return self.get_property("image")
         
         
-class Title(ChartObject):
+class Title(label.Label):
     """
     The title of a chart. The title will be drawn centered at the top of the
     chart.
     """    
     
-    __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
-                                "title color",
-                                "The color of the title in (r,g,b) format. r,g,b in [0,1]",
-                                gobject.PARAM_READWRITE),
-                        "text": (gobject.TYPE_STRING,
-                                "title text",
-                                "The text to show as the title.",
-                                "", gobject.PARAM_READWRITE)}
-    
-    def __init__(self, text=None):
-        ChartObject.__init__(self)
-        self._text = text
-        self._color = (0, 0, 0)
-        
-    def do_get_property(self, property):
-        if property.name == "visible":
-            return self._show
-        elif property.name == "antialias":
-            return self._antialias
-        elif property.name == "text":
-            return self._text
-        elif property.name == "color":
-            return self._color
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
-
-    def do_set_property(self, property, value):
-        if property.name == "visible":
-            self._show = value
-        elif property.name == "antialias":
-            self._antialias = value
-        elif property.name == "text":
-            self._text = value
-        elif property.name == "color":
-            self._color = value
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
+    def __init__(self, text=""):
+        label.Label.__init__(self, (0, 0), text, anchor=label.ANCHOR_CENTER)
         
     def _do_draw(self, context, rect):
-        """
-        Do all the drawing stuff.
-        
-        @type context: cairo.Context
-        @param context: The context to draw on.
-        @type rect: gtk.gdk.Rectangle
-        @param rect: A rectangle representing the charts area.
-        """
-        if self._text != None:
-            #prepare the font
-            font = gtk.Label().style.font_desc.get_family()
-            context.set_font_size(rect.height / 30)
-            context.select_font_face(font,cairo.FONT_SLANT_NORMAL, \
-                                        cairo.FONT_WEIGHT_BOLD)
-            size = context.text_extents(self._text)
-            #calculate position
-            x = (rect.width - size[2]) / 2
-            y = size[3] + rect.height / 80
-            #draw
-            c = self._color
-            context.move_to(x, y)
-            context.set_source_rgb(c[0], c[1], c[2])
-            context.show_text(self._text)
-            context.fill()
-            
-            #reset font
-            context.select_font_face(font,cairo.FONT_SLANT_NORMAL, \
-                                        cairo.FONT_WEIGHT_NORMAL)
-        
-    def set_color(self, color):
-        """
-        The set_color() method sets the color of the title text.
-        
-        @type color: a color
-        @param color: The color of the title.
-        """
-        self.set_property("color", color)
-        self.emit("appearance_changed")
-        
-    def get_color(self):
-        return self.get_property("color")
-        
-    def set_text(self, text):
-        """
-        Use the set_text() method to set the title of the chart.
-        
-        @type text: string
-        @param text: The title of the chart.
-        """
-        self.set_property("text", text)
-        self.emit("appearance_changed")
-        
-    def get_text(self):
-        return self.get_property("text")
+        self._position = rect.width / 2, rect.height / 80.0
+        self._do_draw_label(context, rect)
