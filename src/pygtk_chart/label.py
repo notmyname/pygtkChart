@@ -36,6 +36,8 @@ ANCHOR_BOTTOM_RIGHT = 4
 ANCHOR_CENTER = 5
 ANCHOR_TOP_CENTER = 6
 ANCHOR_BOTTOM_CENTER = 7
+ANCHOR_LEFT_CENTER = 8
+ANCHOR_RIGHT_CENTER = 9
 
 
 class Label(ChartObject):
@@ -47,9 +49,13 @@ class Label(ChartObject):
                         "text": (gobject.TYPE_STRING,
                                 "label text",
                                 "The text to show on the label.",
-                                "", gobject.PARAM_READWRITE)}
+                                "", gobject.PARAM_READWRITE),
+                        "position": (gobject.TYPE_PYOBJECT,
+                                    "label position",
+                                    "A pair of x,y coordinates.",
+                                    gobject.PARAM_READWRITE)}
     
-    def __init__(self, position, text, font=None, size=None, slant=pango.STYLE_NORMAL, weight=pango.WEIGHT_NORMAL, underline=pango.UNDERLINE_NONE, anchor=ANCHOR_TOP_LEFT):
+    def __init__(self, position, text, font=None, size=None, slant=pango.STYLE_NORMAL, weight=pango.WEIGHT_NORMAL, underline=pango.UNDERLINE_NONE, anchor=ANCHOR_BOTTOM_LEFT):
         ChartObject.__init__(self)
         self._position = position
         self._text = text
@@ -72,6 +78,8 @@ class Label(ChartObject):
             return self._text
         elif property.name == "color":
             return self._color
+        elif property.name == "position":
+            return self._position
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -84,6 +92,8 @@ class Label(ChartObject):
             self._text = value
         elif property.name == "color":
             self._color = value
+        elif property.name == "position":
+            self._position = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -141,22 +151,33 @@ class Label(ChartObject):
     def get_color(self):
         return self.get_property("color")
         
+    def set_position(self, pos):
+        self.set_property("position", pos)
+        self.emit("appearance_changed")
+        
+    def get_position(self):
+        return self.get_property("position")
+        
 def get_text_pos(layout, pos, anchor):
     text_width, text_height = layout.get_pixel_size()
     x, y = pos
-    ref = (0, 0)
+    ref = (0, -text_height)
     if anchor == ANCHOR_TOP_LEFT:
-        ref = (0, text_height)
+        ref = (0, 0)
     elif anchor == ANCHOR_TOP_RIGHT:
-        ref = (-text_width, text_height)
-    elif anchor == ANCHOR_BOTTOM_RIGHT:
         ref = (-text_width, 0)
+    elif anchor == ANCHOR_BOTTOM_RIGHT:
+        ref = (-text_width, -text_height)
     elif anchor == ANCHOR_CENTER:
         ref = (-text_width / 2, -text_height / 2)
     elif anchor == ANCHOR_TOP_CENTER:
         ref = (-text_width / 2, 0)
     elif anchor == ANCHOR_BOTTOM_CENTER:
         ref = (-text_width / 2, -text_height)
+    elif anchor == ANCHOR_LEFT_CENTER:
+        ref = (0, -text_height / 2)
+    elif anchor == ANCHOR_RIGHT_CENTER:
+        ref = (-text_width, -text_height / 2)
     x += ref[0]
     y += ref[1]
     return x, y

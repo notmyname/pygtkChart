@@ -34,6 +34,7 @@ import os
 from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
+from pygtk_chart import label
 
 RANGE_AUTO = 0
 GRAPH_PADDING = 1 / 15.0 #a relative padding
@@ -870,6 +871,7 @@ class Graph(ChartObject):
         self._fill_opacity = 0.3
 
         self._range_calc = None
+        self._label = label.Label((0, 0), self._title, anchor=label.ANCHOR_LEFT_CENTER)
 
     def do_get_property(self, property):
         if property.name == "visible":
@@ -905,6 +907,7 @@ class Graph(ChartObject):
         elif property.name == "antialias":
             self._antialias = value
         elif property.name == "title":
+            self._label.set_text(value)
             self._title = value
         elif property.name == "color":
             self._color = value
@@ -939,17 +942,12 @@ class Graph(ChartObject):
         @type last_point: pairs of numbers
         @param last_point: The absolute position of the last drawn data point.
         """
-        c = self._color
-        context.set_source_rgb(c[0], c[1], c[2])
-
-        font_size = rect.height / 50
-        if font_size < 9: font_size = 9
-        context.set_font_size(font_size)
-        size = context.text_extents(self._title)
         if last_point:
-            context.move_to(last_point[0] + 5, last_point[1] + size[3] / 3)
-            context.show_text(self._title)
-            context.stroke()
+            x = last_point[0] + 5
+            y = last_point[1]
+            self._label.set_position((x, y))
+            self._label.set_color(color_cairo_to_gdk(*self._color))
+            self._label.draw(context, rect)
             
     def _do_draw_fill(self, context, rect, xrange):
         if type(self._fill_to) in (int, float):
