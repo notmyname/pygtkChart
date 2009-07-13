@@ -517,7 +517,7 @@ class XAxis(Axis):
             if font_size < 9: font_size = 9
             context.set_font_size(font_size)
 
-            for ((x,y), label) in tics:
+            for ((x,y), val) in tics:
                 if self._position == POSITION_TOP:
                     y = rect.height * GRAPH_PADDING
                 elif self._position == POSITION_BOTTOM:
@@ -526,35 +526,17 @@ class XAxis(Axis):
                 context.move_to(x, y + tic_height / 2)
                 context.rel_line_to(0, - tic_height)
                 context.stroke()
-
+                
+                
                 if self._show_tic_labels:
-                    if label == 0 and self._position == POSITION_AUTO and yaxis.get_position() == POSITION_AUTO:
-                        label = " "
-                    else:
-                        label = self._tic_format_function(label)
-                    size = context.text_extents(label)
-                    x = x - size[2] / 2
-                    y = y + size[3] + font_size / 2
-                    if self._position == POSITION_TOP:
-                        y = y - size[3] - font_size / 2 - tic_height
-                    if label[0] == "-":
-                        x = x - context.text_extents("-")[2]
-                    context.move_to(x, y)
-                    context.show_text(label)
-                    context.stroke()
+                    pos = x, y + tic_height
+                    text = self._tic_format_function(val)
+                    tic_label = label.Label(pos, text, anchor=label.ANCHOR_TOP_CENTER)
+                    tic_label.draw(context, rect)
 
     def _do_draw_label(self, context, rect, pos):
-        (x, y) = pos
-        font_size = rect.height / 50
-        if font_size < 9: font_size = 9
-        context.set_font_size(font_size)
-        size = context.text_extents(self._label)
-        x = x + size[2] / 2
-        y = y + size[3]
-
-        context.move_to(x, y)
-        context.show_text(self._label)
-        context.stroke()
+        axis_label = label.Label(pos, self._label, anchor=label.ANCHOR_LEFT_CENTER)
+        axis_label.draw(context, rect)
 
     def _do_draw(self, context, rect, yaxis):
         """
@@ -611,7 +593,7 @@ class YAxis(Axis):
             #if font_size < 9: font_size = 9
             context.set_font_size(font_size)
 
-            for ((x,y), label) in tics:
+            for ((x,y), val) in tics:
                 if self._position == POSITION_LEFT:
                     x = rect.width * GRAPH_PADDING
                 elif self._position == POSITION_RIGHT:
@@ -622,33 +604,15 @@ class YAxis(Axis):
                 context.stroke()
 
                 if self._show_tic_labels:
-                    if label == 0 and self._position == POSITION_AUTO and xaxis.get_position() == POSITION_AUTO:
-                        label = " "
-                    else:
-                        label = self._tic_format_function(label)
-                    size = context.text_extents(label)
-                    x = x - size[2] - font_size / 2
-                    if self._position == POSITION_RIGHT:
-                        x = x + size[2] + font_size / 2 + tic_width
-                    y = y + size[3] / 2
-                    if label[0] == "-":
-                        x = x - context.text_extents("-")[2]
-                    context.move_to(x, y)
-                    context.show_text(label)
-                    context.stroke()
+                    pos = x - tic_width, y
+                    text = self._tic_format_function(val)
+                    tic_label = label.Label(pos, text, anchor=label.ANCHOR_RIGHT_CENTER)
+                    tic_label.draw(context, rect)
+
 
     def _do_draw_label(self, context, rect, pos):
-        (x, y) = pos
-        font_size = rect.height / 50
-        if font_size < 9: font_size = 9
-        context.set_font_size(font_size)
-        size = context.text_extents(self._label)
-        x = x - size[2]
-        y = y - size[3] / 2
-
-        context.move_to(x, y)
-        context.show_text(self._label)
-        context.stroke()
+        axis_label = label.Label(pos, self._label, anchor=label.ANCHOR_BOTTOM_CENTER)
+        axis_label.draw(context, rect)
 
     def _do_draw(self, context, rect, xaxis):
         (zx, zy) = self._range_calc.get_absolute_zero(rect)
