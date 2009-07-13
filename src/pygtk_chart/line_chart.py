@@ -930,6 +930,81 @@ class Graph(ChartObject):
 
     def has_something_to_draw(self):
         return self._data != []
+        
+    def _do_draw_lines(self, context, rect, xrange, yrange):
+        context.set_source_rgb(*self._color)
+        
+        first_point = None
+        last_point = None
+        
+        for (x, y) in self._data:
+            if is_in_range(x, xrange) and is_in_range(y, yrange):
+                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
+                if first_point == None:
+                    context.move_to(ax, ay)
+                    first_point = x, y
+                else:
+                    context.line_to(ax, ay)
+                last_point = ax, ay
+                    
+        context.stroke()
+        return first_point, last_point
+        
+    def _do_draw_points(self, context, rect, xrange, yrange):
+        context.set_source_rgb(*self._color)
+        
+        first_point = None
+        last_point = None
+        
+        for (x, y) in self._data:
+            if is_in_range(x, xrange) and is_in_range(y, yrange):
+                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
+                if first_point == None:
+                    context.move_to(ax, ay)
+                context.arc(ax, ay, self._point_size, 0, 2 * math.pi)
+                context.fill()
+                last_point = ax, ay
+
+        return first_point, last_point
+        
+    def _do_draw_values(self, context, rect, xrange, yrange):
+        anchors = {}
+        first_point = True
+        for i, (x, y) in enumerate(self._data):
+            if is_in_range(x, xrange) and is_in_range(y, yrange):
+                next_point = None
+                if i + 1 < len(self._data) and (is_in_range(self._data[i + 1][0], xrange) and is_in_range(self._data[i + 1][1], yrange)):
+                    next_point = self._data[i + 1]
+                if first_point:
+                    if next_point != None:
+                        if next_point[1] >= y:
+                            anchors[(x, y)] = label.ANCHOR_TOP_LEFT
+                        else:
+                            anchors[(x, y)] = label.ANCHOR_BOTTOM_LEFT
+                    first_point = False
+                else:
+                    previous_point = self._data[i - 1]
+                    if next_point != None:
+                        if previous_point[1] <= y <= next_point[1]:
+                            anchors[(x, y)] = label.ANCHOR_BOTTOM_RIGHT
+                        elif previous_point[1] > y > next_point[1]:
+                            anchors[(x, y)] = label.ANCHOR_BOTTOM_LEFT
+                        elif previous_point[1] < y and next_point[1] < y:
+                            anchors[(x, y)] = label.ANCHOR_BOTTOM_CENTER
+                        elif previous_point[1] > y and next_point[1] > y:
+                            anchors[(x, y)] = label.ANCHOR_TOP_CENTER
+                    else:
+                        if previous_point[1] >= y:
+                            anchors[(x, y)] = label.ANCHOR_TOP_RIGHT
+                        else:
+                            anchors[(x, y)] = label.ANCHOR_BOTTOM_RIGHT
+                            
+        for x, y in self._data:
+            if (x, y) in anchors and is_in_range(x, xrange) and is_in_range(y, yrange):
+                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
+                value_label = label.Label((ax, ay), str(y), anchor=anchors[(x, y)])
+                value_label.set_color(color_cairo_to_gdk(*self._color))
+                value_label.draw(context, rect)
 
     def _do_draw_title(self, context, rect, last_point):
         """
@@ -1008,39 +1083,22 @@ class Graph(ChartObject):
         @type rect: gtk.gdk.Rectangle
         @param rect: A rectangle representing the charts area.
         """
-        #self._data.sort(lambda x, y: cmp(x[0], y[0]))
         (xrange, yrange) = self._range_calc.get_ranges()
-        c = self._color
-        context.set_source_rgb(c[0], c[1], c[2])
-        previous = None #previous is set to None if a point is not in range
-        last = None #last will not be set to None in this case
-        for (x, y) in self._data:
-            if is_in_range(x, xrange) and is_in_range(y, yrange):
-                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
-                if self._type == GRAPH_POINTS or self._type == GRAPH_BOTH:
-                    context.arc(ax, ay, self._point_size, 0, 2 * math.pi)
-                    context.fill()
-                    context.move_to(ax+2*self._point_size,ay)
-                    if self._show_value:
-                        font_size = rect.height / 50
-                        if font_size < 9: font_size = 9
-                        context.set_font_size(font_size)
-                        context.show_text(str(y))
-                if self._type == GRAPH_LINES or self._type == GRAPH_BOTH:
-                    if previous != None:
-                        context.move_to(previous[0], previous[1])
-                        context.line_to(ax, ay)
-                        context.stroke()
-                previous = (ax, ay)
-                last = (ax, ay)
-            else:
-                previous = None
+                
+        if self._type in [GRAPH_LINES, GRAPH_BOTH]:
+            first_point, last_point = self._do_draw_lines(context, rect, xrange, yrange)
+            
+        if self._type in [GRAPH_POINTS, GRAPH_BOTH]:
+            first_point, last_point = self._do_draw_points(context, rect, xrange, yrange)
 
         if self._fill_to != None:
             self._do_draw_fill(context, rect, xrange)
+        
+        if self._show_value and self._type in [GRAPH_POINTS, GRAPH_BOTH]:
+            self._do_draw_values(context, rect, xrange, yrange)
 
         if self._show_title:
-            self._do_draw_title(context, rect, last)
+            self._do_draw_title(context, rect, last_point)
 
     def get_x_range(self):
         """

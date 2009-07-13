@@ -65,7 +65,6 @@ class Label(ChartObject):
         self._weight = weight
         self._underline = underline
         self._anchor = anchor
-        
         self._rotation = 0 #rotation angle in degrees
         self._color = gtk.gdk.Color()
         
@@ -123,7 +122,7 @@ class Label(ChartObject):
         x, y = get_text_pos(layout, self._position, self._anchor)
         if x < 0: x = 0
         width = rect.width - x
-        layout.set_width(1000 * width)
+        layout.set_width(int(1000 * width))
         
         if text_width >= 0.9 * width:
             #text has to be wrapped => new position needed
