@@ -372,11 +372,13 @@ class MultiBar(ChartObject):
                                     "The label for the bar.", "",
                                     gobject.PARAM_READWRITE)}
     
-    def __init__(self, name, label=""):
+    def __init__(self, name, title=""):
         super(MultiBar, self).__init__()
         self._name = name
-        self._label = label
+        self._label = title
         self.bars = []
+        
+        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_BOTTOM_CENTER)
     
     def do_get_property(self, property):
         if property.name == "visible":
@@ -399,6 +401,7 @@ class MultiBar(ChartObject):
             self._antialias = value
         elif property.name == "label":
             self._label = value
+            self.label_object.set_text(value)
         else:
             raise AttributeError, "Property %s does not exist." % property.name
     
@@ -457,7 +460,7 @@ class MultiBarChart(BarChart):
     def __init__(self):
         super(MultiBarChart, self).__init__()
         self.name_map = {}
-        self.sub_label_rotation_deg = 20.0 # amout of rotation in the sub bar labels
+        self.sub_label_rotation_deg = 320 # amout of rotation in the sub bar labels
     
     def add_bar(self, bar):
         self._bars.append(bar)
@@ -503,7 +506,7 @@ class MultiBarChart(BarChart):
             if not multibar.get_visible(): continue
             multibar_count = len(multibar.bars)
             x = int(rect.width / float(number_of_bars) * bar_index) + rect.x + (bar_padding // 2)
-            max_rotated_height = 0
+            max_real_height = 0
             for sub_bar_index, sub_bar in enumerate(multibar.bars):
                 sub_bar_width = bar_width // multibar_count
                 sub_bar_x = x + sub_bar_width * sub_bar_index
@@ -513,60 +516,39 @@ class MultiBarChart(BarChart):
                 
                 # draw the bar
                 c = sub_bar.get_color()
-                context.set_source_rgb(c[0], c[1], c[2])
-                context.move_to(sub_bar_x, bar_bottom)
-                context.line_to(sub_bar_x, bar_top)
-                context.line_to(sub_bar_x+sub_bar_width, bar_top)
-                context.line_to(sub_bar_x+sub_bar_width, bar_bottom)
-                context.close_path()
+                context.set_source_rgb(*sub_bar.get_color())
+                context.rectangle(sub_bar_x,  bar_bottom - bar_height, sub_bar_width, bar_height)
                 context.fill()
-                context.stroke()
             
                 if sub_bar == self._highlighted:
                     context.set_source_rgba(1, 1, 1, 0.1)
-                    context.move_to(sub_bar_x, bar_bottom)
-                    context.line_to(sub_bar_x, bar_top)
-                    context.line_to(sub_bar_x+sub_bar_width, bar_top)
-                    context.line_to(sub_bar_x+sub_bar_width, bar_bottom)
-                    context.close_path()
+                    context.rectangle(sub_bar_x,  bar_bottom - bar_height, sub_bar_width, bar_height)
                     context.fill()
-                    context.stroke()
                 
                 if self._labels:
+                    horizontal_center = sub_bar_x + (sub_bar_width // 2)
                     # draw the count at the top of the bar
-                    c = sub_bar.get_color()
-                    context.set_source_rgb(c[0], c[1], c[2])
-                    count = '%d' % sub_bar.get_value()
-                    count_height, count_width = context.text_extents(count)[3:5]
-                    count_x = sub_bar_x + (sub_bar_width // 2) - (count_width // 2)
-                    context.move_to(count_x, bar_top-1)
-                    context.show_text(count)
-                    context.stroke()
+                    sub_bar.value_label_object.set_position((horizontal_center, bar_top))
+                    sub_bar.value_label_object.set_color(color_cairo_to_gdk(*sub_bar.get_color()))
+                    sub_bar.value_label_object.set_max_width(sub_bar_width)
+                    sub_bar.value_label_object.draw(context, rect)
                     # draw the label below the bar
-                    #context.set_source_rgb(0, 0, 0)
-                    title = sub_bar.get_label()
-                    label_height, label_width = context.text_extents(title)[3:5]
-                    rotation_rad = math.pi*self.sub_label_rotation_deg / 180.0
-                    rotated_height = max(label_height, abs(math.sin(rotation_rad) * label_width))
-                    rotated_width =  max(label_height, abs(math.cos(rotation_rad) * label_width))
-                    max_rotated_height = max(max_rotated_height, int(rotated_height)+1)
-                    label_x = sub_bar_x + (sub_bar_width // 3)
-                    context.move_to(label_x, bar_bottom + 10)
-                    context.rotate(rotation_rad)
-                    context.show_text(title)
-                    context.rotate(-rotation_rad)
-                    context.stroke()
+                    sub_bar.label_object.set_position((sub_bar_x + 0.7 * sub_bar_width, bar_bottom))
+                    sub_bar.label_object.set_color(color_cairo_to_gdk(*sub_bar.get_color()))
+                    sub_bar.label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
+                    sub_bar.label_object.set_rotation(self.sub_label_rotation_deg)
+                    sub_bar.label_object.draw(context, rect)
+                    real_width, real_height = sub_bar.label_object.get_real_dimensions()
+                    max_real_height = max(max_real_height, real_height)
             
             if self._labels:
                 # draw the label below the bar
-                context.set_source_rgb(0, 0, 0)
-                title = multibar.get_label()
-                label_height, label_width = context.text_extents(title)[3:5]
-                label_x = x + (bar_width // 2) - (label_width // 2)
-                label_y = min(bottom, bar_bottom + max_rotated_height + 25)
-                context.move_to(label_x, label_y)
-                context.show_text(title)
-                context.stroke()
+                horizontal_center = x + (bar_width // 2)
+                vertical_pos = min(bottom, bar_bottom + max_real_height + 15)
+                
+                multibar.label_object.set_position((horizontal_center, vertical_pos))
+                multibar.label_object.set_max_width(bar_width)
+                multibar.label_object.draw(context, rect)
     
     def _get_bar_at_pos(self, x, y):
         if not self._bars:
