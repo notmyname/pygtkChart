@@ -33,6 +33,7 @@ import os
 from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
+from pygtk_chart import label
 
 COLOR_AUTO = 0
 
@@ -56,12 +57,14 @@ class PieArea(ChartObject):
                                     "The label for the area.", "",
                                     gobject.PARAM_READWRITE)}
     
-    def __init__(self, name, value, label=""):
+    def __init__(self, name, value, title=""):
         ChartObject.__init__(self)
         self._name = name
         self._value = value
-        self._label = label
+        self._label = title
         self._color = COLOR_AUTO
+        
+        self.label_object = label.Label((0, 0), title)
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -90,6 +93,7 @@ class PieArea(ChartObject):
             self._color = value
         elif property.name == "label":
             self._label = value
+            self.label_object.set_text(value)
         else:
             raise AttributeError, "Property %s does not exist." % property.name
             
@@ -346,37 +350,39 @@ class PieChart(chart.Chart):
                 context.close_path()
                 context.fill()
         
-            if self._labels:
-                font_name = gtk.Label().style.font_desc.get_family()
-                font_slant = cairo.FONT_SLANT_NORMAL
-                if area == self._highlighted:
-                    font_slant = cairo.FONT_SLANT_ITALIC
-                context.set_source_rgb(*color)
-                
-                label = area.get_label()
-                label_extra = ""
+            if self._labels:                
+                title = area.get_label()
+                title_extra = ""
                 if self._percentage and not self._values:
-                    label_extra = " (%s%%)" % round(100. * area.get_value() / sum, 2)
+                    title_extra = " (%s%%)" % round(100. * area.get_value() / sum, 2)
                 elif not self._percentage and self._values:
-                    label_extra = " (%s)" % area.get_value()
+                    title_extra = " (%s)" % area.get_value()
                 elif self._percentage and self._values:
-                    label_extra = " (%s, %s%%)" % (area.get_value(), round(100. * area.get_value() / sum, 2))
-                label += label_extra
+                    title_extra = " (%s, %s%%)" % (area.get_value(), round(100. * area.get_value() / sum, 2))
+                title += title_extra
+                
                 angle = current_angle_position + area_angle / 2
                 angle = angle % (2 * math.pi)
                 x = center[0] + (radius + 10) * math.cos(angle)
                 y = center[1] + (radius + 10) * math.sin(angle)
                 
-                ref = REF_BOTTOM_LEFT
+                ref = label.ANCHOR_BOTTOM_LEFT
                 if 0 <= angle <= math.pi / 2:
-                    ref = REF_TOP_LEFT
+                    ref = label.ANCHOR_TOP_LEFT
                 elif math.pi / 2 <= angle <= math.pi:
-                    ref = REF_TOP_RIGHT
+                    ref = label.ANCHOR_TOP_RIGHT
                 elif math.pi <= angle <= 1.5 * math.pi:
-                    ref = REF_BOTTOM_RIGHT
-                
-                show_text(context, rect, x, y, label, font_name, rect.height / 30, slant=font_slant, reference_point=ref)
-                context.fill()
+                    ref = label.ANCHOR_BOTTOM_RIGHT
+                    
+                if area == self._highlighted:
+                    area.label_object.set_underline(True)
+                else:
+                    area.label_object.set_underline(False)
+                area.label_object.set_color(color_cairo_to_gdk(*area.get_color()))
+                area.label_object.set_text(title)
+                area.label_object.set_position((x, y))
+                area.label_object.set_anchor(ref)
+                area.label_object.draw(context, rect)
             
             current_angle_position += area_angle
             

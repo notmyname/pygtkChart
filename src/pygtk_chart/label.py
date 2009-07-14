@@ -53,6 +53,14 @@ class Label(ChartObject):
                         "position": (gobject.TYPE_PYOBJECT,
                                     "label position",
                                     "A pair of x,y coordinates.",
+                                    gobject.PARAM_READWRITE),
+                        "anchor": (gobject.TYPE_INT, "label anchor",
+                                    "The anchor of the label.", 0, 9, 0,
+                                    gobject.PARAM_READWRITE),
+                        "underline": (gobject.TYPE_BOOLEAN,
+                                    "underline text",
+                                    "Set whether to underline the text.",
+                                    False,
                                     gobject.PARAM_READWRITE)}
     
     def __init__(self, position, text, font=None, size=None, slant=pango.STYLE_NORMAL, weight=pango.WEIGHT_NORMAL, underline=pango.UNDERLINE_NONE, anchor=ANCHOR_BOTTOM_LEFT):
@@ -79,6 +87,10 @@ class Label(ChartObject):
             return self._color
         elif property.name == "position":
             return self._position
+        elif property.name == "anchor":
+            return self._anchor
+        elif property.name == "underline":
+            return self._underline
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -93,6 +105,10 @@ class Label(ChartObject):
             self._color = value
         elif property.name == "position":
             self._position = value
+        elif property.name == "anchor":
+            self._anchor = value
+        elif property.name == "underline":
+            self._underline = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -119,16 +135,16 @@ class Label(ChartObject):
         text_width, text_height = layout.get_pixel_size()
         
         #find out where to draw the layout and calculate the maximum width
-        x, y = get_text_pos(layout, self._position, self._anchor)
-        if x < 0: x = 0
-        width = rect.width - x
+        width = rect.width
+        if self._anchor in [ANCHOR_BOTTOM_LEFT, ANCHOR_TOP_LEFT, ANCHOR_LEFT_CENTER]:
+            width = rect.width - self._position[0]
+        elif self._anchor in [ANCHOR_BOTTOM_RIGHT, ANCHOR_TOP_RIGHT, ANCHOR_RIGHT_CENTER]:
+            width = self._position[0]
+        
+        layout.set_wrap(pango.WRAP_WORD_CHAR)
         layout.set_width(int(1000 * width))
         
-        if text_width >= 0.9 * width:
-            #text has to be wrapped => new position needed
-            layout.set_wrap(pango.WRAP_WORD_CHAR)
-            x, y = get_text_pos(layout, self._position, self._anchor)
-            if x < 0: x = 0
+        x, y = get_text_pos(layout, self._position, self._anchor)
         
         #draw layout
         context.move_to(x, y)
@@ -156,6 +172,20 @@ class Label(ChartObject):
         
     def get_position(self):
         return self.get_property("position")
+        
+    def set_anchor(self, anchor):
+        self.set_property("anchor", anchor)
+        self.emit("appearance_changed")
+        
+    def get_anchor(self):
+        return self.get_property("anchor")
+        
+    def set_underline(self, underline):
+        self.set_property("underline", underline)
+        self.emit("appearance_changed")
+        
+    def get_underline(self):
+        return self.get_property("underline")
         
 def get_text_pos(layout, pos, anchor):
     text_width, text_height = layout.get_pixel_size()
