@@ -14,6 +14,7 @@ import math # for pi
 from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
+from pygtk_chart import label
 
 COLOR_AUTO = 0
 
@@ -34,12 +35,15 @@ class Bar(ChartObject):
                                     "The label for the bar.", "",
                                     gobject.PARAM_READWRITE)}
     
-    def __init__(self, name, value, label=""):
+    def __init__(self, name, value, title=""):
         super(Bar, self).__init__()
         self._name = name
         self._value = value
-        self._label = label
+        self._label = title
         self._color = COLOR_AUTO
+        
+        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_CENTER)
+        self.value_label_object = label.Label((0, 0), "%d" % value, anchor=label.ANCHOR_BOTTOM_CENTER)
     
     def do_get_property(self, property):
         if property.name == "visible":
@@ -64,10 +68,12 @@ class Bar(ChartObject):
             self._antialias = value
         elif property.name == "value":
             self._value = value
+            self.value_label_object.set_text("%d" % value)
         elif property.name == "color":
             self._color = value
         elif property.name == "label":
             self._label = value
+            self.label_object.set_text(value)
         else:
             raise AttributeError, "Property %s does not exist." % property.name
     
@@ -239,44 +245,29 @@ class BarChart(chart.Chart):
             bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
             
             # draw the bar
-            c = info.get_color()
-            context.set_source_rgb(c[0], c[1], c[2])
-            context.move_to(x, bar_bottom)
-            context.line_to(x, bar_top)
-            context.line_to(x+bar_width, bar_top)
-            context.line_to(x+bar_width, bar_bottom)
-            context.close_path()
+            context.set_source_rgb(*info.get_color())
+            context.rectangle(x,  bar_bottom - bar_height, bar_width, bar_height)
             context.fill()
-            context.stroke()
             
             if info == self._highlighted:
                 context.set_source_rgba(1, 1, 1, 0.1)
-                context.move_to(x, bar_bottom)
-                context.line_to(x, bar_top)
-                context.line_to(x+bar_width, bar_top)
-                context.line_to(x+bar_width, bar_bottom)
-                context.close_path()
+                context.rectangle(x,  bar_bottom - bar_height, bar_width, bar_height)
                 context.fill()
-                context.stroke()
             
             if self._labels:
+                horizontal_center = x + (bar_width // 2)
+                
                 # draw the label below the bar
-                c = info.get_color()
-                context.set_source_rgb(c[0], c[1], c[2])
-                title = info.get_label()
-                label_height, label_width = context.text_extents(title)[3:5]
-                label_x = x + (bar_width // 2) - (label_width // 2)
-                context.move_to(label_x, bottom * .95)
-                context.show_text(title)
-                context.stroke()
+                info.label_object.set_color(color_cairo_to_gdk(*info.get_color()))
+                info.label_object.set_max_width(bar_width)
+                info.label_object.set_position((horizontal_center, bottom * .95))
+                info.label_object.draw(context, rect)
                 
                 # draw the count at the top of the bar
-                count = '%d' % info.get_value()
-                count_height, count_width = context.text_extents(count)[3:5]
-                count_x = x + (bar_width // 2) - (count_width // 2)
-                context.move_to(count_x, bar_top-1)
-                context.show_text(count)
-                context.stroke()
+                info.value_label_object.set_color(color_cairo_to_gdk(*info.get_color()))
+                info.value_label_object.set_max_width(bar_width)
+                info.value_label_object.set_position((horizontal_center, bar_top))
+                info.value_label_object.draw(context, rect)
     
     def draw(self, context):
         """
