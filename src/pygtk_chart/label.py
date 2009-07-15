@@ -214,8 +214,8 @@ class Label(ChartObject):
         layout.set_wrap(pango.WRAP_WORD_CHAR)
         layout.set_width(int(1000 * width))
         
-        x, y = get_text_pos(layout, self._position, self._anchor)
-        y -= text_width * math.sin(angle)
+        x, y = get_text_pos(layout, self._position, self._anchor, angle)
+        #y -= text_width * math.sin(angle)
         
         #draw layout
         context.move_to(x, y)
@@ -474,20 +474,23 @@ class Label(ChartObject):
         """
         return self._real_dimensions
         
-def get_text_pos(layout, pos, anchor):
+def get_text_pos(layout, pos, anchor, angle):
     """
     This function calculates the position of bottom left point of the
     layout respecting the given anchor point.
     
     @return: (x, y) pair
     """
-    text_width, text_height = layout.get_pixel_size()
+    text_width_n, text_height_n = layout.get_pixel_size()
+    text_width = text_width_n * abs(math.cos(angle)) + text_height_n * abs(math.sin(angle))
+    text_height = text_height_n * abs(math.cos(angle)) + text_width_n * abs(math.sin(angle))
+    height_delta = text_height - text_height_n
     x, y = pos
     ref = (0, -text_height)
     if anchor == ANCHOR_TOP_LEFT:
         ref = (0, 0)
     elif anchor == ANCHOR_TOP_RIGHT:
-        ref = (-text_width, 0)
+        ref = (-text_width, height_delta)
     elif anchor == ANCHOR_BOTTOM_RIGHT:
         ref = (-text_width, -text_height)
     elif anchor == ANCHOR_CENTER:

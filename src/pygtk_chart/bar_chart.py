@@ -497,7 +497,7 @@ class MultiBarChart(BarChart):
         total_height = int(rect.height * bar_height_factor) # maximum height for a bar
         bottom = rect.height # y-value of bottom of bar chart
         bar_bottom = bottom * (1.0 - bar_vertical_padding)
-        bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
+        bar_width = int((rect.width - (bar_padding * number_of_bars)) / number_of_bars)
         
         font_size = 12
         context.set_font_size(font_size)
@@ -533,7 +533,7 @@ class MultiBarChart(BarChart):
                     sub_bar.value_label_object.set_max_width(sub_bar_width)
                     sub_bar.value_label_object.draw(context, rect)
                     # draw the label below the bar
-                    sub_bar.label_object.set_position((sub_bar_x + 0.7 * sub_bar_width, bar_bottom))
+                    sub_bar.label_object.set_position((sub_bar_x + 0.7 * sub_bar_width, bar_bottom + 3))
                     sub_bar.label_object.set_color(color_cairo_to_gdk(*sub_bar.get_color()))
                     sub_bar.label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
                     sub_bar.label_object.set_rotation(self.sub_label_rotation_deg)
@@ -557,7 +557,7 @@ class MultiBarChart(BarChart):
         number_of_bars = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
         bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = .8 # percentage of total height the bars will use
+        bar_height_factor = .7 # percentage of total height the bars will use
         bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
         total_height = int(rect.height * bar_height_factor) # maximum height for a bar
         bottom = rect.height # y-value of bottom of bar chart
