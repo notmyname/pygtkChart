@@ -57,10 +57,9 @@ class Label(ChartObject):
                         "anchor": (gobject.TYPE_INT, "label anchor",
                                     "The anchor of the label.", 0, 9, 0,
                                     gobject.PARAM_READWRITE),
-                        "underline": (gobject.TYPE_BOOLEAN,
+                        "underline": (gobject.TYPE_PYOBJECT,
                                     "underline text",
                                     "Set whether to underline the text.",
-                                    False,
                                     gobject.PARAM_READWRITE),
                         "max-width": (gobject.TYPE_INT, "maximum width",
                                         "The maximum width of the label.",
@@ -68,19 +67,26 @@ class Label(ChartObject):
                                         gobject.PARAM_READWRITE),
                         "rotation": (gobject.TYPE_INT, "rotation of the label",
                                     "The angle that the label should be rotated by in degrees.",
-                                    0, 360, 0, gobject.PARAM_READWRITE)}
+                                    0, 360, 0, gobject.PARAM_READWRITE),
+                        "size": (gobject.TYPE_INT, "text size",
+                                "The size of the text.", 0, 1000, 8,
+                                gobject.PARAM_READWRITE),
+                        "slant": (gobject.TYPE_PYOBJECT, "font slant",
+                                "The font slant style.", 
+                                gobject.PARAM_READWRITE),
+                        "weight": (gobject.TYPE_PYOBJECT, "font weight",
+                                "The font weight.", gobject.PARAM_READWRITE)}
     
-    def __init__(self, position, text, font=None, size=None, slant=pango.STYLE_NORMAL, weight=pango.WEIGHT_NORMAL, underline=pango.UNDERLINE_NONE, anchor=ANCHOR_BOTTOM_LEFT, max_width=99999):
+    def __init__(self, position, text, size=None, slant=pango.STYLE_NORMAL, weight=pango.WEIGHT_NORMAL, underline=pango.UNDERLINE_NONE, anchor=ANCHOR_BOTTOM_LEFT, max_width=99999):
         ChartObject.__init__(self)
         self._position = position
         self._text = text
-        self._font = font
         self._size = size
         self._slant = slant
         self._weight = weight
         self._underline = underline
         self._anchor = anchor
-        self._rotation = 0 #rotation angle in degrees
+        self._rotation = 0
         self._color = gtk.gdk.Color()
         self._max_width = max_width
         
@@ -105,6 +111,12 @@ class Label(ChartObject):
             return self._max_width
         elif property.name == "rotation":
             return self._rotation
+        elif property.name == "size":
+            return self._size
+        elif property.name == "slant":
+            return self._slant
+        elif property.name == "weight":
+            return self._weight
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -127,6 +139,12 @@ class Label(ChartObject):
             self._max_width = value
         elif property.name == "rotation":
             self._rotation = value
+        elif property.name == "size":
+            self._size = value
+        elif property.name == "slant":
+            self._slant = value
+        elif property.name == "weight":
+            self._weight = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -136,9 +154,7 @@ class Label(ChartObject):
     def _do_draw_label(self, context, rect):
         angle = 2 * math.pi * self._rotation / 360.0
         label = gtk.Label()
-        pango_context = label.create_pango_context()
-        #if self._font == None:
-        #    font = label.style.font_desc.get_family()            
+        pango_context = label.create_pango_context()          
         
         attrs = pango.AttrList()
         attrs.insert(pango.AttrWeight(self._weight, 0, len(self._text)))
@@ -230,6 +246,27 @@ class Label(ChartObject):
         
     def get_rotation(self):
         return self.get_property("rotation")
+        
+    def set_size(self, size):
+        self.set_property("size", size)
+        self.emit("appearance_changed")
+        
+    def get_size(self):
+        return self.get_property("size")
+        
+    def set_slant(self, slant):
+        self.set_property("slant", slant)
+        self.emit("appearance_changed")
+        
+    def get_slant(self):
+        return self.get_property("slant")
+        
+    def set_weight(self, weight):
+        self.set_property("weight", weight)
+        self.emit("appearance_changed")
+        
+    def get_weight(self):
+        return self.get_property("weight")
         
     def get_real_dimensions(self):
         return self._real_dimensions
