@@ -18,13 +18,20 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
+"""
+This module contains the ChartObject class.
+
+Author: Sven Festersen (sven@sven-festersen.de)
+"""
 import cairo
 import gobject
 
 class ChartObject(gobject.GObject):
     """
-    This is the base class for all things that can be drawn in a chart,
-    e.g. title, axes, graphs,...
+    This is the base class for all things that can be drawn on a chart
+    widget.
+    It emits the signal 'appearance-changed' when it needs to be
+    redrawn.
     """
     
     __gsignals__ = {"appearance-changed": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])}
@@ -101,6 +108,11 @@ class ChartObject(gobject.GObject):
         self.emit("appearance_changed")
         
     def get_antialias(self):
+        """
+        Returns True if antialiasing is enabled for the object.
+        
+        @return: boolean.
+        """
         return self.get_property("antialias")
         
     def set_visible(self, visible):
@@ -115,6 +127,11 @@ class ChartObject(gobject.GObject):
         self.emit("appearance_changed")
         
     def get_visible(self):
+        """
+        Returns True if the object is visble.
+        
+        @return: boolean.
+        """
         return self.get_property("visible")
         
 
