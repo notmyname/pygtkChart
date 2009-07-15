@@ -492,7 +492,7 @@ class MultiBarChart(BarChart):
         number_of_bars = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
         bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = .8 # percentage of total height the bars will use
+        bar_height_factor = .7 # percentage of total height the bars will use
         bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
         total_height = int(rect.height * bar_height_factor) # maximum height for a bar
         bottom = rect.height # y-value of bottom of bar chart
