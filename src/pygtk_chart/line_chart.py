@@ -511,11 +511,13 @@ class XAxis(Axis):
     def _do_draw_tics(self, context, rect, yaxis):
         if self._show_tics:
             tics = self._range_calc.get_xtics(rect)
-
-            #select font size
-            font_size = rect.height / 50
-            if font_size < 9: font_size = 9
-            context.set_font_size(font_size)
+            
+            #calculate yaxis position
+            (zx, zy) = self._range_calc.get_absolute_zero(rect)
+            if yaxis.get_position() == POSITION_LEFT:
+                zx = rect.width * GRAPH_PADDING
+            elif yaxis.get_position() == POSITION_RIGHT:
+                zx = rect.width * (1 - GRAPH_PADDING)
 
             for ((x,y), val) in tics:
                 if self._position == POSITION_TOP:
@@ -527,8 +529,10 @@ class XAxis(Axis):
                 context.rel_line_to(0, - tic_height)
                 context.stroke()
                 
-                
                 if self._show_tic_labels:
+                    if abs(x - zx) < 10:
+                        #the distance to the yaxis is to small => do not draw label
+                        continue
                     pos = x, y + tic_height
                     text = self._tic_format_function(val)
                     tic_label = label.Label(pos, text, anchor=label.ANCHOR_TOP_CENTER)
@@ -588,10 +592,12 @@ class YAxis(Axis):
         if self._show_tics:
             tics = self._range_calc.get_ytics(rect)
 
-            #select font size
-            font_size = rect.height / 50
-            #if font_size < 9: font_size = 9
-            context.set_font_size(font_size)
+            #calculate xaxis position
+            (zx, zy) = self._range_calc.get_absolute_zero(rect)
+            if xaxis.get_position() == POSITION_BOTTOM:
+                zy = rect.height * (1 - GRAPH_PADDING)
+            elif xaxis.get_position() == POSITION_TOP:
+                zy = rect.height * GRAPH_PADDING
 
             for ((x,y), val) in tics:
                 if self._position == POSITION_LEFT:
@@ -604,6 +610,10 @@ class YAxis(Axis):
                 context.stroke()
 
                 if self._show_tic_labels:
+                    if abs(y - zy) < 10:
+                        #distance to xaxis is to small => do not draw label
+                        continue
+                        
                     pos = x - tic_width, y
                     text = self._tic_format_function(val)
                     tic_label = label.Label(pos, text, anchor=label.ANCHOR_RIGHT_CENTER)
