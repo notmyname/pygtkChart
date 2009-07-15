@@ -375,9 +375,9 @@ class PieChart(chart.Chart):
                     ref = label.ANCHOR_BOTTOM_RIGHT
                     
                 if area == self._highlighted:
-                    area.label_object.set_underline(True)
+                    area.label_object.set_underline(label.UNDERLINE_SINGLE)
                 else:
-                    area.label_object.set_underline(False)
+                    area.label_object.set_underline(label.UNDERLINE_NONE)
                 area.label_object.set_color(color_cairo_to_gdk(*area.get_color()))
                 area.label_object.set_text(title)
                 area.label_object.set_position((x, y))
