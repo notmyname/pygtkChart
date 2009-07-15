@@ -24,7 +24,6 @@ Module Contents
 ===============
 This is the main module. It contains the base classes for chart widgets.
  - class Chart: base class for all chart widgets.
- - class ChartObject: base class for all things that can be drawn on a chart.
  - class Background: background of a chart widget.
  - class Title: title of a chart.
 

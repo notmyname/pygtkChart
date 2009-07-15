@@ -28,12 +28,6 @@ import cairo
 import gtk
 import os
 
-REF_BOTTOM_LEFT = 0
-REF_TOP_LEFT = 1
-REF_TOP_RIGHT = 2
-REF_BOTTOM_RIGHT = 4
-
-
 def is_in_range(x, (xmin, xmax)):
     """
     Use this method to test whether M{xmin <= x <= xmax}.
@@ -109,25 +103,4 @@ def color_list_from_file(filename):
             line = line.strip()
             result.append(color_html_to_cairo(line))
     return result
-    
-def show_text(context, rect, x, y, text, font, size, slant=cairo.FONT_SLANT_NORMAL, weight=cairo.FONT_WEIGHT_NORMAL, underline=False, reference_point=REF_BOTTOM_LEFT):
-    context.set_font_size(max(size, 8))
-    context.select_font_face(font, slant, weight)
-    
-    text_dimensions = context.text_extents(text)
-    text_width = text_dimensions[2]
-    text_height = text_dimensions[3]
-    
-    ref = (0, 0)
-    if reference_point == REF_TOP_LEFT:
-        ref = (0, text_height)
-    elif reference_point == REF_TOP_RIGHT:
-        ref = (-text_width, text_height)
-    elif reference_point == REF_BOTTOM_RIGHT:
-        ref = (-text_width, 0)
-    x = x + ref[0]
-    y = y + ref[1]
-    
-    context.move_to(x, y)
-    context.show_text(text)
 
