@@ -61,21 +61,28 @@ WEIGHT_ULTRABOLD = pango.WEIGHT_ULTRABOLD
 WEIGHT_HEAVY = pango.WEIGHT_HEAVY
 
 
+DRAWING_INITIALIZED = False
 REGISTERED_LABELS = []
 
 
 def begin_drawing():
-    pass
+    global DRAWING_INITIALIZED
+    DRAWING_INITIALIZED = True
     
 def finish_drawing():
     global REGISTERED_LABELS
+    global DRAWING_INITIALIZED
     REGISTERED_LABELS = []
+    DRAWING_INITIALIZED = False
     
 def register_label(label):
-    REGISTERED_LABELS.append(label)
+    if DRAWING_INITIALIZED:
+        REGISTERED_LABELS.append(label)
     
 def get_registered_labels():
-    return REGISTERED_LABELS
+    if DRAWING_INITIALIZED:
+        return REGISTERED_LABELS
+    return []
 
 
 class Label(ChartObject):
