@@ -42,8 +42,8 @@ class Bar(ChartObject):
         self._label = title
         self._color = COLOR_AUTO
         
-        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_CENTER)
-        self.value_label_object = label.Label((0, 0), "%d" % value, anchor=label.ANCHOR_BOTTOM_CENTER)
+        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_CENTER, fixed=True)
+        self.value_label_object = label.Label((0, 0), "%d" % value, anchor=label.ANCHOR_BOTTOM_CENTER, fixed=True)
     
     def do_get_property(self, property):
         if property.name == "visible":
@@ -278,6 +278,8 @@ class BarChart(chart.Chart):
         @type context: cairo.Context
         @param context: The context to draw on.
         """
+        label.begin_drawing()
+        
         rect = self.get_allocation()
         #initial context settings: line width & font
         context.set_line_width(1)
@@ -287,6 +289,8 @@ class BarChart(chart.Chart):
                                     
         self.draw_basics(context, rect)
         self._do_draw_bars(context, rect)
+        
+        label.finish_drawing()
     
     def add_bar(self, bar):
         color = bar.get_color()
@@ -378,7 +382,7 @@ class MultiBar(ChartObject):
         self._label = title
         self.bars = []
         
-        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_BOTTOM_CENTER)
+        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_BOTTOM_CENTER, fixed=True)
     
     def do_get_property(self, property):
         if property.name == "visible":

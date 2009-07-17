@@ -240,6 +240,7 @@ class LineChart(chart.Chart):
         @type context: cairo.Context
         @param context: The context to draw on.
         """
+        label.begin_drawing()
         rect = self.get_allocation()
         self._range_calc.prepare_tics(rect)
         #initial context settings: line width & font
@@ -257,8 +258,9 @@ class LineChart(chart.Chart):
 
         if self.graphs and data_available:
             self.grid.draw(context, rect)
-            self._do_draw_graphs(context, rect)
             self._do_draw_axes(context, rect)
+            self._do_draw_graphs(context, rect)
+        label.finish_drawing()
 
     def add_graph(self, graph):
         """
@@ -535,11 +537,11 @@ class XAxis(Axis):
                         continue
                     pos = x, y + tic_height
                     text = self._tic_format_function(val)
-                    tic_label = label.Label(pos, text, anchor=label.ANCHOR_TOP_CENTER)
+                    tic_label = label.Label(pos, text, anchor=label.ANCHOR_TOP_CENTER, fixed=True)
                     tic_label.draw(context, rect)
 
     def _do_draw_label(self, context, rect, pos):
-        axis_label = label.Label(pos, self._label, anchor=label.ANCHOR_LEFT_CENTER)
+        axis_label = label.Label(pos, self._label, anchor=label.ANCHOR_LEFT_CENTER, fixed=True)
         axis_label.draw(context, rect)
 
     def _do_draw(self, context, rect, yaxis):
@@ -616,12 +618,12 @@ class YAxis(Axis):
                         
                     pos = x - tic_width, y
                     text = self._tic_format_function(val)
-                    tic_label = label.Label(pos, text, anchor=label.ANCHOR_RIGHT_CENTER)
+                    tic_label = label.Label(pos, text, anchor=label.ANCHOR_RIGHT_CENTER, fixed=True)
                     tic_label.draw(context, rect)
 
 
     def _do_draw_label(self, context, rect, pos):
-        axis_label = label.Label(pos, self._label, anchor=label.ANCHOR_BOTTOM_CENTER)
+        axis_label = label.Label(pos, self._label, anchor=label.ANCHOR_BOTTOM_CENTER, fixed=True)
         axis_label.draw(context, rect)
 
     def _do_draw(self, context, rect, xaxis):

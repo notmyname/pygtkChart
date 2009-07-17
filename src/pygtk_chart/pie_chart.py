@@ -309,6 +309,8 @@ class PieChart(chart.Chart):
         @type context: cairo.Context
         @param context: The context to draw on.
         """
+        label.begin_drawing()
+        
         rect = self.get_allocation()
         #initial context settings: line width & font
         context.set_line_width(1)
@@ -319,6 +321,8 @@ class PieChart(chart.Chart):
         self.draw_basics(context, rect)
         self._do_draw_shadow(context, rect)
         self._do_draw_areas(context, rect)
+        
+        label.finish_drawing()
         
     def _do_draw_areas(self, context, rect):
         center = rect.width / 2, rect.height / 2

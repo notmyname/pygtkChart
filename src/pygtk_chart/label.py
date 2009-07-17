@@ -61,6 +61,23 @@ WEIGHT_ULTRABOLD = pango.WEIGHT_ULTRABOLD
 WEIGHT_HEAVY = pango.WEIGHT_HEAVY
 
 
+REGISTERED_LABELS = []
+
+
+def begin_drawing():
+    pass
+    
+def finish_drawing():
+    global REGISTERED_LABELS
+    REGISTERED_LABELS = []
+    
+def register_label(label):
+    REGISTERED_LABELS.append(label)
+    
+def get_registered_labels():
+    return REGISTERED_LABELS
+
+
 class Label(ChartObject):
     """
     This class is used for drawing all the text on the chart widgets.
@@ -100,13 +117,17 @@ class Label(ChartObject):
                                 "The font slant style.", 
                                 gobject.PARAM_READWRITE),
                         "weight": (gobject.TYPE_PYOBJECT, "font weight",
-                                "The font weight.", gobject.PARAM_READWRITE)}
+                                "The font weight.", gobject.PARAM_READWRITE),
+                        "fixed": (gobject.TYPE_BOOLEAN, "fixed",
+                                    "Set whether the position of the label should be forced.",
+                                    False, gobject.PARAM_READWRITE)}
     
     def __init__(self, position, text, size=None,
                     slant=pango.STYLE_NORMAL,
                     weight=pango.WEIGHT_NORMAL,
                     underline=pango.UNDERLINE_NONE,
-                    anchor=ANCHOR_BOTTOM_LEFT, max_width=99999):
+                    anchor=ANCHOR_BOTTOM_LEFT, max_width=99999,
+                    fixed=False):
         ChartObject.__init__(self)
         self._position = position
         self._text = text
@@ -118,8 +139,10 @@ class Label(ChartObject):
         self._rotation = 0
         self._color = gtk.gdk.Color()
         self._max_width = max_width
+        self._fixed = fixed
         
         self._real_dimension = (0, 0)
+        self._real_position = (0, 0)
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -146,6 +169,8 @@ class Label(ChartObject):
             return self._slant
         elif property.name == "weight":
             return self._weight
+        elif property.name == "fixed":
+            return self._fixed
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -174,6 +199,8 @@ class Label(ChartObject):
             self._slant = value
         elif property.name == "weight":
             self._weight = value
+        elif property.name == "fixed":
+            self._fixed = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -215,7 +242,28 @@ class Label(ChartObject):
         layout.set_width(int(1000 * width))
         
         x, y = get_text_pos(layout, self._position, self._anchor, angle)
-        #y -= text_width * math.sin(angle)
+        
+        if not self._fixed:
+            #Find already drawn labels that would intersect with the current one
+            #and adjust position to avoid intersection.
+            text_width, text_height = layout.get_pixel_size()
+            real_width = abs(text_width * math.cos(angle)) + abs(text_height * math.sin(angle))
+            real_height = abs(text_height * math.cos(angle)) + abs(text_width * math.sin(angle))
+            
+            other_labels = get_registered_labels()
+            this_rect = gtk.gdk.Rectangle(int(x), int(y), int(real_width), int(real_height))
+            for label in other_labels:
+                label_rect = label.get_allocation()
+                intersection = this_rect.intersect(label_rect)
+                if intersection.width == 0 and intersection.height == 0:
+                    continue
+                
+                y_diff = 0
+                if label_rect.y <= y and label_rect.y + label_rect.height >= y:
+                    y_diff = y - label_rect.y + label_rect.height
+                elif label_rect.y > y and label_rect.y < y + real_height:
+                    y_diff = label_rect.y - real_height - y
+                y += y_diff
         
         #draw layout
         context.move_to(x, y)
@@ -230,6 +278,9 @@ class Label(ChartObject):
         real_width = abs(text_width * math.cos(angle)) + abs(text_height * math.sin(angle))
         real_height = abs(text_height * math.cos(angle)) + abs(text_width * math.sin(angle))
         self._real_dimensions = real_width, real_height
+        self._real_position = x, y
+        
+        register_label(self)
         
     def set_text(self, text):
         """
@@ -464,6 +515,25 @@ class Label(ChartObject):
         """
         return self.get_property("weight")
         
+    def set_fixed(self, fixed):
+        """
+        Set whether the position of the label should be forced
+        (fixed=True) or if it should be positioned avoiding intersection
+        with other labels.
+        
+        @type fixed: boolean.
+        """
+        self.set_property("fixed", fixed)
+        self.emit("appearance_changed")
+        
+    def get_fixed(self):
+        """
+        Returns True if the label's position is forced.
+        
+        @return: boolean
+        """
+        return self.get_property("fixed")
+        
     def get_real_dimensions(self):
         """
         This method returns a pair (width, height) with the dimensions
@@ -473,6 +543,24 @@ class Label(ChartObject):
         @return: a (width, height) pair.
         """
         return self._real_dimensions
+        
+    def get_real_position(self):
+        """
+        Returns the position of the label where it was really drawn.
+        
+        @return: a (x, y) pair.
+        """
+        return self._real_position
+        
+    def get_allocation(self):
+        """
+        Returns an allocation rectangle.
+        
+        @return: gtk.gdk.Rectangle.
+        """
+        x, y = self._real_position
+        w, h = self._real_dimensions
+        return gtk.gdk.Rectangle(int(x), int(y), int(w), int(h))
         
 def get_text_pos(layout, pos, anchor, angle):
     """
