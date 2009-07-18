@@ -464,7 +464,7 @@ class MultiBarChart(BarChart):
     def __init__(self):
         super(MultiBarChart, self).__init__()
         self.name_map = {}
-        self.sub_label_rotation_deg = 320 # amout of rotation in the sub bar labels
+        self.sub_label_rotation_deg = 300 # amout of rotation in the sub bar labels
     
     def add_bar(self, bar):
         self._bars.append(bar)
@@ -537,7 +537,10 @@ class MultiBarChart(BarChart):
                     sub_bar.value_label_object.set_max_width(sub_bar_width)
                     sub_bar.value_label_object.draw(context, rect)
                     # draw the label below the bar
-                    sub_bar.label_object.set_position((sub_bar_x + 0.7 * sub_bar_width, bar_bottom + 3))
+                    sub_bar.label_object.set_position((sub_bar_x + 0.7 * sub_bar_width, bar_bottom + 8))
+                    if bar_index == 0 and sub_bar_index == 0:
+                        #don't wrap the label of the first bar as it would be always wrapped otherwise
+                        sub_bar.label_object.set_wrap(False)
                     sub_bar.label_object.set_color(color_cairo_to_gdk(*sub_bar.get_color()))
                     sub_bar.label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
                     sub_bar.label_object.set_rotation(self.sub_label_rotation_deg)

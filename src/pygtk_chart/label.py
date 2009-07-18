@@ -127,6 +127,9 @@ class Label(ChartObject):
                                 "The font weight.", gobject.PARAM_READWRITE),
                         "fixed": (gobject.TYPE_BOOLEAN, "fixed",
                                     "Set whether the position of the label should be forced.",
+                                    False, gobject.PARAM_READWRITE),
+                        "wrap": (gobject.TYPE_BOOLEAN, "wrap text",
+                                    "Set whether text should be wrapped.",
                                     False, gobject.PARAM_READWRITE)}
     
     def __init__(self, position, text, size=None,
@@ -147,6 +150,7 @@ class Label(ChartObject):
         self._color = gtk.gdk.Color()
         self._max_width = max_width
         self._fixed = fixed
+        self._wrap = True
         
         self._real_dimension = (0, 0)
         self._real_position = (0, 0)
@@ -178,6 +182,8 @@ class Label(ChartObject):
             return self._weight
         elif property.name == "fixed":
             return self._fixed
+        elif property.name == "wrap":
+            return self._wrap
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -208,6 +214,8 @@ class Label(ChartObject):
             self._weight = value
         elif property.name == "fixed":
             self._fixed = value
+        elif property.name == "wrap":
+            self._wrap = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -245,7 +253,8 @@ class Label(ChartObject):
         width = width * math.cos(angle)
         width = min(width, self._max_width)
         
-        layout.set_wrap(pango.WRAP_WORD_CHAR)
+        if self._wrap:
+            layout.set_wrap(pango.WRAP_WORD_CHAR)
         layout.set_width(int(1000 * width))
         
         x, y = get_text_pos(layout, self._position, self._anchor, angle)
@@ -541,6 +550,23 @@ class Label(ChartObject):
         """
         return self.get_property("fixed")
         
+    def set_wrap(self, wrap):
+        """
+        Set whether too long text should be wrapped.
+        
+        @type wrap: boolean.
+        """
+        self.set_property("wrap", wrap)
+        self.emit("appearance_changed")
+        
+    def get_wrap(self):
+        """
+        Returns True if too long text should be wrapped.
+        
+        @return: boolean.
+        """
+        return self.get_property("wrap")
+        
     def get_real_dimensions(self):
         """
         This method returns a pair (width, height) with the dimensions
@@ -568,6 +594,7 @@ class Label(ChartObject):
         x, y = self._real_position
         w, h = self._real_dimensions
         return gtk.gdk.Rectangle(int(x), int(y), int(w), int(h))
+    
         
 def get_text_pos(layout, pos, anchor, angle):
     """
