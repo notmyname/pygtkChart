@@ -47,6 +47,8 @@ from pygtk_chart.chart_object import ChartObject
 from pygtk_chart.basics import *
 from pygtk_chart import label
 
+COLOR_AUTO = 0
+
 
 class Chart(gtk.DrawingArea):
     """
@@ -290,3 +292,125 @@ class Title(label.Label):
         self._size = int(rect.height / 50.0)
         self._position = rect.width / 2, rect.height / 80
         self._do_draw_label(context, rect)
+        
+        
+class Area(ChartObject):
+    
+    __gproperties__ = {"name": (gobject.TYPE_STRING, "area name",
+                                "A unique name for the area.",
+                                "", gobject.PARAM_READABLE),
+                        "value": (gobject.TYPE_FLOAT,
+                                    "value",
+                                    "The value.",
+                                    0.0, 9999999999.0, 0.0, gobject.PARAM_READWRITE),
+                        "color": (gobject.TYPE_PYOBJECT, "area color",
+                                    "The color of the area.",
+                                    gobject.PARAM_READWRITE),
+                        "label": (gobject.TYPE_STRING, "area label",
+                                    "The label for the area.", "",
+                                    gobject.PARAM_READWRITE),
+                        "highlighted": (gobject.TYPE_BOOLEAN, "area is higlighted",
+                                        "Set whether the area should be higlighted.",
+                                        False, gobject.PARAM_READWRITE)}
+    
+    def __init__(self, name, value, title=""):
+        ChartObject.__init__(self)
+        self._name = name
+        self._value = value
+        self._label = title
+        self._color = COLOR_AUTO
+        self._highlighted = False
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "name":
+            return self._name
+        elif property.name == "value":
+            return self._value
+        elif property.name == "color":
+            return self._color
+        elif property.name == "label":
+            return self._label
+        elif property.name == "highlighted":
+            return self._highlighted
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "value":
+            self._value = value
+        elif property.name == "color":
+            self._color = value
+        elif property.name == "label":
+            self._label = value
+        elif property.name == "highlighted":
+            self._highlighted = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def set_value(self, value):
+        """
+        Set the value of the area.
+        
+        @type value: float.
+        """
+        self.set_property("value", value)
+        self.emit("appearance_changed")
+        
+    def get_value(self):
+        """
+        Returns the current value of the area.
+        
+        @return: float.
+        """
+        return self.get_property("value")
+        
+    def set_color(self, color):
+        """
+        Set the color of the area. Color has to either COLOR_AUTO or
+        a tuple (r, g, b) with r, g, b in [0, 1].
+        
+        @type color: a color.
+        """
+        self.set_property("color", color)
+        self.emit("appearance_changed")
+        
+    def get_color(self):
+        """
+        Returns the current color of the area or COLOR_AUTO.
+        
+        @return: a color.
+        """
+        return self.get_property("color")
+        
+    def set_label(self, label):
+        """
+        Set the label for the area.
+        
+        @param label: the new label
+        @type label: string.
+        """
+        self.set_property("label", label)
+        self.emit("appearance_changed")
+        
+    def get_label(self):
+        """
+        Returns the current label of the area.
+        
+        @return: string.
+        """
+        return self.get_property("label")
+        
+    def set_highlighted(self, highlighted):
+        self.set_property("highlighted", highlighted)
+        self.emit("appearance_changed")
+        
+    def get_highlighted(self):
+        return self.get_property("highlighted")

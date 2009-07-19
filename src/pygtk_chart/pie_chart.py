@@ -41,114 +41,60 @@ COLOR_AUTO = 0
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
-class PieArea(ChartObject):
-    
-    __gproperties__ = {"name": (gobject.TYPE_STRING, "pie are name",
-                                "A unique name for the pie area.",
-                                "", gobject.PARAM_READABLE),
-                        "value": (gobject.TYPE_FLOAT,
-                                    "value",
-                                    "The value.",
-                                    0.0, 9999999999.0, 0.0, gobject.PARAM_READWRITE),
-                        "color": (gobject.TYPE_PYOBJECT, "pie area color",
-                                    "The color of the area.",
-                                    gobject.PARAM_READWRITE),
-                        "label": (gobject.TYPE_STRING, "area label",
-                                    "The label for the area.", "",
-                                    gobject.PARAM_READWRITE)}
+def draw_sector(context, cx, cy, radius, angle, angle_offset):
+    context.move_to(cx, cy)
+    context.arc(cx, cy, radius, angle_offset, angle_offset + angle)
+    context.close_path()
+    context.fill()
+
+
+class PieArea(chart.Area):
     
     def __init__(self, name, value, title=""):
-        ChartObject.__init__(self)
-        self._name = name
-        self._value = value
-        self._label = title
-        self._color = COLOR_AUTO
+        chart.Area.__init__(self, name, value, title)
+        self._label_object = label.Label((0, 0), title)
         
-        self.label_object = label.Label((0, 0), title)
-        
-    def do_get_property(self, property):
-        if property.name == "visible":
-            return self._show
-        elif property.name == "antialias":
-            return self._antialias
-        elif property.name == "name":
-            return self._name
-        elif property.name == "value":
-            return self._value
-        elif property.name == "color":
-            return self._color
-        elif property.name == "label":
-            return self._label
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
-
-    def do_set_property(self, property, value):
-        if property.name == "visible":
-            self._show = value
-        elif property.name == "antialias":
-            self._antialias = value
-        elif property.name == "value":
-            self._value = value
-        elif property.name == "color":
-            self._color = value
-        elif property.name == "label":
-            self._label = value
-            self.label_object.set_text(value)
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
+    def _do_draw(self, context, rect, cx, cy, radius, angle, angle_offset, draw_label, draw_percentage, draw_value):
+        context.set_source_rgb(*self._color)
+        draw_sector(context, cx, cy, radius, angle, angle_offset)
+        if self._highlighted:
+            context.set_source_rgba(1, 1, 1, 0.1)
+            draw_sector(context, cx, cy, radius, angle, angle_offset)
             
-    def set_value(self, value):
-        """
-        Set the value of the PieArea.
-        
-        @type value: float.
-        """
-        self.set_property("value", value)
-        self.emit("appearance_changed")
-        
-    def get_value(self):
-        """
-        Returns the current value of the PieArea.
-        
-        @return: float.
-        """
-        return self.get_property("value")
-        
-    def set_color(self, color):
-        """
-        Set the color of the pie area. Color has to either COLOR_AUTO or
-        a tuple (r, g, b) with r, g, b in [0, 1].
-        
-        @type color: a color.
-        """
-        self.set_property("color", color)
-        self.emit("appearance_changed")
-        
-    def get_color(self):
-        """
-        Returns the current color of the pie area or COLOR_AUTO.
-        
-        @return: a color.
-        """
-        return self.get_property("color")
-        
-    def set_label(self, label):
-        """
-        Set the label for the pie chart area.
-        
-        @param label: the new label
-        @type label: string.
-        """
-        self.set_property("label", label)
-        self.emit("appearance_changed")
-        
-    def get_label(self):
-        """
-        Returns the current label of the area.
-        
-        @return: string.
-        """
-        return self.get_property("label")
+        if draw_label:
+            title = self._label
+            title_extra = ""
+            fraction = angle / (2 * math.pi)
+            if draw_percentage and not draw_value:
+                title_extra = " (%s%%)" % round(100 * fraction, 2)
+            elif not draw_percentage and draw_value:
+                title_extra = " (%s)" % self._value
+            elif draw_percentage and draw_value:
+                title_extra = " (%s, %s%%)" % (self._value, round(100 * fraction, 2))
+            title += title_extra
+            
+            label_angle = angle_offset + angle / 2
+            label_angle = label_angle % (2 * math.pi)
+            x = cx + (radius + 10) * math.cos(label_angle)
+            y = cy + (radius + 10) * math.sin(label_angle)
+            
+            ref = label.ANCHOR_BOTTOM_LEFT
+            if 0 <= label_angle <= math.pi / 2:
+                ref = label.ANCHOR_TOP_LEFT
+            elif math.pi / 2 <= label_angle <= math.pi:
+                ref = label.ANCHOR_TOP_RIGHT
+            elif math.pi <= label_angle <= 1.5 * math.pi:
+                ref = label.ANCHOR_BOTTOM_RIGHT
+                
+            if self._highlighted:
+                self._label_object.set_underline(label.UNDERLINE_SINGLE)
+            else:
+                self._label_object.set_underline(label.UNDERLINE_NONE)
+            self._label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._label_object.set_text(title)
+            self._label_object.set_position((x, y))
+            self._label_object.set_anchor(ref)
+            self._label_object.draw(context, rect)
 
 
 class PieChart(chart.Chart):
@@ -194,8 +140,6 @@ class PieChart(chart.Chart):
         self._values = True
         self._enable_scroll = True
         self._enable_mouseover = True
-        
-        self._highlighted = None
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
         self.connect("button_press_event", self._cb_button_pressed)
@@ -244,9 +188,10 @@ class PieChart(chart.Chart):
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
         area = self._get_area_at_pos(event.x, event.y)
-        if area != self._highlighted:
-            self.queue_draw()
-        self._highlighted = area
+        for a in self._areas:
+            a.set_property("highlighted", False)
+        if area:
+            area.set_highlighted(True)
         
     def _cb_button_pressed(self, widget, event):
         area = self._get_area_at_pos(event.x, event.y)
@@ -335,59 +280,8 @@ class PieChart(chart.Chart):
         
         current_angle_position = 2 * math.pi * self.get_rotate() / 360.0
         for i, area in enumerate(self._areas):
-            if not area.get_visible(): continue
-            #set the color or automaticly select one:
-            color = area.get_color()
-            #if color == COLOR_AUTO: color = COLORS[i % len(COLORS)]
-            #draw the area:
             area_angle = 2 * math.pi * area.get_value() / sum
-            context.set_source_rgb(*color)
-            context.move_to(center[0], center[1])
-            context.arc(center[0], center[1], radius, current_angle_position, current_angle_position + area_angle)
-            context.close_path()
-            context.fill()
-            
-            if area == self._highlighted:
-                context.set_source_rgba(1, 1, 1, 0.1)
-                context.move_to(center[0], center[1])
-                context.arc(center[0], center[1], radius, current_angle_position, current_angle_position + area_angle)
-                context.close_path()
-                context.fill()
-        
-            if self._labels:                
-                title = area.get_label()
-                title_extra = ""
-                if self._percentage and not self._values:
-                    title_extra = " (%s%%)" % round(100. * area.get_value() / sum, 2)
-                elif not self._percentage and self._values:
-                    title_extra = " (%s)" % area.get_value()
-                elif self._percentage and self._values:
-                    title_extra = " (%s, %s%%)" % (area.get_value(), round(100. * area.get_value() / sum, 2))
-                title += title_extra
-                
-                angle = current_angle_position + area_angle / 2
-                angle = angle % (2 * math.pi)
-                x = center[0] + (radius + 10) * math.cos(angle)
-                y = center[1] + (radius + 10) * math.sin(angle)
-                
-                ref = label.ANCHOR_BOTTOM_LEFT
-                if 0 <= angle <= math.pi / 2:
-                    ref = label.ANCHOR_TOP_LEFT
-                elif math.pi / 2 <= angle <= math.pi:
-                    ref = label.ANCHOR_TOP_RIGHT
-                elif math.pi <= angle <= 1.5 * math.pi:
-                    ref = label.ANCHOR_BOTTOM_RIGHT
-                    
-                if area == self._highlighted:
-                    area.label_object.set_underline(label.UNDERLINE_SINGLE)
-                else:
-                    area.label_object.set_underline(label.UNDERLINE_NONE)
-                area.label_object.set_color(color_cairo_to_gdk(*area.get_color()))
-                area.label_object.set_text(title)
-                area.label_object.set_position((x, y))
-                area.label_object.set_anchor(ref)
-                area.label_object.draw(context, rect)
-            
+            area.draw(context, rect, center[0], center[1], radius, area_angle, current_angle_position, self._labels, self._percentage, self._values)
             current_angle_position += area_angle
             
     def _do_draw_shadow(self, context, rect):

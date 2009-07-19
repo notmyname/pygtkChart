@@ -79,7 +79,7 @@ class ChartObject(gobject.GObject):
         """
         pass
         
-    def draw(self, context, rect):
+    def draw(self, context, rect, *args):
         """
         This method is called by the parent Chart instance. It
         calls _do_draw.
@@ -92,7 +92,7 @@ class ChartObject(gobject.GObject):
         if self._show:
             if not self._antialias:
                 context.set_antialias(cairo.ANTIALIAS_NONE)
-            self._do_draw(context, rect)
+            self._do_draw(context, rect, *args)
             context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         
     def set_antialias(self, antialias):
