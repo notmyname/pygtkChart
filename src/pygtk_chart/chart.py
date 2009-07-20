@@ -295,6 +295,10 @@ class Title(label.Label):
         
         
 class Area(ChartObject):
+    """
+    This is a base class for classes that represent areas, e.g. the
+    pie_chart.PieArea class and the bar_chart.Bar class.
+    """
     
     __gproperties__ = {"name": (gobject.TYPE_STRING, "area name",
                                 "A unique name for the area.",
@@ -409,8 +413,18 @@ class Area(ChartObject):
         return self.get_property("label")
         
     def set_highlighted(self, highlighted):
+        """
+        Set whether the area should be highlighted.
+        
+        @type highlighted: boolean.
+        """
         self.set_property("highlighted", highlighted)
         self.emit("appearance_changed")
         
     def get_highlighted(self):
+        """
+        Returns True if the area is currently highlighted.
+        
+        @return: boolean.
+        """
         return self.get_property("highlighted")

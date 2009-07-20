@@ -22,19 +22,26 @@ COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "t
 
 
 class Bar(chart.Area):
+    """
+    A class that represents a bar on a bar chart,
+    """
     
     def __init__(self, name, value, title=""):
         chart.Area.__init__(self, name, value, title)
         self._label_object = label.Label((0, 0), title)
         self._value_label_object = label.Label((0, 0), "")
         
-    def _do_draw(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0):
+    def _do_draw(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0):
         if not multi_bar:
             self._do_draw_single(context, rect, i, n, padding, height_factor, max_value, draw_labels)
         else:
-            return self._do_draw_multi(context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, width)
+            return self._do_draw_multi(context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, width, label_rotation)
             
-    def _do_draw_multi(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, complete_width):
+    def _do_draw_multi(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, complete_width, label_rotation):
+        """
+        This method is used for drawing if the bar is on a
+        MultiBarChart.
+        """
         width = complete_width / m
         height = self._value / max_value * height_factor * rect.height
         x = i * (complete_width + padding) + j * width + padding / 2
@@ -57,7 +64,7 @@ class Bar(chart.Area):
             self._label_object.set_color(color_cairo_to_gdk(*self._color))
             self._label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
             self._label_object.set_fixed(True)
-            self._label_object.set_rotation(300)
+            self._label_object.set_rotation(label_rotation)
             self._label_object.set_position((x + 0.7 * width, y + height + 8))
             self._label_object.draw(context, rect)
             
@@ -73,6 +80,9 @@ class Bar(chart.Area):
         
             
     def _do_draw_single(self, context, rect, i, n, padding, height_factor, max_value, draw_labels):
+        """
+        This method is used for drawing if the bar is on a BarChart.
+        """
         width = (rect.width - n * padding) / n
         height = self._value / max_value * height_factor * rect.height
         x = padding / 2 + i * (width + padding)
@@ -233,6 +243,12 @@ class BarChart(chart.Chart):
         label.finish_drawing()
     
     def add_bar(self, bar):
+        """
+        Add a bar_chart.Bar to the bar chart.
+        
+        @param bar: the bar to add
+        @type bar: bar_chart.Bar.
+        """
         color = bar.get_color()
         if color == COLOR_AUTO: bar.set_color(COLORS[len(self._bars) % len(COLORS)])
         self._bars.append(bar)
@@ -306,6 +322,10 @@ class BarChart(chart.Chart):
 
 
 class MultiBar(ChartObject):
+    """
+    This class represents a group of bars on a MultiBarChart.
+    """
+    
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
                                 "A unique name for the bar.",
                                 "", gobject.PARAM_READABLE),
@@ -350,7 +370,7 @@ class MultiBar(ChartObject):
         else:
             raise AttributeError, "Property %s does not exist." % property.name
             
-    def _do_draw(self, context, rect, i, n, bar_padding, height_factor, max_value, draw_labels):
+    def _do_draw(self, context, rect, i, n, bar_padding, height_factor, max_value, draw_labels, label_rotation):
         width = (rect.width - n * bar_padding) / n
         x = i * (width + bar_padding) + bar_padding / 2
         
@@ -358,13 +378,17 @@ class MultiBar(ChartObject):
         bottom = 0
         
         for j, bar in enumerate(self._bars):
-            b = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, draw_labels, True, j, m, width)
+            b = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, draw_labels, True, j, m, width, label_rotation)
             if draw_labels:
                 bottom = max(b, bottom)
             
         return min(rect.height - 20, bottom)
         
     def draw_label(self, context, rect, x, y, width):
+        """
+        Helper function to draw the group label. It's called by
+        MultiBarChart objects.
+        """
         self._label_object.set_position((x, y))
         self._label_object.set_anchor(label.ANCHOR_TOP_CENTER)
         self._label_object.set_max_width(width)
@@ -398,6 +422,12 @@ class MultiBar(ChartObject):
         return self.get_property("label")
     
     def add_bar(self, bar):
+        """
+        Add a bar to the group of bars.
+        
+        @param bar: the bar to add
+        @type bar: bar_chart.Bar.
+        """
         color = bar.get_color()
         if color == COLOR_AUTO: bar.set_color(COLORS[len(self._bars) % len(COLORS)])
         self._bars.append(bar)
@@ -418,11 +448,16 @@ class MultiBar(ChartObject):
                 return bar
         return None
     
+    def get_bars(self):
+        """
+        Get a list of bars in the group.
+        
+        @return: list of bar_chart.Bar.
+        """
+        return self._bars
+    
     def _cb_appearance_changed(self, widget):
         self.emit("appearance_changed")
-        
-    def get_bars(self):
-        return self._bars
 
 
 class MultiBarChart(BarChart):
@@ -432,11 +467,31 @@ class MultiBarChart(BarChart):
     def __init__(self):
         super(MultiBarChart, self).__init__()
         self.name_map = {}
-        self.sub_label_rotation_deg = 300 # amout of rotation in the sub bar labels
+        self._label_rotation = 300 # amout of rotation in the sub bar labels
+        self._bar_padding = 16
+        self._height_factor = 0.7
     
     def add_bar(self, bar):
-        self._bars.append(bar)
-        bar.connect("appearance_changed", self._cb_appearance_changed)
+        """
+        B{Deprecated. Use L{add_multibar} instead.}
+        
+        Add a group of bars (bar_chart.MultiBar) to the MultiBarChart.
+        
+        @param bar: group of bars to add
+        @type bar: bar_chart.MultiBar.
+        """
+        print "MultiBarChart.add_bar is deprecated. Use add_multibar instead."
+        self.add_multibar(bar)
+        
+    def add_multibar(self, multibar):
+        """
+        Add a group of bars (bar_chart.MultiBar) to the MultiBarChart.
+        
+        @param multibar: group of bars to add
+        @type multibar: bar_chart.MultiBar.
+        """
+        self._bars.append(multibar)
+        multibar.connect("appearance_changed", self._cb_appearance_changed)
     
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
@@ -457,14 +512,14 @@ class MultiBarChart(BarChart):
         
         n = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
-        height_factor = 0.7
-        bar_padding = 16
+        height_factor = self._height_factor
+        bar_padding = self._bar_padding
         width = (rect.width - n * bar_padding) / n
         
         bottom = rect.height
         
         for i, bar in enumerate(self._bars):
-            label_y = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, self._labels)
+            label_y = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, self._labels, self._label_rotation)
             bottom = min(bottom, label_y)
             
         for i, bar in enumerate(self._bars):
@@ -478,8 +533,8 @@ class MultiBarChart(BarChart):
         rect = self.get_allocation()
         max_value = max(x.get_value() for x in self._bars)
         n = len(self._bars)
-        padding = 16
-        height_factor = 0.7
+        padding = self._bar_padding
+        height_factor = self._height_factor
         width = (rect.width - n * padding) / n
         
         for i, bar in enumerate(self._bars):
