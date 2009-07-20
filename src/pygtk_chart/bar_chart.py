@@ -329,9 +329,9 @@ class MultiBar(ChartObject):
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
                                 "A unique name for the bar.",
                                 "", gobject.PARAM_READABLE),
-                        "value": (gobject.TYPE_FLOAT,
-                                    "value",
-                                    "The value.",
+                        "max-value": (gobject.TYPE_FLOAT,
+                                    "maximum value",
+                                    "Maximum value of all bars in the group.",
                                     0.0, 9999999999.0, 0.0, gobject.PARAM_READABLE),
                         "label": (gobject.TYPE_STRING, "bar label",
                                     "The label for the bar.", "",
@@ -352,7 +352,7 @@ class MultiBar(ChartObject):
             return self._antialias
         elif property.name == "name":
             return self._name
-        elif property.name == "value":
+        elif property.name == "max-value":
             return max(x.get_value() for x in self._bars) if self._bars else 0.0
         elif property.name == "label":
             return self._label
@@ -395,13 +395,13 @@ class MultiBar(ChartObject):
         self._label_object.set_text(self._label)
         self._label_object.draw(context, rect)
     
-    def get_value(self):
+    def get_max_value(self):
         """
         Returns the maximum value of the MultiBar.
         
         @return: float.
         """
-        return self.get_property("value")
+        return self.get_property("max-value")
     
     def set_label(self, label):
         """
@@ -511,7 +511,7 @@ class MultiBarChart(BarChart):
         if not self._bars: return
         
         n = len(self._bars)
-        max_value = max(x.get_value() for x in self._bars)
+        max_value = max(x.get_max_value() for x in self._bars)
         height_factor = self._height_factor
         bar_padding = self._bar_padding
         width = (rect.width - n * bar_padding) / n
@@ -531,7 +531,7 @@ class MultiBarChart(BarChart):
             return None,None
             
         rect = self.get_allocation()
-        max_value = max(x.get_value() for x in self._bars)
+        max_value = max(x.get_max_value() for x in self._bars)
         n = len(self._bars)
         padding = self._bar_padding
         height_factor = self._height_factor
