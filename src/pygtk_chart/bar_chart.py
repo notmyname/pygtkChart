@@ -138,6 +138,9 @@ class BarChart(chart.Chart):
         self._values = True
         self._labels = True
         
+        self._height_factor = 0.8
+        self._bar_padding = 16
+        
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
         self.connect("button_press_event", self._cb_button_pressed)
         self.connect("motion-notify-event", self._cb_motion_notify)
@@ -183,13 +186,13 @@ class BarChart(chart.Chart):
         
         number_of_bars = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
-        bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = .8 # percentage of total height the bars will use
+        bar_padding = self._bar_padding
+        bar_height_factor = self._height_factor 
         bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
         total_height = int(rect.height * bar_height_factor) # maximum height for a bar
         bottom = rect.height # y-value of bottom of bar chart
         bar_bottom = bottom * (1.0 - bar_vertical_padding)
-        bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
+        bar_width = int((rect.width -(bar_padding * number_of_bars)) / number_of_bars)
         for i,info in enumerate(self._bars):
             bar_x = int(rect.width / float(number_of_bars) * i) + rect.x + (bar_padding // 2)
             percent = float(info.get_value()) / float(max_value)
@@ -213,11 +216,9 @@ class BarChart(chart.Chart):
         if not self._bars: return
         n = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
-        bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = 0.8 # percentage of total height the bars will use
         
         for i, bar in enumerate(self._bars):
-            bar.draw(context, rect, i, n, bar_padding, bar_height_factor, max_value, self._labels)
+            bar.draw(context, rect, i, n, self._bar_padding, self._height_factor, max_value, self._labels)
     
     def draw(self, context):
         """
