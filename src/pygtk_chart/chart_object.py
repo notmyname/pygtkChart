@@ -92,8 +92,9 @@ class ChartObject(gobject.GObject):
         if self._show:
             if not self._antialias:
                 context.set_antialias(cairo.ANTIALIAS_NONE)
-            self._do_draw(context, rect, *args)
+            res = self._do_draw(context, rect, *args)
             context.set_antialias(cairo.ANTIALIAS_DEFAULT)
+        return res
         
     def set_antialias(self, antialias):
         """

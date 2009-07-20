@@ -20,115 +20,90 @@ COLOR_AUTO = 0
 
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
-class Bar(ChartObject):
-    __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
-                                "A unique name for the bar.",
-                                "", gobject.PARAM_READABLE),
-                        "value": (gobject.TYPE_FLOAT,
-                                    "value",
-                                    "The value.",
-                                    0.0, 9999999999.0, 0.0, gobject.PARAM_READWRITE),
-                        "color": (gobject.TYPE_PYOBJECT, "bar color",
-                                    "The color of the bar.",
-                                    gobject.PARAM_READWRITE),
-                        "label": (gobject.TYPE_STRING, "bar label",
-                                    "The label for the bar.", "",
-                                    gobject.PARAM_READWRITE)}
+
+class Bar(chart.Area):
     
     def __init__(self, name, value, title=""):
-        super(Bar, self).__init__()
-        self._name = name
-        self._value = value
-        self._label = title
-        self._color = COLOR_AUTO
+        chart.Area.__init__(self, name, value, title)
+        self._label_object = label.Label((0, 0), title)
+        self._value_label_object = label.Label((0, 0), "")
         
-        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_CENTER, fixed=True)
-        self.value_label_object = label.Label((0, 0), "%d" % value, anchor=label.ANCHOR_BOTTOM_CENTER, fixed=True)
-    
-    def do_get_property(self, property):
-        if property.name == "visible":
-            return self._show
-        elif property.name == "antialias":
-            return self._antialias
-        elif property.name == "name":
-            return self._name
-        elif property.name == "value":
-            return self._value
-        elif property.name == "color":
-            return self._color
-        elif property.name == "label":
-            return self._label
+    def _do_draw(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0):
+        if not multi_bar:
+            self._do_draw_single(context, rect, i, n, padding, height_factor, max_value, draw_labels)
         else:
-            raise AttributeError, "Property %s does not exist." % property.name
-    
-    def do_set_property(self, property, value):
-        if property.name == "visible":
-            self._show = value
-        elif property.name == "antialias":
-            self._antialias = value
-        elif property.name == "value":
-            self._value = value
-            self.value_label_object.set_text("%d" % value)
-        elif property.name == "color":
-            self._color = value
-        elif property.name == "label":
-            self._label = value
-            self.label_object.set_text(value)
-        else:
-            raise AttributeError, "Property %s does not exist." % property.name
-    
-    def set_value(self, value):
-        """
-        Set the value of the Bar.
+            return self._do_draw_multi(context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, width)
+            
+    def _do_draw_multi(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, complete_width):
+        width = complete_width / m
+        height = self._value / max_value * height_factor * rect.height
+        x = i * (complete_width + padding) + j * width + padding / 2
+        y = rect.height * (1 - height_factor) / 2 + rect.height * height_factor - height
         
-        @type value: float.
-        """
-        self.set_property("value", value)
-        self.emit("appearance_changed")
-    
-    def get_value(self):
-        """
-        Returns the current value of the Bar.
+        context.set_source_rgb(*self._color)
+        context.rectangle(x, y, width, height)
+        context.fill()
         
-        @return: float.
-        """
-        return self.get_property("value")
-    
-    def set_color(self, color):
-        """
-        Set the color of the bar. Color has to either COLOR_AUTO or
-        a tuple (r, g, b) with r, g, b in [0, 1].
+        if self._highlighted:
+            context.set_source_rgba(1, 1, 1, 0.1)
+            context.rectangle(x, y, width, height)
+            context.fill()
+            
+        if draw_labels:
+            #draw label under bar
+            self._label_object.set_text(self._label)
+            if i == 0 and j == 0:
+                self._label_object.set_wrap(False)
+            self._label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
+            self._label_object.set_fixed(True)
+            self._label_object.set_rotation(300)
+            self._label_object.set_position((x + 0.7 * width, y + height + 8))
+            self._label_object.draw(context, rect)
+            
+            #draw value on top of bar
+            self._value_label_object.set_text(str(self._value))
+            self._value_label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
+            self._value_label_object.set_position((x + width / 2, y - 3))
+            self._value_label_object.set_max_width(width)
+            self._value_label_object.draw(context, rect)
+            
+        return y + height + 8 + self._label_object.get_real_dimensions()[1]
         
-        @type color: a color.
-        """
-        self.set_property("color", color)
-        self.emit("appearance_changed")
-    
-    def get_color(self):
-        """
-        Returns the current color of the bar or COLOR_AUTO.
+            
+    def _do_draw_single(self, context, rect, i, n, padding, height_factor, max_value, draw_labels):
+        width = (rect.width - n * padding) / n
+        height = self._value / max_value * height_factor * rect.height
+        x = padding / 2 + i * (width + padding)
+        y = rect.height * (1 - height_factor) / 2 + rect.height * height_factor - height
         
-        @return: a color.
-        """
-        return self.get_property("color")
-    
-    def set_label(self, label):
-        """
-        Set the label for the bar chart bar.
+        context.set_source_rgb(*self._color)
+        context.rectangle(x, y, width, height)
+        context.fill()
         
-        @param label: the new label
-        @type label: string.
-        """
-        self.set_property("label", label)
-        self.emit("appearance_changed")
-    
-    def get_label(self):
-        """
-        Returns the current label of the bar.
+        if self._highlighted:
+            context.set_source_rgba(1, 1, 1, 0.1)
+            context.rectangle(x, y, width, height)
+            context.fill()
         
-        @return: string.
-        """
-        return self.get_property("label")
+        if draw_labels:
+            #draw label under bar
+            self._label_object.set_text(self._label)
+            self._label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._label_object.set_anchor(label.ANCHOR_TOP_CENTER)
+            self._label_object.set_position((x + width / 2, y + height + 3))
+            self._label_object.set_max_width(width)
+            self._label_object.draw(context, rect)
+            
+            #draw value on top of bar
+            self._value_label_object.set_text(str(self._value))
+            self._value_label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
+            self._value_label_object.set_position((x + width / 2, y - 3))
+            self._value_label_object.set_max_width(width)
+            self._value_label_object.draw(context, rect)
+
 
 class BarChart(chart.Chart):
     __gproperties__ = {"draw-labels": (gobject.TYPE_BOOLEAN,
@@ -152,7 +127,6 @@ class BarChart(chart.Chart):
         self._enable_mouseover = True
         self._values = True
         self._labels = True
-        self._highlighted = None
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
         self.connect("button_press_event", self._cb_button_pressed)
@@ -184,9 +158,9 @@ class BarChart(chart.Chart):
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
         bar = self._get_bar_at_pos(event.x, event.y)
-        if bar != self._highlighted:
-            self.queue_draw()
-        self._highlighted = bar
+        for b in self._bars:
+            b.set_property("highlighted", b == bar)
+        self.queue_draw()
     
     def _cb_button_pressed(self, widget, event):
         bar = self._get_bar_at_pos(event.x, event.y)
@@ -227,47 +201,13 @@ class BarChart(chart.Chart):
         @param rect: A rectangle representing the charts area.
         """
         if not self._bars: return
-        number_of_bars = len(self._bars)
+        n = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
         bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = .8 # percentage of total height the bars will use
-        bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
-        total_height = int(rect.height * bar_height_factor) # maximum height for a bar
-        bottom = rect.height # y-value of bottom of bar chart
-        bar_bottom = bottom * (1.0 - bar_vertical_padding)
-        bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
+        bar_height_factor = 0.8 # percentage of total height the bars will use
         
-        for i,info in enumerate(self._bars):
-            if not info.get_visible(): continue
-            x = int(rect.width / float(number_of_bars) * i) + rect.x + (bar_padding // 2)
-            percent = float(info.get_value()) / float(max_value)
-            bar_height = int(total_height * percent)
-            bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
-            
-            # draw the bar
-            context.set_source_rgb(*info.get_color())
-            context.rectangle(x,  bar_bottom - bar_height, bar_width, bar_height)
-            context.fill()
-            
-            if info == self._highlighted:
-                context.set_source_rgba(1, 1, 1, 0.1)
-                context.rectangle(x,  bar_bottom - bar_height, bar_width, bar_height)
-                context.fill()
-            
-            if self._labels:
-                horizontal_center = x + (bar_width // 2)
-                
-                # draw the label below the bar
-                info.label_object.set_color(color_cairo_to_gdk(*info.get_color()))
-                info.label_object.set_max_width(bar_width)
-                info.label_object.set_position((horizontal_center, bottom * .95))
-                info.label_object.draw(context, rect)
-                
-                # draw the count at the top of the bar
-                info.value_label_object.set_color(color_cairo_to_gdk(*info.get_color()))
-                info.value_label_object.set_max_width(bar_width)
-                info.value_label_object.set_position((horizontal_center, bar_top))
-                info.value_label_object.draw(context, rect)
+        for i, bar in enumerate(self._bars):
+            bar.draw(context, rect, i, n, bar_padding, bar_height_factor, max_value, self._labels)
     
     def draw(self, context):
         """
@@ -364,6 +304,7 @@ class BarChart(chart.Chart):
         """
         return self.get_property("show-values")
 
+
 class MultiBar(ChartObject):
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
                                 "A unique name for the bar.",
@@ -380,9 +321,9 @@ class MultiBar(ChartObject):
         super(MultiBar, self).__init__()
         self._name = name
         self._label = title
-        self.bars = []
+        self._bars = []
         
-        self.label_object = label.Label((0, 0), title, anchor=label.ANCHOR_BOTTOM_CENTER, fixed=True)
+        self._label_object = label.Label((0, 0), title, anchor=label.ANCHOR_BOTTOM_CENTER, fixed=True)
     
     def do_get_property(self, property):
         if property.name == "visible":
@@ -392,7 +333,7 @@ class MultiBar(ChartObject):
         elif property.name == "name":
             return self._name
         elif property.name == "value":
-            return max(x.get_value() for x in self.bars) if self.bars else 0.0
+            return max(x.get_value() for x in self._bars) if self._bars else 0.0
         elif property.name == "label":
             return self._label
         else:
@@ -408,6 +349,27 @@ class MultiBar(ChartObject):
             self.label_object.set_text(value)
         else:
             raise AttributeError, "Property %s does not exist." % property.name
+            
+    def _do_draw(self, context, rect, i, n, bar_padding, height_factor, max_value, draw_labels):
+        width = (rect.width - n * bar_padding) / n
+        x = i * (width + bar_padding) + bar_padding / 2
+        
+        m = len(self._bars)
+        bottom = 0
+        
+        for j, bar in enumerate(self._bars):
+            b = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, draw_labels, True, j, m, width)
+            if draw_labels:
+                bottom = max(b, bottom)
+            
+        return min(rect.height - 20, bottom)
+        
+    def draw_label(self, context, rect, x, y, width):
+        self._label_object.set_position((x, y))
+        self._label_object.set_anchor(label.ANCHOR_TOP_CENTER)
+        self._label_object.set_max_width(width)
+        self._label_object.set_text(self._label)
+        self._label_object.draw(context, rect)
     
     def get_value(self):
         """
@@ -437,8 +399,8 @@ class MultiBar(ChartObject):
     
     def add_bar(self, bar):
         color = bar.get_color()
-        if color == COLOR_AUTO: bar.set_color(COLORS[len(self.bars) % len(COLORS)])
-        self.bars.append(bar)
+        if color == COLOR_AUTO: bar.set_color(COLORS[len(self._bars) % len(COLORS)])
+        self._bars.append(bar)
         bar.connect("appearance_changed", self._cb_appearance_changed)
     
     def get_bar(self, name):
@@ -451,16 +413,22 @@ class MultiBar(ChartObject):
         
         @return: Bar or None.
         """
-        for bar in self.bars:
+        for bar in self._bars:
             if bar.get_name() == name:
                 return bar
         return None
     
     def _cb_appearance_changed(self, widget):
         self.emit("appearance_changed")
+        
+    def get_bars(self):
+        return self._bars
+
 
 class MultiBarChart(BarChart):
+    
     __gsignals__ = {"multibar-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,gobject.TYPE_PYOBJECT,))}
+    
     def __init__(self):
         super(MultiBarChart, self).__init__()
         self.name_map = {}
@@ -473,118 +441,61 @@ class MultiBarChart(BarChart):
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
         multibar, subbar = self._get_bar_at_pos(event.x, event.y)
-        if subbar != self._highlighted:
-            self.queue_draw()
-        self._highlighted = subbar
-    
+        for bar in self._bars:
+            for sub_bar in bar.get_bars():
+                sub_bar.set_property("highlighted", subbar == sub_bar)
+        self.queue_draw()
+
     def _cb_button_pressed(self, widget, event):
         multibar, subbar = self._get_bar_at_pos(event.x, event.y)
         if subbar:
             self.emit("multibar-clicked", multibar, subbar)
             self.emit("bar-clicked", multibar)
-    
+            
     def _do_draw_bars(self, context, rect):
-        """
-        Draw the chart.
-        
-        @type context: cairo.Context
-        @param context: The context to draw on.
-        @type rect: gtk.gdk.Rectangle
-        @param rect: A rectangle representing the charts area.
-        """
         if not self._bars: return
-        number_of_bars = len(self._bars)
+        
+        n = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
-        bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = .7 # percentage of total height the bars will use
-        bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
-        total_height = int(rect.height * bar_height_factor) # maximum height for a bar
-        bottom = rect.height # y-value of bottom of bar chart
-        bar_bottom = bottom * (1.0 - bar_vertical_padding)
-        bar_width = int((rect.width - (bar_padding * number_of_bars)) / number_of_bars)
+        height_factor = 0.7
+        bar_padding = 16
+        width = (rect.width - n * bar_padding) / n
         
-        font_size = 12
-        context.set_font_size(font_size)
+        bottom = rect.height
         
-        for bar_index, multibar in enumerate(self._bars):
-            if not multibar.get_visible(): continue
-            multibar_count = len(multibar.bars)
-            x = int(rect.width / float(number_of_bars) * bar_index) + rect.x + (bar_padding // 2)
-            max_real_height = 0
-            for sub_bar_index, sub_bar in enumerate(multibar.bars):
-                sub_bar_width = bar_width // multibar_count
-                sub_bar_x = x + sub_bar_width * sub_bar_index
-                percent = float(sub_bar.get_value()) / float(max_value)
-                bar_height = int(total_height * percent)
-                bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
-                
-                # draw the bar
-                c = sub_bar.get_color()
-                context.set_source_rgb(*sub_bar.get_color())
-                context.rectangle(sub_bar_x,  bar_bottom - bar_height, sub_bar_width, bar_height)
-                context.fill()
+        for i, bar in enumerate(self._bars):
+            label_y = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, self._labels)
+            bottom = min(bottom, label_y)
             
-                if sub_bar == self._highlighted:
-                    context.set_source_rgba(1, 1, 1, 0.1)
-                    context.rectangle(sub_bar_x,  bar_bottom - bar_height, sub_bar_width, bar_height)
-                    context.fill()
-                
-                if self._labels:
-                    horizontal_center = sub_bar_x + (sub_bar_width // 2)
-                    # draw the count at the top of the bar
-                    sub_bar.value_label_object.set_position((horizontal_center, bar_top))
-                    sub_bar.value_label_object.set_color(color_cairo_to_gdk(*sub_bar.get_color()))
-                    sub_bar.value_label_object.set_max_width(sub_bar_width)
-                    sub_bar.value_label_object.draw(context, rect)
-                    # draw the label below the bar
-                    sub_bar.label_object.set_position((sub_bar_x + 0.7 * sub_bar_width, bar_bottom + 8))
-                    if bar_index == 0 and sub_bar_index == 0:
-                        #don't wrap the label of the first bar as it would be always wrapped otherwise
-                        sub_bar.label_object.set_wrap(False)
-                    sub_bar.label_object.set_color(color_cairo_to_gdk(*sub_bar.get_color()))
-                    sub_bar.label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
-                    sub_bar.label_object.set_rotation(self.sub_label_rotation_deg)
-                    sub_bar.label_object.draw(context, rect)
-                    real_width, real_height = sub_bar.label_object.get_real_dimensions()
-                    max_real_height = max(max_real_height, real_height)
-            
-            if self._labels:
-                # draw the label below the bar
-                horizontal_center = x + (bar_width // 2)
-                vertical_pos = min(bottom, bar_bottom + max_real_height + 15)
-                
-                multibar.label_object.set_position((horizontal_center, vertical_pos))
-                multibar.label_object.set_max_width(bar_width)
-                multibar.label_object.draw(context, rect)
+        for i, bar in enumerate(self._bars):
+            label_x = i * (width + bar_padding) + bar_padding / 2 + width / 2
+            bar.draw_label(context, rect, label_x, bottom, width)
     
     def _get_bar_at_pos(self, x, y):
         if not self._bars:
             return None,None
-        rect = self.get_allocation()
-        number_of_bars = len(self._bars)
-        max_value = max(x.get_value() for x in self._bars)
-        bar_padding = 16 # pixels of padding to either side of each bar
-        bar_height_factor = .7 # percentage of total height the bars will use
-        bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
-        total_height = int(rect.height * bar_height_factor) # maximum height for a bar
-        bottom = rect.height # y-value of bottom of bar chart
-        bar_bottom = bottom * (1.0 - bar_vertical_padding)
-        bar_width = int((rect.width-(bar_padding*number_of_bars)) / number_of_bars)
-        for bar_index, multibar in enumerate(self._bars):
-            if not multibar.get_visible(): continue
-            multibar_count = len(multibar.bars)
-            multibar_x = int(rect.width / float(number_of_bars) * bar_index) + rect.x + (bar_padding // 2)
-            max_rotated_height = 0
-            for sub_bar_index, sub_bar in enumerate(multibar.bars):
-                sub_bar_width = bar_width // multibar_count
-                sub_bar_x = multibar_x + sub_bar_width * sub_bar_index
-                percent = float(sub_bar.get_value()) / float(max_value)
-                bar_height = int(total_height * percent)
-                bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
             
-                if sub_bar_x <= x <= sub_bar_x+sub_bar_width and bar_top <= y <= bar_bottom:
-                    return multibar, sub_bar
+        rect = self.get_allocation()
+        max_value = max(x.get_value() for x in self._bars)
+        n = len(self._bars)
+        padding = 16
+        height_factor = 0.7
+        width = (rect.width - n * padding) / n
         
+        for i, bar in enumerate(self._bars):
+            px = padding / 2 + i * (width + padding)
+            if px <= x <= px + width:
+                m = len(bar.get_bars())
+                sub_width = width / m
+                for j, sub_bar in enumerate(bar.get_bars()):
+                    spx = px + j * sub_width
+                    if spx <= x <= spx + sub_width:
+                        bottom = rect.height * (1 - height_factor) / 2 + rect.height * height_factor
+                        height = sub_bar.get_value() / max_value * height_factor * rect.height
+                        top = bottom - height
+                        if top <= y <= bottom:
+                            return bar, sub_bar
+
         return None,None
     
 

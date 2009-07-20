@@ -189,9 +189,8 @@ class PieChart(chart.Chart):
         if not self._enable_mouseover: return
         area = self._get_area_at_pos(event.x, event.y)
         for a in self._areas:
-            a.set_property("highlighted", False)
-        if area:
-            area.set_highlighted(True)
+            a.set_property("highlighted", a == area)
+        self.queue_draw()
         
     def _cb_button_pressed(self, widget, event):
         area = self._get_area_at_pos(event.x, event.y)
