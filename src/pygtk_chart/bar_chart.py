@@ -47,14 +47,10 @@ class Bar(chart.Area):
         x = i * (complete_width + padding) + j * width + padding / 2
         y = rect.height * (1 - height_factor) / 2 + rect.height * height_factor - height
         
-        context.set_source_rgb(*self._color)
-        context.rectangle(x, y, width, height)
-        context.fill()
+        self._do_draw_rectangle(context, x, y, width, height)
         
         if self._highlighted:
-            context.set_source_rgba(1, 1, 1, 0.1)
-            context.rectangle(x, y, width, height)
-            context.fill()
+            self._do_draw_higlighted(context, x, y, width, height)
             
         if draw_labels:
             #draw label under bar
@@ -69,12 +65,7 @@ class Bar(chart.Area):
             self._label_object.draw(context, rect)
             
             #draw value on top of bar
-            self._value_label_object.set_text(str(self._value))
-            self._value_label_object.set_color(color_cairo_to_gdk(*self._color))
-            self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
-            self._value_label_object.set_position((x + width / 2, y - 3))
-            self._value_label_object.set_max_width(width)
-            self._value_label_object.draw(context, rect)
+            self._do_draw_value_label(context, rect, x, y, width)
             
         return y + height + 8 + self._label_object.get_real_dimensions()[1]
         
@@ -88,14 +79,10 @@ class Bar(chart.Area):
         x = padding / 2 + i * (width + padding)
         y = rect.height * (1 - height_factor) / 2 + rect.height * height_factor - height
         
-        context.set_source_rgb(*self._color)
-        context.rectangle(x, y, width, height)
-        context.fill()
+        self._do_draw_rectangle(context, x, y, width, height)
         
         if self._highlighted:
-            context.set_source_rgba(1, 1, 1, 0.1)
-            context.rectangle(x, y, width, height)
-            context.fill()
+            self._do_draw_higlighted(context, x, y, width, height)
         
         if draw_labels:
             #draw label under bar
@@ -107,12 +94,25 @@ class Bar(chart.Area):
             self._label_object.draw(context, rect)
             
             #draw value on top of bar
-            self._value_label_object.set_text(str(self._value))
-            self._value_label_object.set_color(color_cairo_to_gdk(*self._color))
-            self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
-            self._value_label_object.set_position((x + width / 2, y - 3))
-            self._value_label_object.set_max_width(width)
-            self._value_label_object.draw(context, rect)
+            self._do_draw_value_label(context, rect, x, y, width)
+            
+    def _do_draw_rectangle(self, context, x, y, width, height):
+        context.set_source_rgb(*self._color)
+        context.rectangle(x, y, width, height)
+        context.fill()
+            
+    def _do_draw_higlighted(self, context, x, y, width, height):
+        context.set_source_rgba(1, 1, 1, 0.1)
+        context.rectangle(x, y, width, height)
+        context.fill()
+            
+    def _do_draw_value_label(self, context, rect, x, y, width):
+        self._value_label_object.set_text(str(self._value))
+        self._value_label_object.set_color(color_cairo_to_gdk(*self._color))
+        self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
+        self._value_label_object.set_position((x + width / 2, y - 3))
+        self._value_label_object.set_max_width(width)
+        self._value_label_object.draw(context, rect)
 
 
 class BarChart(chart.Chart):
