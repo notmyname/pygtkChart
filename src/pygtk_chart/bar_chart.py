@@ -21,15 +21,74 @@ COLOR_AUTO = 0
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
+def draw_rounded_rectangle(context, x, y, width, height, radius=0):
+    if radius == 0:
+        context.rectangle(x, y, width, height)
+    else:
+        context.move_to(x, y + radius)
+        context.arc(x + radius, y + radius, radius, math.pi, 1.5 * math.pi)
+        context.rel_line_to(width - 2 * radius, 0)
+        context.arc(x + width - radius, y + radius, radius, 1.5 * math.pi, 2 * math.pi)
+        context.rel_line_to(0, height - 2 * radius)
+        context.arc(x + width - radius, y + height - radius, radius, 0, 0.5 * math.pi)
+        context.rel_line_to(-(width - 2 * radius), 0)
+        context.arc(x + radius, y + height - radius, radius, 0.5 * math.pi, math.pi)
+        context.close_path()
+
+
 class Bar(chart.Area):
     """
     A class that represents a bar on a bar chart,
     """
     
+    __gproperties__ = {"corner-radius": (gobject.TYPE_INT, "bar corner radius",
+                                "The radius of the bar's rounded corner.",
+                                0, 100, 0, gobject.PARAM_READWRITE)}
+    
     def __init__(self, name, value, title=""):
         chart.Area.__init__(self, name, value, title)
         self._label_object = label.Label((0, 0), title)
         self._value_label_object = label.Label((0, 0), "")
+        
+        self._corner_radius = 0
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "name":
+            return self._name
+        elif property.name == "value":
+            return self._value
+        elif property.name == "color":
+            return self._color
+        elif property.name == "label":
+            return self._label
+        elif property.name == "highlighted":
+            return self._highlighted
+        elif property.name == "corner-radius":
+            return self._corner_radius
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "value":
+            self._value = value
+        elif property.name == "color":
+            self._color = value
+        elif property.name == "label":
+            self._label = value
+        elif property.name == "highlighted":
+            self._highlighted = value
+        elif property.name == "corner-radius":
+            self._corner_radius = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _do_draw(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0):
         if not multi_bar:
@@ -98,12 +157,13 @@ class Bar(chart.Area):
             
     def _do_draw_rectangle(self, context, x, y, width, height):
         context.set_source_rgb(*self._color)
-        context.rectangle(x, y, width, height)
+        radius = min((width / 2, height / 2, self._corner_radius))
+        draw_rounded_rectangle(context, x, y, width, height, radius)
         context.fill()
             
     def _do_draw_higlighted(self, context, x, y, width, height):
         context.set_source_rgba(1, 1, 1, 0.1)
-        context.rectangle(x, y, width, height)
+        draw_rounded_rectangle(context, x, y, width, height, self._corner_radius)
         context.fill()
             
     def _do_draw_value_label(self, context, rect, x, y, width):
@@ -113,6 +173,24 @@ class Bar(chart.Area):
         self._value_label_object.set_position((x + width / 2, y - 3))
         self._value_label_object.set_max_width(width)
         self._value_label_object.draw(context, rect)
+        
+    def set_corner_radius(self, radius):
+        """
+        Set the radius of the bar's corners in px (default: 0).
+        
+        @param radius: radius of the corners
+        @type radius: int in [0, 100].
+        """
+        self.set_property("corner-radius", radius)
+        self.emit("appearance_changed")
+        
+    def get_corner_radius(self):
+        """
+        Returns the current radius of the bar's corners in px.
+        
+        @return: int in [0, 100]
+        """
+        return self.get_property("corner-radius")
 
 
 class BarChart(chart.Chart):
