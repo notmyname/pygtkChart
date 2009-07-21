@@ -398,6 +398,16 @@ class BarChart(chart.Chart):
         @return: boolean.
         """
         return self.get_property("show-values")
+        
+    def set_bar_corner_radius(self, radius):
+        """
+        Set the corner radius of all bars.
+        
+        @type radius: int in [0,100]
+        """
+        for bar in self._bars:
+            bar.set_property("corner-radius", radius)
+        self.queue_draw()
 
 
 class MultiBar(ChartObject):
