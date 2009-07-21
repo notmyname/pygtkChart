@@ -23,9 +23,13 @@ p{
 margin: 5px 2px 10px 2px;
 }
 
-h1, h2{
+h1, h2, h3{
 color: #2C2C2C;
 margin: 15px 0px 5px 0px;
+}
+
+h3{
+color: #575757;
 }
 
 /*start links*/
@@ -51,7 +55,7 @@ margin: 0px 0px 10px 0px;
 /*start navigation*/
 #nav{
 background-color: #424242;
-padding: 3px;   
+padding: 10px 0px 0px 0px;   
 }
 
 #nav ul{
@@ -66,14 +70,25 @@ margin: 0px 5px;
 padding: 0px;
 }
 
+#nav li.github{
+margin: 0px 5px 0px 30px;
+}
+
 #nav a:link, #nav a:visited{
+padding: 3px 3px 0px 3px;
 color: #ffffff;
 text-decoration: none;
 }
 
 #nav a:hover{
+padding: 3px 3px 0px 3px;
 color: #ffffff;
 text-decoration: underline;
+}
+
+#nav a.active{
+color: #424242;
+background-color: #ffffff;
 }
 /*end navigation*/
 

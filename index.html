@@ -21,9 +21,10 @@
         </div>
         <div id="nav">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="download.html">Download</a></li>
                 <li><a href="doc.html">Documentation</a></li>
-                <li><a href="http://github.com/notmyname/pygtkChart/tree/master">on GitHub</a></li>
+                <li class="github"><a href="http://github.com/notmyname/pygtkChart/tree/master">on GitHub</a></li>
             </ul>
         </div>
         <div id="content">
@@ -31,52 +32,47 @@
                 <a href="img/g8pop.png" title="pygtkChart example (click to enlarge)"><img src="img/g8pop_t.png" alt="pygtkChart example" /></a>
                 <p>Example application using the BarChart widget (click to enlarge).</p>
             </div>
-            <h2>About</h2>
+            <h2>What is pygtkChart?</h2>
             <p>
-                pygtkChart is a Python package that provides (py)GTK
-                widgets to simply integrate bar charts, pie charts or
-                line charts into a GTK application.
+                pygtkChart is a Python package that provides PyGTK
+                widgets to simply integrate charts into a GTK application.
+                Currently pygtkChart comes with four widgets:
             </p>
-            <h2>Dependencies</h2>
-
-            <p>pygtkChart depends on <em>pygtk</em>.</p>
-            <p>The widgets are platform independent, i.e. they can be used on Unix and Windows operating systems without any code changes.</p>
-            <h2>Install</h2>
-            <p>To install pygtkChart simply run</p>
-            <pre>$ python ./setup.py build &amp;&amp; sudo python ./setup.py install</pre>
+            <ul>
+                <li>LineChart - for plotting graphs, statistical data etc.</li>
+                <li>BarChart - shows a bar chart (see example on the right)</li>
+                <li>MultiBarChart - like BarChart, but shows groups of bars</li>
+                <li>PieChart - shows simple pie charts</li>
+            </ul>
+            <p>
+                The appearance of the widgets is highly customizable. All
+                bars, graphs or titles on a chart can be accessed and modified
+                separatly.<br />
+                Colors, backgrounds and many more properties can be modified
+                for each object.
+            </p>
+            <p>
+                All objects are inherited from gobject.GObject so they
+                live in the GTK main loop and can emit signals e.g. 
+                when a bar on BarChart has been clicked.
+            </p>            
+            <p>
+                For downloads an installation instructions, please see the
+                <a href="download.html" title="pygtkChart download page">download page</a>.
+            </p>
+            
+            <h2>Authors/Contact</h2>
+            <p>
+                Sven Festersen (sven@sven-festersen.de)<br/>
+                John Dickinson (john@johnandkaren.com)
+            </p>
+            
             <h2>License</h2>
-            <p>GPL</p>
-            <h2>Authors</h2>
-            <p>Sven Festersen (sven@sven-festersen.de)
-            <br/>John Dickinson (john@johnandkaren.com)</p>
-
-            <h2>Contact</h2>
-            <p>John Dickinson (john@johnandkaren.com)
-            <br/>Sven Festersen (sven@sven-festersen.de)
-            <br/></p>
-
-
-            <h2>Download</h2>
             <p>
-              Latest development version:
-              <a href="http://github.com/notmyname/pygtkChart/zipball/master">zip</a>
-              <a href="http://github.com/notmyname/pygtkChart/tarball/master">tar</a>
+                pygtkChart is free software. It's licensed under the
+                terms and conditions of the
+                <a href="http://www.gnu.org/copyleft/gpl.html" title="GPL">General Public License </a>.
             </p>
-            <p>
-              Beta version:
-              <a href="http://github.com/notmyname/pygtkChart/zipball/beta">zip</a>
-              <a href="http://github.com/notmyname/pygtkChart/tarball/beta">tar</a>
-            </p>
-            <p>
-              All downloads:
-              <a href="http://github.com/notmyname/pygtkChart/downloads">All downloads</a>
-            </p>
-
-            <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-              by running:
-            </p>
-            <pre>$ git clone git://github.com/notmyname/pygtkChart</pre>
-
         </div>
         
         <div id="footer">
