@@ -544,6 +544,15 @@ class MultiBar(ChartObject):
         @return: list of bar_chart.Bar.
         """
         return self._bars
+        
+    def set_bar_corner_radius(self, radius):
+        """
+        Set the the corner radius for all bars in the group.
+        
+        @type radius: int in [0,100].
+        """
+        for bar in self._bars:
+            bar.set_property("corner-radius", radius)
     
     def _cb_appearance_changed(self, widget):
         self.emit("appearance_changed")
@@ -581,6 +590,16 @@ class MultiBarChart(BarChart):
         """
         self._bars.append(multibar)
         multibar.connect("appearance_changed", self._cb_appearance_changed)
+        
+    def set_bar_corner_radius(self, radius):
+        """
+        Set the the corner radius for all bars in the group.
+        
+        @type radius: int in [0,100].
+        """
+        for bar in self._bars:
+            bar.set_bar_corner_radius(radius)
+        self.queue_draw()
     
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
