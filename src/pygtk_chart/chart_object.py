@@ -89,6 +89,7 @@ class ChartObject(gobject.GObject):
         @type rect: gtk.gdk.Rectangle
         @param rect: A rectangle representing the charts area.
         """
+        res = None
         if self._show:
             if not self._antialias:
                 context.set_antialias(cairo.ANTIALIAS_NONE)
