@@ -57,6 +57,17 @@ LINE_STYLE_DASHED_ASYMMETRIC = 3
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
+def set_context_line_style(context, style):
+    if style == LINE_STYLE_SOLID:
+        context.set_dash([])
+    elif style == LINE_STYLE_DASHED:
+        context.set_dash([5])
+    elif style == LINE_STYLE_DASHED_ASYMMETRIC:
+        context.set_dash([6, 6, 2, 6])
+    elif style == LINE_STYLE_DOTTED:
+        context.set_dash([1])
+
+
 class RangeCalculator:
     """
     This helper class calculates ranges. It is used by the LineChart
@@ -676,7 +687,15 @@ class Grid(ChartObject):
                         "color": (gobject.TYPE_PYOBJECT,
                                     "grid color",
                                     "The color of the grid in (r,g,b) format. r,g,b in [0,1]",
-                                    gobject.PARAM_READWRITE)}
+                                    gobject.PARAM_READWRITE),
+                        "line-style-horizontal": (gobject.TYPE_INT,
+                                                "horizontal line style",
+                                                "Line Style for the horizontal grid lines",
+                                                0, 3, 0, gobject.PARAM_READWRITE),
+                        "line-style-vertical": (gobject.TYPE_INT,
+                                                "vertical line style",
+                                                "Line Style for the vertical grid lines",
+                                                0, 3, 0, gobject.PARAM_READWRITE)}
 
     def __init__(self, range_calc):
         ChartObject.__init__(self)
@@ -685,6 +704,8 @@ class Grid(ChartObject):
         self._color = (0.9, 0.9, 0.9)
         self._show_h = True
         self._show_v = True
+        self._line_style_h = LINE_STYLE_SOLID
+        self._line_style_v = LINE_STYLE_SOLID
 
     def do_get_property(self, property):
         if property.name == "visible":
@@ -697,6 +718,10 @@ class Grid(ChartObject):
             return self._show_v
         elif property.name == "color":
             return self._color
+        elif property.name == "line-style-horizontal":
+            return self._line_style_h
+        elif property.name == "line-style-vertical":
+            return self._line_style_v
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -711,6 +736,10 @@ class Grid(ChartObject):
             self._show_v = value
         elif property.name == "color":
             self._color = value
+        elif property.name == "line-style-horizontal":
+            self._line_style_h = value
+        elif property.name == "line-style-vertical":
+            self._line_style_v = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -719,6 +748,7 @@ class Grid(ChartObject):
         context.set_source_rgb(c[0], c[1], c[2])
         #draw horizontal lines
         if self._show_h:
+            set_context_line_style(context, self._line_style_h)
             ytics = self._range_calc.get_ytics(rect)
             xa = rect.width * GRAPH_PADDING
             xb = rect.width * (1 - GRAPH_PADDING)
@@ -726,9 +756,11 @@ class Grid(ChartObject):
                 context.move_to(xa, y)
                 context.line_to(xb, y)
                 context.stroke()
+            context.set_dash([])
 
         #draw vertical lines
         if self._show_v:
+            set_context_line_style(context, self._line_style_v)
             xtics = self._range_calc.get_xtics(rect)
             ya = rect.height * GRAPH_PADDING
             yb = rect.height * (1 - GRAPH_PADDING)
@@ -736,6 +768,7 @@ class Grid(ChartObject):
                 context.move_to(x, ya)
                 context.line_to(x, yb)
                 context.stroke()
+            context.set_dash([])
 
     def set_draw_horizontal_lines(self, draw):
         """
@@ -788,6 +821,52 @@ class Grid(ChartObject):
         @return: a color.
         """
         return self.get_property("color")
+        
+    def set_line_style_horizontal(self, style):
+        """
+        Set the line style of the horizontal grid lines.
+        style has to be one of these constants:
+        - line_chart.LINE_STYLE_SOLID (default)
+        - line_chart.LINE_STYLE_DOTTED
+        - line_chart.LINE_STYLE_DASHED
+        - line_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+        
+        @param style: the new line style
+        @type style: one of the constants above.
+        """
+        self.set_property("line-style-horizontal", style)
+        self.emit("appearance_changed")
+        
+    def get_line_style_horizontal(self):
+        """
+        Returns ths current horizontal line style.
+        
+        @return: a line style constant.
+        """
+        return self.get_property("line-style-horizontal")
+        
+    def set_line_style_vertical(self, style):
+        """
+        Set the line style of the vertical grid lines.
+        style has to be one of these constants:
+        - line_chart.LINE_STYLE_SOLID (default)
+        - line_chart.LINE_STYLE_DOTTED
+        - line_chart.LINE_STYLE_DASHED
+        - line_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+        
+        @param style: the new line style
+        @type style: one of the constants above.
+        """
+        self.set_property("line-style-vertical", style)
+        self.emit("appearance_changed")
+        
+    def get_line_style_vertical(self):
+        """
+        Returns ths current vertical line style.
+        
+        @return: a line style constant.
+        """
+        return self.get_property("line-style-vertical")
 
 
 class Graph(ChartObject):
@@ -927,14 +1006,7 @@ class Graph(ChartObject):
     def _do_draw_lines(self, context, rect, xrange, yrange):
         context.set_source_rgb(*self._color)
         
-        if self._line_style == LINE_STYLE_SOLID:
-            context.set_dash([])
-        elif self._line_style == LINE_STYLE_DASHED:
-            context.set_dash([5])
-        elif self._line_style == LINE_STYLE_DASHED_ASYMMETRIC:
-            context.set_dash([6, 6, 2, 6])
-        elif self._line_style == LINE_STYLE_DOTTED:
-            context.set_dash([1])
+        set_context_line_style(context, self._line_style)
         
         first_point = None
         last_point = None
