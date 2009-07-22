@@ -47,6 +47,10 @@ POSITION_LEFT = 6
 POSITION_RIGHT = 7
 POSITION_BOTTOM = 6
 POSITION_TOP = 7
+POSITION_TOP_RIGHT = 8
+POSITION_BOTTOM_RIGHT = 9
+POSITION_BOTTOM_LEFT = 10
+POSITION_TOP_LEFT = 11
 
 LINE_STYLE_SOLID = 0
 LINE_STYLE_DOTTED = 1
@@ -276,6 +280,7 @@ class LineChart(chart.Chart):
         self.xaxis = XAxis(self._range_calc)
         self.yaxis = YAxis(self._range_calc)
         self.grid = Grid(self._range_calc)
+        self.legend = Legend()
 
         self.xaxis.connect("appearance_changed", self._cb_appearance_changed)
         self.yaxis.connect("appearance_changed", self._cb_appearance_changed)
@@ -339,6 +344,8 @@ class LineChart(chart.Chart):
             self._do_draw_axes(context, rect)
             self._do_draw_graphs(context, rect)
         label.finish_drawing()
+        
+        self.legend.draw(context, rect, self.graphs)
 
     def add_graph(self, graph):
         """
@@ -1635,3 +1642,126 @@ def graph_new_from_file(filename, graph_name, x_col=0, y_col=1):
             
             points.append((d[x_col], d[y_col]))
     return Graph(graph_name, "", points)
+
+
+class Legend(ChartObject):
+    
+    __gproperties__ = {"position": (gobject.TYPE_INT, "legend position",
+                                    "Position of the legend.", 8, 11, 8,
+                                    gobject.PARAM_READWRITE)}
+    
+    def __init__(self):
+        ChartObject.__init__(self)
+        self._show = False
+        self._position = POSITION_TOP_RIGHT
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "position":
+            return self._position
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "position":
+            self._position = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+        
+    def _do_draw(self, context, rect, graphs):
+        context.set_line_width(1)
+        width = 0.2 * rect.width
+        label_width = width - 12 - 20
+
+        x = rect.width - width
+        y = 16
+        
+        total_height = 0
+        total_width = 0
+        for id, graph in graphs.iteritems():
+            if not graph.get_visible(): continue
+            graph_label = label.Label((x + (width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
+            graph_label.set_max_width(label_width)
+            
+            rwidth, rheight = graph_label.get_calculated_dimensions(context, rect)
+            
+            total_height += rheight + 6
+            total_width = max(total_width, rwidth)
+            
+        total_width += 18 + 20
+        if self._position == POSITION_TOP_RIGHT:
+            x = rect.width - total_width - 16
+            y = 16
+        elif self._position == POSITION_BOTTOM_RIGHT:
+            x = rect.width - total_width - 16
+            y = rect.height - 16 - total_height
+        elif self._position == POSITION_BOTTOM_LEFT:
+            x = 16
+            y = rect.height - 16 - total_height
+        elif self._position == POSITION_TOP_LEFT:
+            x = 16
+            y = 16
+        
+        context.set_antialias(cairo.ANTIALIAS_NONE)
+        context.set_source_rgb(1, 1, 1)
+        context.rectangle(x, y - 3, total_width, total_height)
+        context.fill_preserve()
+        context.set_source_rgb(0, 0, 0)
+        context.stroke()
+        context.set_antialias(cairo.ANTIALIAS_DEFAULT)
+        
+        for id, graph in graphs.iteritems():
+            if not graph.get_visible(): continue
+            #draw the label
+            graph_label = label.Label((x + (width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
+            graph_label.set_max_width(label_width)
+            graph_label.draw(context, rect)
+            
+            #draw line
+            if graph.get_type() in [GRAPH_LINES, GRAPH_BOTH]:
+                lines = graph_label.get_line_count()
+                line_height = graph_label.get_real_dimensions()[1] / lines
+                set_context_line_style(context, graph.get_line_style())
+                context.set_source_rgb(*graph.get_color())
+                context.move_to(x + 6, y + line_height / 2)
+                context.rel_line_to(20, 0)
+                context.stroke()
+            #draw point
+            if graph.get_type() in [GRAPH_POINTS, GRAPH_BOTH]:
+                lines = graph_label.get_line_count()
+                line_height = graph_label.get_real_dimensions()[1] / lines
+                context.set_source_rgb(*graph.get_color())
+                draw_point(context, x + 6 + 20, y + line_height / 2, graph.get_point_size(), graph.get_point_style())
+            
+            y += graph_label.get_real_dimensions()[1] + 6
+            
+    def set_position(self, position):
+        """
+        Set the position of the legend. position has to be one of these
+        position constants:
+        - line_chart.POSITION_TOP_RIGHT (default)
+        - line_chart.POSITION_BOTTOM_RIGHT
+        - line_chart.POSITION_BOTTOM_LEFT
+        - line_chart.POSITION_TOP_LEFT
+        
+        @param positon: the legend's position
+        @type position: one of the constants above.
+        """
+        self.set_property("position", position)
+        self.emit("appearance_changed")
+        
+    def get_position(self):
+        """
+        Returns the position of the legend. See L{set_position} for
+        details.
+        
+        @return: a position constant.
+        """
+        return self.get_property("position")
