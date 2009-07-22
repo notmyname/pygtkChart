@@ -53,6 +53,13 @@ LINE_STYLE_DOTTED = 1
 LINE_STYLE_DASHED = 2
 LINE_STYLE_DASHED_ASYMMETRIC = 3
 
+POINT_STYLE_CIRCLE = 0
+POINT_STYLE_SQUARE = 1
+POINT_STYLE_CROSS = 2
+POINT_STYLE_TRIANGLE_UP = 3
+POINT_STYLE_TRIANGLE_DOWN = 4
+POINT_STYLE_DIAMOND = 5
+
 #load default color palette
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
@@ -66,6 +73,57 @@ def set_context_line_style(context, style):
         context.set_dash([6, 6, 2, 6])
     elif style == LINE_STYLE_DOTTED:
         context.set_dash([1])
+        
+        
+def draw_point(context, x, y, radius, style):
+    a = radius / 1.414 #1.414=sqrt(2)
+    if style == POINT_STYLE_CIRCLE:
+        context.arc(x, y, radius, 0, 2 * math.pi)
+        context.fill()
+    elif style == POINT_STYLE_SQUARE:
+        context.rectangle(x - a, y- a, 2 * a, 2 * a)
+        context.fill()
+    elif style == POINT_STYLE_CROSS:
+        context.move_to(x, y - a)
+        context.rel_line_to(0, 2 * a)
+        context.stroke()
+        context.move_to(x - a, y)
+        context.rel_line_to(2 * a, 0)
+        context.stroke()
+    elif style == POINT_STYLE_TRIANGLE_UP:
+        a = 1.732 * radius #1.732=sqrt(3)
+        b = a / (2 * 1.732)
+        context.move_to(x - a / 2, y + b)
+        context.rel_line_to(a, 0)
+        context.rel_line_to(-a / 2, -(radius + b))
+        context.rel_line_to(-a / 2, radius + b)
+        context.close_path()
+        context.fill()
+    elif style == POINT_STYLE_TRIANGLE_DOWN:
+        a = 1.732 * radius #1.732=sqrt(3)
+        b = a / (2 * 1.732)
+        context.move_to(x - a / 2, y - b)
+        context.rel_line_to(a, 0)
+        context.rel_line_to(-a / 2, radius + b)
+        context.rel_line_to(-a / 2, -(radius + b))
+        context.close_path()
+        context.fill()
+    elif style == POINT_STYLE_DIAMOND:
+        context.move_to(x, y - a)
+        context.rel_line_to(a, a)
+        context.rel_line_to(-a, a)
+        context.rel_line_to(-a, -a)
+        context.rel_line_to(a, -a)
+        context.fill()
+        
+def draw_point_pixbuf(context, x, y, pixbuf):
+    w = pixbuf.get_width()
+    h = pixbuf.get_height()
+    ax = x - w / 2
+    ay = y - h / 2
+    context.set_source_pixbuf(pixbuf, ax, ay)
+    context.rectangle(ax, ay, w, h)
+    context.fill()
 
 
 class RangeCalculator:
@@ -908,7 +966,10 @@ class Graph(ChartObject):
                                     True, gobject.PARAM_READWRITE),
                         "line-style": (gobject.TYPE_INT, "line style",
                                      "The line style to use.", 0, 3, 0,
-                                     gobject.PARAM_READWRITE)}
+                                     gobject.PARAM_READWRITE),
+                        "point-style": (gobject.TYPE_PYOBJECT, "point style",
+                                        "The graph's point style.",
+                                        gobject.PARAM_READWRITE)}
 
     def __init__(self, name, title, data):
         """
@@ -937,6 +998,7 @@ class Graph(ChartObject):
         self._fill_color = COLOR_AUTO
         self._fill_opacity = 0.3
         self._line_style = LINE_STYLE_SOLID
+        self._point_style = POINT_STYLE_CIRCLE
 
         self._range_calc = None
         self._label = label.Label((0, 0), self._title, anchor=label.ANCHOR_LEFT_CENTER)
@@ -968,6 +1030,8 @@ class Graph(ChartObject):
             return self._show_title
         elif property.name == "line-style":
             return self._line_style
+        elif property.name == "point-style":
+            return self._point_style
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -997,6 +1061,8 @@ class Graph(ChartObject):
             self._show_title = value
         elif property.name == "line-style":
             self._line_style = value
+        elif property.name == "point-style":
+            self._point_style = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -1036,10 +1102,13 @@ class Graph(ChartObject):
                 (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
                 if first_point == None:
                     context.move_to(ax, ay)
-                context.arc(ax, ay, self._point_size, 0, 2 * math.pi)
-                context.fill()
+                    
+                if type(self._point_style) != gtk.gdk.Pixbuf:
+                    draw_point(context, ax, ay, self._point_size, self._point_style)
+                else:
+                    draw_point_pixbuf(context, ax, ay, self._point_style)
+                    
                 last_point = ax, ay
-
         return first_point, last_point
         
     def _do_draw_values(self, context, rect, xrange, yrange):
@@ -1421,6 +1490,34 @@ class Graph(ChartObject):
         @return: a line style constant.
         """
         return self.get_property("line-style")
+        
+    def set_point_style(self, style):
+        """
+        Set the point style that should be used when drawing the graph
+        (if type is line_chart.GRAPH_POINTS or line_chart.GRAPH_BOTH).
+        For style you can use one of these constants:
+        - line_chart.POINT_STYLE_CIRCLE (default)
+        - line_chart.POINT_STYLE_SQUARE
+        - line_chart.POINT_STYLE_CROSS
+        - line_chart.POINT_STYLE_TRIANGLE_UP
+        - line_chart.POINT_STYLE_TRIANGLE_DOWN
+        - line_chart.POINT_STYLE_DIAMOND
+        style can also be a gtk.gdk.Pixbuf that should be used as point.
+        
+        @param style: the new point style
+        @type style: one of the cosnatnts above or gtk.gdk.Pixbuf.
+        """
+        self.set_property("point-style", style)
+        self.emit("appearance_changed")
+        
+    def get_point_style(self):
+        """
+        Returns the current point style. See L{set_point_style} for 
+        details.
+        
+        @return: a point style constant or gtk.gdk.Pixbuf.
+        """
+        return self.get_property("point-style")
         
         
 def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimize_sampling=True):
