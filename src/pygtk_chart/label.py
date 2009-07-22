@@ -154,6 +154,7 @@ class Label(ChartObject):
         
         self._real_dimension = (0, 0)
         self._real_position = (0, 0)
+        self._line_count = 1
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -295,8 +296,74 @@ class Label(ChartObject):
         real_height = abs(text_height * math.cos(angle)) + abs(text_width * math.sin(angle))
         self._real_dimensions = real_width, real_height
         self._real_position = x, y
+        self._line_count = layout.get_line_count()
         
         register_label(self)
+        
+    def get_calculated_dimensions(self, context, rect):
+        angle = 2 * math.pi * self._rotation / 360.0
+        label = gtk.Label()
+        pango_context = label.create_pango_context()          
+        
+        attrs = pango.AttrList()
+        attrs.insert(pango.AttrWeight(self._weight, 0, len(self._text)))
+        attrs.insert(pango.AttrStyle(self._slant, 0, len(self._text)))
+        attrs.insert(pango.AttrUnderline(self._underline, 0,
+                        len(self._text)))
+        if self._size != None:
+            attrs.insert(pango.AttrSize(1000 * self._size, 0,
+                            len(self._text)))
+        
+        layout = pango.Layout(pango_context)
+        layout.set_text(self._text)
+        layout.set_attributes(attrs)
+        
+        #find out where to draw the layout and calculate the maximum width
+        width = rect.width
+        if self._anchor in [ANCHOR_BOTTOM_LEFT, ANCHOR_TOP_LEFT,
+                            ANCHOR_LEFT_CENTER]:
+            width = rect.width - self._position[0]
+        elif self._anchor in [ANCHOR_BOTTOM_RIGHT, ANCHOR_TOP_RIGHT,
+                                ANCHOR_RIGHT_CENTER]:
+            width = self._position[0]
+        
+        text_width, text_height = layout.get_pixel_size()
+        width = width * math.cos(angle)
+        width = min(width, self._max_width)
+        
+        if self._wrap:
+            layout.set_wrap(pango.WRAP_WORD_CHAR)
+        layout.set_width(int(1000 * width))
+        
+        x, y = get_text_pos(layout, self._position, self._anchor, angle)
+        
+        if not self._fixed:
+            #Find already drawn labels that would intersect with the current one
+            #and adjust position to avoid intersection.
+            text_width, text_height = layout.get_pixel_size()
+            real_width = abs(text_width * math.cos(angle)) + abs(text_height * math.sin(angle))
+            real_height = abs(text_height * math.cos(angle)) + abs(text_width * math.sin(angle))
+            
+            other_labels = get_registered_labels()
+            this_rect = gtk.gdk.Rectangle(int(x), int(y), int(real_width), int(real_height))
+            for label in other_labels:
+                label_rect = label.get_allocation()
+                intersection = this_rect.intersect(label_rect)
+                if intersection.width == 0 and intersection.height == 0:
+                    continue
+                
+                y_diff = 0
+                if label_rect.y <= y and label_rect.y + label_rect.height >= y:
+                    y_diff = y - label_rect.y + label_rect.height
+                elif label_rect.y > y and label_rect.y < y + real_height:
+                    y_diff = label_rect.y - real_height - y
+                y += y_diff
+        
+        #calculate the dimensions
+        text_width, text_height = layout.get_pixel_size()
+        real_width = abs(text_width * math.cos(angle)) + abs(text_height * math.sin(angle))
+        real_height = abs(text_height * math.cos(angle)) + abs(text_width * math.sin(angle))
+        return real_width, real_height
         
     def set_text(self, text):
         """
@@ -594,6 +661,14 @@ class Label(ChartObject):
         x, y = self._real_position
         w, h = self._real_dimensions
         return gtk.gdk.Rectangle(int(x), int(y), int(w), int(h))
+        
+    def get_line_count(self):
+        """
+        Returns the number of lines.
+        
+        @return: int.
+        """
+        return self._line_count
     
         
 def get_text_pos(layout, pos, anchor, angle):
