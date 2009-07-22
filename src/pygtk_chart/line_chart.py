@@ -48,6 +48,11 @@ POSITION_RIGHT = 7
 POSITION_BOTTOM = 6
 POSITION_TOP = 7
 
+LINE_STYLE_SOLID = 0
+LINE_STYLE_DOTTED = 1
+LINE_STYLE_DASHED = 2
+LINE_STYLE_DASHED_ASYMMETRIC = 3
+
 #load default color palette
 COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
@@ -821,7 +826,10 @@ class Graph(ChartObject):
                                     False, gobject.PARAM_READWRITE),
                         "show-title": (gobject.TYPE_BOOLEAN, "show title",
                                     "Sets whether to show the graph's title.",
-                                    True, gobject.PARAM_READWRITE)}
+                                    True, gobject.PARAM_READWRITE),
+                        "line-style": (gobject.TYPE_INT, "line style",
+                                     "The line style to use.", 0, 3, 0,
+                                     gobject.PARAM_READWRITE)}
 
     def __init__(self, name, title, data):
         """
@@ -849,6 +857,7 @@ class Graph(ChartObject):
         self._fill_to = None
         self._fill_color = COLOR_AUTO
         self._fill_opacity = 0.3
+        self._line_style = LINE_STYLE_SOLID
 
         self._range_calc = None
         self._label = label.Label((0, 0), self._title, anchor=label.ANCHOR_LEFT_CENTER)
@@ -878,6 +887,8 @@ class Graph(ChartObject):
             return self._show_value
         elif property.name == "show-title":
             return self._show_title
+        elif property.name == "line-style":
+            return self._line_style
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -905,6 +916,8 @@ class Graph(ChartObject):
             self._show_value = value
         elif property.name == "show-title":
             self._show_title = value
+        elif property.name == "line-style":
+            self._line_style = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -913,6 +926,15 @@ class Graph(ChartObject):
         
     def _do_draw_lines(self, context, rect, xrange, yrange):
         context.set_source_rgb(*self._color)
+        
+        if self._line_style == LINE_STYLE_SOLID:
+            context.set_dash([])
+        elif self._line_style == LINE_STYLE_DASHED:
+            context.set_dash([5])
+        elif self._line_style == LINE_STYLE_DASHED_ASYMMETRIC:
+            context.set_dash([6, 6, 2, 6])
+        elif self._line_style == LINE_STYLE_DOTTED:
+            context.set_dash([1])
         
         first_point = None
         last_point = None
@@ -928,6 +950,7 @@ class Graph(ChartObject):
                 last_point = ax, ay
                     
         context.stroke()
+        context.set_dash([])
         return first_point, last_point
         
     def _do_draw_points(self, context, rect, xrange, yrange):
@@ -1301,6 +1324,31 @@ class Graph(ChartObject):
         @return: a list of x, y pairs.
         """
         return self._data
+        
+    def set_line_style(self, style):
+        """
+        Set the line style that should be used for drawing the graph
+        (if type is line_chart.GRAPH_LINES or line_chart.GRAPH_BOTH).
+        style has to be one of these constants:
+        - line_chart.LINE_STYLE_SOLID (default)
+        - line_chart.LINE_STYLE_DOTTED
+        - line_chart.LINE_STYLE_DASHED
+        - line_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+        
+        @param style: the new line style
+        @type style: one of the line style constants above.
+        """
+        self.set_property("line-style", style)
+        self.emit("appearance_changed")
+        
+    def get_line_style(self):
+        """
+        Returns the current line style for the graph (see
+        L{set_line_style} for details).
+        
+        @return: a line style constant.
+        """
+        return self.get_property("line-style")
         
         
 def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimize_sampling=True):

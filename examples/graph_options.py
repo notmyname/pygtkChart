@@ -28,6 +28,7 @@ def to_gdkColor(r, g, b):
     
 def from_gdkColor(c):
     return (c.red / 65535.0, c.green / 65535.0, c.blue / 65535.0)
+    
 
 class GraphControl(gtk.Table):
     
@@ -43,6 +44,7 @@ class GraphControl(gtk.Table):
         self._init_title()
         self._init_type()
         self._init_point_size()
+        self._init_line_style()
         self._init_show_values()
         self._init_show_title()
         self._init_color()
@@ -106,29 +108,41 @@ class GraphControl(gtk.Table):
         self.attach(label, 0, 1, 6, 7, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
         self.attach(self.spin_point_size, 1, 2, 6, 7, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
+    def _init_line_style(self):
+        self.combo_line_style = gtk.combo_box_new_text()
+        self.combo_line_style.append_text("solid")
+        self.combo_line_style.append_text("dotted")
+        self.combo_line_style.append_text("dashed")
+        self.combo_line_style.append_text("dashed asymmetric")
+        self.combo_line_style.connect("changed", self._cb_graph_line_style_changed)
+        label = gtk.Label("Graph line style:")
+        label.set_alignment(0.0, 0.5)
+        self.attach(label, 0, 1, 7, 8, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.combo_line_style, 1, 2, 7, 8, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        
     def _init_show_values(self):
         self.checkbox_show_values = gtk.CheckButton("Show y values at datapoints.")
         self.checkbox_show_values.connect("toggled", self._cb_show_values_toggled)
-        self.attach(self.checkbox_show_values, 0, 2, 7, 8, xoptions=gtk.FILL|gtk.EXPAND, yoptions=gtk.SHRINK)
+        self.attach(self.checkbox_show_values, 0, 2, 8, 9, xoptions=gtk.FILL|gtk.EXPAND, yoptions=gtk.SHRINK)
         
     def _init_show_title(self):
         self.checkbox_show_title = gtk.CheckButton("Show graph title.")
         self.checkbox_show_title.connect("toggled", self._cb_show_title_toggled)
-        self.attach(self.checkbox_show_title, 0, 2, 8, 9, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.checkbox_show_title, 0, 2, 9, 10, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
     def _init_color(self):
         self.color_chooser = gtk.ColorButton()
         self.color_chooser.connect("color-set", self._cb_graph_color_changed)
         label = gtk.Label("Graph color:")
         label.set_alignment(0.0, 0.5)
-        self.attach(label, 0, 1, 9, 10, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
-        self.attach(self.color_chooser, 1, 2, 9, 10, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
-        self.attach(gtk.HSeparator(), 0, 2, 10, 11, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(label, 0, 1, 10, 11, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.color_chooser, 1, 2, 10, 11, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(gtk.HSeparator(), 0, 2, 11, 12, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
     
     def _init_filling(self):
         self.radio_fill_none = gtk.RadioButton(label="Don't fill space under graph")
         self.radio_fill_none.connect("toggled", self._cb_fill_changed)
-        self.attach(self.radio_fill_none, 0, 2, 11, 12, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.radio_fill_none, 0, 2, 12, 13, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.radio_fill_value = gtk.RadioButton(self.radio_fill_none, "Fill to value:")
         self.radio_fill_value.connect("toggled", self._cb_fill_changed)
@@ -137,25 +151,25 @@ class GraphControl(gtk.Table):
         self.spin_fill_value.set_range(-1, 15)
         self.spin_fill_value.set_increments(0.1, 0.1)
         self.spin_fill_value.set_digits(1)
-        self.attach(self.radio_fill_value, 0, 1, 12, 13, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
-        self.attach(self.spin_fill_value, 1, 2, 12, 13, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.radio_fill_value, 0, 1, 13, 14, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.spin_fill_value, 1, 2, 13, 14, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.radio_fill_graph = gtk.RadioButton(self.radio_fill_none, "Fill area between this graph and:")
         self.radio_fill_graph.connect("toggled", self._cb_fill_changed)
-        self.attach(self.radio_fill_graph, 0, 1, 13, 14, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.radio_fill_graph, 0, 1, 14, 15, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
         self.combo_fill_graph = gtk.ComboBox()
         cell = gtk.CellRendererText()
         self.combo_fill_graph.pack_start(cell, True)
         self.combo_fill_graph.add_attribute(cell, 'text', 1)
         self.combo_fill_graph.connect("changed", self._cb_fill_graph_changed)
-        self.attach(self.combo_fill_graph, 1, 2, 13, 14, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.combo_fill_graph, 1, 2, 14, 15, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.fill_color_chooser = gtk.ColorButton()
         self.fill_color_chooser.connect("color-set", self._cb_graph_fill_color_changed)
         label = gtk.Label("Filling color:")
         label.set_alignment(0.0, 0.5)
-        self.attach(label, 0, 1, 14, 15, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
-        self.attach(self.fill_color_chooser, 1, 2, 14, 15, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(label, 0, 1, 15, 16, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.fill_color_chooser, 1, 2, 15, 16, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         self.spin_fill_opacity = gtk.SpinButton()
         self.spin_fill_opacity.set_range(0, 1)
@@ -165,8 +179,8 @@ class GraphControl(gtk.Table):
         self.spin_fill_opacity.connect("value-changed", self._cb_fill_opacity_changed)
         label = gtk.Label("Filling opacity:")
         label.set_alignment(0.0, 0.5)
-        self.attach(label, 0, 1, 15, 16, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
-        self.attach(self.spin_fill_opacity, 1, 2, 15, 16, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(label, 0, 1, 16, 17, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
+        self.attach(self.spin_fill_opacity, 1, 2, 16, 17, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
         
         
     def _load_from_selected(self):
@@ -175,6 +189,7 @@ class GraphControl(gtk.Table):
             self.checkbox_antialias.set_active(self.selected.get_antialias())
             self.entry_graph_title.set_text(self.selected.get_title())
             self.combo_type.set_active(self.selected.get_type() - 1)
+            self.combo_line_style.set_active(self.selected.get_line_style())
             self.spin_point_size.set_value(self.selected.get_point_size())
             self.checkbox_show_values.set_active(self.selected.get_show_values())
             self.checkbox_show_title.set_active(self.selected.get_show_title())
@@ -230,6 +245,9 @@ class GraphControl(gtk.Table):
         
     def _cb_graph_type_changed(self, combo):
         self.selected.set_type(combo.get_active() + 1)
+        
+    def _cb_graph_line_style_changed(self, combo):
+        self.selected.set_line_style(combo.get_active())
         
     def _cb_graph_point_size(self, spin):
         self.selected.set_point_size(int(spin.get_value()))
