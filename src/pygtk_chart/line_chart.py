@@ -285,6 +285,7 @@ class LineChart(chart.Chart):
         self.xaxis.connect("appearance_changed", self._cb_appearance_changed)
         self.yaxis.connect("appearance_changed", self._cb_appearance_changed)
         self.grid.connect("appearance_changed", self._cb_appearance_changed)
+        self.legend.connect("appearance_changed", self._cb_appearance_changed)
         
     def __iter__(self):
         for name, graph in self.graphs.iteritems():
