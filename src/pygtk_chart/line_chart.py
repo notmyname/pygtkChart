@@ -160,7 +160,7 @@ class RangeCalculator:
                 self._data_xrange = (xmin, xmax)
                 self._data_yrange = (ymin, ymax)
 
-    def get_ranges(self):
+    def get_ranges(self, xaxis, yaxis):
         xrange = self._xrange
         if xrange == RANGE_AUTO:
             xrange = self._data_xrange
@@ -172,6 +172,12 @@ class RangeCalculator:
             yrange = self._data_yrange
             if yrange[0] == yrange[1]:
                 yrange = (yrange[0], yrange[0] + 0.1)
+                
+                
+        if xaxis.get_logarithmic():
+            xrange = math.log10(xrange[0]), math.log10(xrange[1])
+        if yaxis.get_logarithmic():
+            yrange = math.log10(yrange[0]), math.log10(yrange[1])
 
         return (xrange, yrange)
 
@@ -181,8 +187,8 @@ class RangeCalculator:
     def set_yrange(self, yrange):
         self._yrange = yrange
 
-    def get_absolute_zero(self, rect):
-        xrange, yrange = self.get_ranges()
+    def get_absolute_zero(self, rect, xaxis, yaxis):
+        xrange, yrange = self.get_ranges(xaxis, yaxis)
 
         xfactor = float(rect.width * (1 - 2 * GRAPH_PADDING)) / (xrange[1] - xrange[0])
         yfactor = float(rect.height * (1 - 2 * GRAPH_PADDING)) / (yrange[1] - yrange[0])
@@ -191,9 +197,9 @@ class RangeCalculator:
 
         return (zx,zy)
 
-    def get_absolute_point(self, rect, x, y):
-        (zx, zy) = self.get_absolute_zero(rect)
-        xrange, yrange = self.get_ranges()
+    def get_absolute_point(self, rect, x, y, xaxis, yaxis):
+        (zx, zy) = self.get_absolute_zero(rect, xaxis, yaxis)
+        xrange, yrange = self.get_ranges(xaxis, yaxis)
 
         xfactor = float(rect.width * (1 - 2 * GRAPH_PADDING)) / (xrange[1] - xrange[0])
         yfactor = float(rect.height * (1 - 2 * GRAPH_PADDING)) / (yrange[1] - yrange[0])
@@ -202,9 +208,9 @@ class RangeCalculator:
         ay = zy - y * yfactor
         return (ax, ay)
 
-    def prepare_tics(self, rect):
-        self._cached_xtics = self._get_xtics(rect)
-        self._cached_ytics = self._get_ytics(rect)
+    def prepare_tics(self, rect, xaxis, yaxis):
+        self._cached_xtics = self._get_xtics(rect, xaxis, yaxis)
+        self._cached_ytics = self._get_ytics(rect, xaxis, yaxis)
 
     def get_xtics(self, rect):
         return self._cached_xtics
@@ -212,10 +218,10 @@ class RangeCalculator:
     def get_ytics(self, rect):
         return self._cached_ytics
 
-    def _get_xtics(self, rect):
+    def _get_xtics(self, rect, xaxis, yaxis):
         tics = []
-        (zx, zy) = self.get_absolute_zero(rect)
-        (xrange, yrange) = self.get_ranges()
+        (zx, zy) = self.get_absolute_zero(rect, xaxis, yaxis)
+        (xrange, yrange) = self.get_ranges(xaxis, yaxis)
         delta = xrange[1] - xrange[0]
         exp = int(math.log10(delta)) - 1
 
@@ -231,16 +237,16 @@ class RangeCalculator:
 
         for i in range(first_n, last_n + 1):
             num = i * 10 ** exp
-            (x, y) = self.get_absolute_point(rect, num, 0)
+            (x, y) = self.get_absolute_point(rect, num, 0, xaxis, yaxis)
             if i % divide_by == 0 and is_in_range(x, (left, right)):
                 tics.append(((x, y), num))
 
         return tics
 
-    def _get_ytics(self, rect):
+    def _get_ytics(self, rect, xaxis, yaxis):
         tics = []
-        (zx, zy) = self.get_absolute_zero(rect)
-        (xrange, yrange) = self.get_ranges()
+        (zx, zy) = self.get_absolute_zero(rect, xaxis, yaxis)
+        (xrange, yrange) = self.get_ranges(xaxis, yaxis)
         delta = yrange[1] - yrange[0]
         exp = int(math.log10(delta)) - 1
 
@@ -256,7 +262,7 @@ class RangeCalculator:
 
         for i in range(first_n, last_n + 1):
             num = i * 10 ** exp
-            (x, y) = self.get_absolute_point(rect, 0, num)
+            (x, y) = self.get_absolute_point(rect, 0, num, xaxis, yaxis)
             if i % divide_by == 0 and is_in_range(y, (top, bottom)):
                 tics.append(((x, y), num))
 
@@ -301,7 +307,7 @@ class LineChart(chart.Chart):
         @param rect: A rectangle representing the charts area.
         """
         for (name, graph) in self.graphs.iteritems():
-            graph.draw(context, rect)
+            graph.draw(context, rect, self.xaxis, self.yaxis)
 
     def _do_draw_axes(self, context, rect):
         """
@@ -326,7 +332,7 @@ class LineChart(chart.Chart):
         """
         label.begin_drawing()
         rect = self.get_allocation()
-        self._range_calc.prepare_tics(rect)
+        self._range_calc.prepare_tics(rect, self.xaxis, self.yaxis)
         #initial context settings: line width & font
         context.set_line_width(1)
         font = gtk.Label().style.font_desc.get_family()
@@ -341,7 +347,7 @@ class LineChart(chart.Chart):
                 break
 
         if self.graphs and data_available:
-            self.grid.draw(context, rect)
+            self.grid.draw(context, rect, self.xaxis, self.yaxis)
             self._do_draw_axes(context, rect)
             self._do_draw_graphs(context, rect)
         label.finish_drawing()
@@ -418,7 +424,11 @@ class Axis(ChartObject):
                         "tic-format-function": (gobject.TYPE_PYOBJECT,
                                             "tic format function",
                                             "This function is used to label the tics.",
-                                            gobject.PARAM_READWRITE)}
+                                            gobject.PARAM_READWRITE),
+                        "logarithmic": (gobject.TYPE_BOOLEAN,
+                                        "logarithmic scale",
+                                        "Set whether to use logarithmic scale.",
+                                        False, gobject.PARAM_READWRITE)}
 
     def __init__(self, range_calc, label):
         ChartObject.__init__(self)
@@ -430,6 +440,7 @@ class Axis(ChartObject):
         self._show_tics = True
         self._show_tic_labels = True
         self._tic_format_function = str
+        self._logarithmic = False
 
         self._range_calc = range_calc
 
@@ -450,6 +461,8 @@ class Axis(ChartObject):
             return self._show_tic_labels
         elif property.name == "tic-format-function":
             return self._tic_format_function
+        elif property.name == "logarithmic":
+            return self._logarithmic
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -470,6 +483,8 @@ class Axis(ChartObject):
             self._show_tic_labels = value
         elif property.name == "tic-format-function":
             self._tic_format_function = value
+        elif property.name == "logarithmic":
+            self._logarithmic = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -575,6 +590,23 @@ class Axis(ChartObject):
         Returns the function currently used for labeling the tics.
         """
         return self.get_property("tic-format-function")
+        
+    def set_logarithmic(self, log):
+        """
+        Set whether the axis should use logarithmic (base 10) scale.
+        
+        @type log: boolean.
+        """
+        self.set_property("logarithmic", log)
+        self.emit("appearance_changed")
+        
+    def get_logarithmic(self):
+        """
+        Returns True if the axis uses logarithmic scale.
+        
+        @return: boolean.
+        """
+        return self.get_property("logarithmic")
 
 
 class XAxis(Axis):
@@ -601,7 +633,7 @@ class XAxis(Axis):
             tics = self._range_calc.get_xtics(rect)
             
             #calculate yaxis position
-            (zx, zy) = self._range_calc.get_absolute_zero(rect)
+            (zx, zy) = self._range_calc.get_absolute_zero(rect, self, yaxis)
             if yaxis.get_position() == POSITION_LEFT:
                 zx = rect.width * GRAPH_PADDING
             elif yaxis.get_position() == POSITION_RIGHT:
@@ -634,7 +666,7 @@ class XAxis(Axis):
         """
         Draw the axis.
         """
-        (zx, zy) = self._range_calc.get_absolute_zero(rect)
+        (zx, zy) = self._range_calc.get_absolute_zero(rect, self, yaxis)
         if self._position == POSITION_BOTTOM:
             zy = rect.height * (1 - GRAPH_PADDING)
         elif self._position == POSITION_TOP:
@@ -681,7 +713,7 @@ class YAxis(Axis):
             tics = self._range_calc.get_ytics(rect)
 
             #calculate xaxis position
-            (zx, zy) = self._range_calc.get_absolute_zero(rect)
+            (zx, zy) = self._range_calc.get_absolute_zero(rect, xaxis, self)
             if xaxis.get_position() == POSITION_BOTTOM:
                 zy = rect.height * (1 - GRAPH_PADDING)
             elif xaxis.get_position() == POSITION_TOP:
@@ -713,7 +745,7 @@ class YAxis(Axis):
         axis_label.draw(context, rect)
 
     def _do_draw(self, context, rect, xaxis):
-        (zx, zy) = self._range_calc.get_absolute_zero(rect)
+        (zx, zy) = self._range_calc.get_absolute_zero(rect, xaxis, self)
         if self._position == POSITION_LEFT:
             zx = rect.width * GRAPH_PADDING
         elif self._position == POSITION_RIGHT:
@@ -809,7 +841,7 @@ class Grid(ChartObject):
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
-    def _do_draw(self, context, rect):
+    def _do_draw(self, context, rect, xaxis, yaxis):
         c = self._color
         context.set_source_rgb(c[0], c[1], c[2])
         #draw horizontal lines
@@ -1077,7 +1109,7 @@ class Graph(ChartObject):
     def has_something_to_draw(self):
         return self._data != []
         
-    def _do_draw_lines(self, context, rect, xrange, yrange):
+    def _do_draw_lines(self, context, rect, xrange, yrange, xaxis, yaxis):
         context.set_source_rgb(*self._color)
         
         set_context_line_style(context, self._line_style)
@@ -1086,8 +1118,14 @@ class Graph(ChartObject):
         last_point = None
         
         for (x, y) in self._data:
+            
+            if xaxis.get_logarithmic():
+                x = math.log10(x)
+            if yaxis.get_logarithmic():
+                y = math.log10(y)
+                
             if is_in_range(x, xrange) and is_in_range(y, yrange):
-                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
+                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
                 if first_point == None:
                     context.move_to(ax, ay)
                     first_point = x, y
@@ -1099,15 +1137,21 @@ class Graph(ChartObject):
         context.set_dash([])
         return first_point, last_point
         
-    def _do_draw_points(self, context, rect, xrange, yrange):
+    def _do_draw_points(self, context, rect, xrange, yrange, xaxis, yaxis):
         context.set_source_rgb(*self._color)
         
         first_point = None
         last_point = None
         
         for (x, y) in self._data:
+            
+            if xaxis.get_logarithmic():
+                x = math.log10(x)
+            if yaxis.get_logarithmic():
+                y = math.log10(y)
+            
             if is_in_range(x, xrange) and is_in_range(y, yrange):
-                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
+                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
                 if first_point == None:
                     context.move_to(ax, ay)
                     
@@ -1119,10 +1163,16 @@ class Graph(ChartObject):
                 last_point = ax, ay
         return first_point, last_point
         
-    def _do_draw_values(self, context, rect, xrange, yrange):
+    def _do_draw_values(self, context, rect, xrange, yrange, xaxis, yaxis):
         anchors = {}
         first_point = True
         for i, (x, y) in enumerate(self._data):
+            
+            if xaxis.get_logarithmic():
+                x = math.log10(x)
+            if yaxis.get_logarithmic():
+                y = math.log10(y)
+            
             if is_in_range(x, xrange) and is_in_range(y, yrange):
                 next_point = None
                 if i + 1 < len(self._data) and (is_in_range(self._data[i + 1][0], xrange) and is_in_range(self._data[i + 1][1], yrange)):
@@ -1152,13 +1202,19 @@ class Graph(ChartObject):
                             anchors[(x, y)] = label.ANCHOR_BOTTOM_RIGHT
                             
         for x, y in self._data:
+            
+            if xaxis.get_logarithmic():
+                x = math.log10(x)
+            if yaxis.get_logarithmic():
+                y = math.log10(y)
+            
             if (x, y) in anchors and is_in_range(x, xrange) and is_in_range(y, yrange):
-                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y)
+                (ax, ay) = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
                 value_label = label.Label((ax, ay), str(y), anchor=anchors[(x, y)])
                 value_label.set_color(color_cairo_to_gdk(*self._color))
                 value_label.draw(context, rect)
 
-    def _do_draw_title(self, context, rect, last_point):
+    def _do_draw_title(self, context, rect, last_point, xaxis, yaxis):
         """
         Draws the title.
 
@@ -1176,10 +1232,16 @@ class Graph(ChartObject):
             self._label.set_color(color_cairo_to_gdk(*self._color))
             self._label.draw(context, rect)
             
-    def _do_draw_fill(self, context, rect, xrange):
+    def _do_draw_fill(self, context, rect, xrange, xaxis, yaxis):
         if type(self._fill_to) in (int, float):
             data = []
             for i, (x, y) in enumerate(self._data):
+                
+                if get_logarithmic():
+                    x = math.log10(x)
+                if get_logarithmic():
+                    y = math.log10(y)
+                
                 if is_in_range(x, xrange) and not data:
                     data.append((x, self._fill_to))
                 elif not is_in_range(x, xrange) and len(data) == 1:
@@ -1207,6 +1269,12 @@ class Graph(ChartObject):
         first = True
         start_point = (0, 0)
         for x, y in data_a:
+            
+            if xaxis.get_logarithmic():
+                x = math.log10(x)
+            if yaxis.get_logarithmic():
+                y = math.log10(y)
+            
             if is_in_range(x, xrange):
                 xa, ya = self._range_calc.get_absolute_point(rect, x, y)
                 if first:
@@ -1226,7 +1294,7 @@ class Graph(ChartObject):
         context.line_to(*start_point)
         context.fill()
 
-    def _do_draw(self, context, rect):
+    def _do_draw(self, context, rect, xaxis, yaxis):
         """
         Draw the graph.
 
@@ -1235,22 +1303,22 @@ class Graph(ChartObject):
         @type rect: gtk.gdk.Rectangle
         @param rect: A rectangle representing the charts area.
         """
-        (xrange, yrange) = self._range_calc.get_ranges()
+        (xrange, yrange) = self._range_calc.get_ranges(xaxis, yaxis)
                 
         if self._type in [GRAPH_LINES, GRAPH_BOTH]:
-            first_point, last_point = self._do_draw_lines(context, rect, xrange, yrange)
+            first_point, last_point = self._do_draw_lines(context, rect, xrange, yrange, xaxis, yaxis)
             
         if self._type in [GRAPH_POINTS, GRAPH_BOTH]:
-            first_point, last_point = self._do_draw_points(context, rect, xrange, yrange)
+            first_point, last_point = self._do_draw_points(context, rect, xrange, yrange, xaxis, yaxis)
 
         if self._fill_to != None:
-            self._do_draw_fill(context, rect, xrange)
+            self._do_draw_fill(context, rect, xrange, xaxis, yaxis)
         
         if self._show_value and self._type in [GRAPH_POINTS, GRAPH_BOTH]:
-            self._do_draw_values(context, rect, xrange, yrange)
+            self._do_draw_values(context, rect, xrange, yrange, xaxis, yaxis)
 
         if self._show_title:
-            self._do_draw_title(context, rect, last_point)
+            self._do_draw_title(context, rect, last_point, xaxis, yaxis)
 
     def get_x_range(self):
         """
