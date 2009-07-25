@@ -1739,7 +1739,11 @@ class Legend(ChartObject):
                 lines = graph_label.get_line_count()
                 line_height = graph_label.get_real_dimensions()[1] / lines
                 context.set_source_rgb(*graph.get_color())
-                draw_point(context, x + 6 + 20, y + line_height / 2, graph.get_point_size(), graph.get_point_style())
+                if type(graph.get_point_style()) != gtk.gdk.Pixbuf:
+                    draw_point(context, x + 6 + 20, y + line_height / 2, graph.get_point_size(), graph.get_point_style())
+                else:
+                    draw_point_pixbuf(context, x + 6 + 20, y + line_height / 2, graph.get_point_style())
+                    
             
             y += graph_label.get_real_dimensions()[1] + 6
             
