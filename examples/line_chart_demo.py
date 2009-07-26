@@ -113,6 +113,12 @@ class Gui:
         self._w("chart_yaxis_show_tic_labels").set_active(chart.yaxis.get_show_tic_labels())
         self._w("chart_yaxis_position").set_active(chart.yaxis.get_position() - 5)
         
+        #chart ranges
+        self._w("chart_xrange_min").set_value(self._chart.get_xrange()[0])
+        self._w("chart_xrange_max").set_value(self._chart.get_xrange()[1])
+        self._w("chart_yrange_min").set_value(self._chart.get_yrange()[0])
+        self._w("chart_yrange_max").set_value(self._chart.get_yrange()[1])
+        
         #chart legend
         self._w("chart_legend_show").set_active(chart.legend.get_visible())
         self._w("chart_legend_position").set_active(chart.legend.get_position() - 8)
@@ -222,6 +228,12 @@ class Gui:
         self._w("chart_yaxis_show_tics").connect("toggled", self._cb_chart_yaxis_show_tics_changed)
         self._w("chart_yaxis_show_tic_labels").connect("toggled", self._cb_chart_yaxis_show_tic_labels_changed)
         self._w("chart_yaxis_position").connect("changed", self._cb_chart_yaxis_position_changed)
+        
+        #chart ranges
+        self._w("chart_xrange_min").connect("value-changed", self._cb_chart_xrange_changed)
+        self._w("chart_xrange_max").connect("value-changed", self._cb_chart_xrange_changed)
+        self._w("chart_yrange_min").connect("value-changed", self._cb_chart_yrange_changed)
+        self._w("chart_yrange_max").connect("value-changed", self._cb_chart_yrange_changed)
         
         #chart legend
         self._w("chart_legend_show").connect("toggled", self._cb_chart_legend_show_changed)
@@ -342,6 +354,17 @@ class Gui:
     def _cb_chart_yaxis_position_changed(self, combo):
         self._chart.yaxis.set_position(combo.get_active() + 5)
         
+    #chart ranges callbacks
+    def _cb_chart_xrange_changed(self, spin):
+        xmin = self._w("chart_xrange_min").get_value()
+        xmax = self._w("chart_xrange_max").get_value()
+        self._chart.set_xrange((xmin, xmax))
+        
+    def _cb_chart_yrange_changed(self, spin):
+        ymin = self._w("chart_yrange_min").get_value()
+        ymax = self._w("chart_yrange_max").get_value()
+        self._chart.set_yrange((ymin, ymax))
+    
     #chart legend callbacks
     def _cb_chart_legend_show_changed(self, button):
         self._chart.legend.set_visible(button.get_active())
