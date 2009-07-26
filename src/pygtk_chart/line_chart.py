@@ -1245,9 +1245,9 @@ class Graph(ChartObject):
             data = []
             for i, (x, y) in enumerate(self._data):
                 
-                if get_logarithmic():
+                if xaxis.get_logarithmic():
                     x = math.log10(x)
-                if get_logarithmic():
+                if yaxis.get_logarithmic():
                     y = math.log10(y)
                 
                 if is_in_range(x, xrange) and not data:
@@ -1284,7 +1284,7 @@ class Graph(ChartObject):
                 y = math.log10(y)
             
             if is_in_range(x, xrange):
-                xa, ya = self._range_calc.get_absolute_point(rect, x, y)
+                xa, ya = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
                 if first:
                     context.move_to(xa, ya)
                     start_point = xa, ya
@@ -1296,7 +1296,7 @@ class Graph(ChartObject):
         for i in range(0, len(data_b)):
             j = len(data_b) - i - 1
             x, y = data_b[j]
-            xa, ya = self._range_calc.get_absolute_point(rect, x, y)
+            xa, ya = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
             if is_in_range(x, xrange):
                 context.line_to(xa, ya)
         context.line_to(*start_point)
