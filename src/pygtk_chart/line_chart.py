@@ -280,7 +280,14 @@ class LineChart(chart.Chart):
      - LineChart.yaxis
     """
     
-    __gsignals__ = {"datapoint-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))}
+    __gsignals__ = {"datapoint-clicked": (gobject.SIGNAL_RUN_LAST,
+                                            gobject.TYPE_NONE,
+                                            (gobject.TYPE_PYOBJECT,
+                                            gobject.TYPE_PYOBJECT)),
+                    "datapoint-hovered": (gobject.SIGNAL_RUN_LAST,
+                                            gobject.TYPE_NONE,
+                                            (gobject.TYPE_PYOBJECT,
+                                            gobject.TYPE_PYOBJECT))}
     
     def __init__(self):
         chart.Chart.__init__(self)
@@ -304,12 +311,13 @@ class LineChart(chart.Chart):
             
     def _cb_button_pressed(self, widget, event):
         points = chart.get_sensitive_areas(event.x, event.y)
-        if points:
-            for x, y, graph in points:
-                self.emit("datapoint-clicked", graph, (x, y))
+        for x, y, graph in points:
+            self.emit("datapoint-clicked", graph, (x, y))
     
     def _cb_motion_notify(self, widget, event):
         self._highlighted_points = chart.get_sensitive_areas(event.x, event.y)
+        for x, y, graph in self._highlighted_points:
+            self.emit("datapoint-hovered", graph, (x, y))
         self.queue_draw()
 
     def _do_draw_graphs(self, context, rect):

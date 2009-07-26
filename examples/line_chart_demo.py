@@ -273,6 +273,7 @@ class Gui:
         
         #linechart
         self._chart.connect("datapoint-clicked", self._cb_datapoint_clicked)
+        self._chart.connect("datapoint-hovered", self._cb_datapoint_hovered)
                 
     def _cb_close(self, widget):
         gtk.main_quit()
@@ -459,6 +460,9 @@ class Gui:
     #linechart callbacks
     def _cb_datapoint_clicked(self, chart, graph, (x, y)):
         print "Point (%s, %s) on '%s' clicked." % (x, y, graph.get_title())
+        
+    def _cb_datapoint_hovered(self, chart, graph, (x, y)):
+        print "Point (%s, %s) on '%s' hovered." % (x, y, graph.get_title())
         
         
 if __name__ == "__main__":
