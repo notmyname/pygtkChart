@@ -279,6 +279,9 @@ class LineChart(chart.Chart):
      - LineChart.xaxis
      - LineChart.yaxis
     """
+    
+    __gsignals__ = {"datapoint-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))}
+    
     def __init__(self):
         chart.Chart.__init__(self)
         self.graphs = {}
@@ -287,6 +290,8 @@ class LineChart(chart.Chart):
         self.yaxis = YAxis(self._range_calc)
         self.grid = Grid(self._range_calc)
         self.legend = Legend()
+        
+        self._highlighted_points = []
 
         self.xaxis.connect("appearance_changed", self._cb_appearance_changed)
         self.yaxis.connect("appearance_changed", self._cb_appearance_changed)
@@ -296,6 +301,16 @@ class LineChart(chart.Chart):
     def __iter__(self):
         for name, graph in self.graphs.iteritems():
             yield graph
+            
+    def _cb_button_pressed(self, widget, event):
+        points = chart.get_sensitive_areas(event.x, event.y)
+        if points:
+            for x, y, graph in points:
+                self.emit("datapoint-clicked", graph, (x, y))
+    
+    def _cb_motion_notify(self, widget, event):
+        self._highlighted_points = chart.get_sensitive_areas(event.x, event.y)
+        self.queue_draw()
 
     def _do_draw_graphs(self, context, rect):
         """
@@ -307,7 +322,8 @@ class LineChart(chart.Chart):
         @param rect: A rectangle representing the charts area.
         """
         for (name, graph) in self.graphs.iteritems():
-            graph.draw(context, rect, self.xaxis, self.yaxis)
+            graph.draw(context, rect, self.xaxis, self.yaxis, self._highlighted_points)
+        self._highlighted_points = []
 
     def _do_draw_axes(self, context, rect):
         """
@@ -331,6 +347,7 @@ class LineChart(chart.Chart):
         @param context: The context to draw on.
         """
         label.begin_drawing()
+        chart.init_sensitive_areas()
         rect = self.get_allocation()
         self._range_calc.prepare_tics(rect, self.xaxis, self.yaxis)
         #initial context settings: line width & font
@@ -1017,7 +1034,10 @@ class Graph(ChartObject):
                                      gobject.PARAM_READWRITE),
                         "point-style": (gobject.TYPE_PYOBJECT, "point style",
                                         "The graph's point style.",
-                                        gobject.PARAM_READWRITE)}
+                                        gobject.PARAM_READWRITE),
+                        "clickable": (gobject.TYPE_BOOLEAN, "clickable",
+                                    "Sets whether datapoints should be clickable.",
+                                    True, gobject.PARAM_READWRITE)}
 
     def __init__(self, name, title, data):
         """
@@ -1047,6 +1067,7 @@ class Graph(ChartObject):
         self._fill_opacity = 0.3
         self._line_style = LINE_STYLE_SOLID
         self._point_style = POINT_STYLE_CIRCLE
+        self._clickable = True
 
         self._range_calc = None
         self._label = label.Label((0, 0), self._title, anchor=label.ANCHOR_LEFT_CENTER)
@@ -1080,6 +1101,8 @@ class Graph(ChartObject):
             return self._line_style
         elif property.name == "point-style":
             return self._point_style
+        elif property.name == "clickable":
+            return self._clickable
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -1111,6 +1134,8 @@ class Graph(ChartObject):
             self._line_style = value
         elif property.name == "point-style":
             self._point_style = value
+        elif property.name == "clickable":
+            self._clickable = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -1145,14 +1170,13 @@ class Graph(ChartObject):
         context.set_dash([])
         return first_point, last_point
         
-    def _do_draw_points(self, context, rect, xrange, yrange, xaxis, yaxis):
+    def _do_draw_points(self, context, rect, xrange, yrange, xaxis, yaxis, highlighted_points):
         context.set_source_rgb(*self._color)
         
         first_point = None
         last_point = None
         
         for (x, y) in self._data:
-            
             if xaxis.get_logarithmic():
                 x = math.log10(x)
             if yaxis.get_logarithmic():
@@ -1160,11 +1184,18 @@ class Graph(ChartObject):
             
             if is_in_range(x, xrange) and is_in_range(y, yrange):
                 (ax, ay) = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
+                if self._clickable:
+                    chart.add_sensitive_area(chart.AREA_CIRCLE, (ax, ay, self._point_size), (x, y, self))
                 if first_point == None:
                     context.move_to(ax, ay)
                     
                 if type(self._point_style) != gtk.gdk.Pixbuf:
                     draw_point(context, ax, ay, self._point_size, self._point_style)
+                    highlighted = (x, y, self) in highlighted_points
+                    if highlighted and self._clickable:
+                        context.set_source_rgba(1, 1, 1, 0.3)
+                        draw_point(context, ax, ay, self._point_size, self._point_style)
+                        context.set_source_rgb(*self._color)
                 else:
                     draw_point_pixbuf(context, ax, ay, self._point_style)
                     
@@ -1302,7 +1333,7 @@ class Graph(ChartObject):
         context.line_to(*start_point)
         context.fill()
 
-    def _do_draw(self, context, rect, xaxis, yaxis):
+    def _do_draw(self, context, rect, xaxis, yaxis, highlighted_points):
         """
         Draw the graph.
 
@@ -1317,7 +1348,7 @@ class Graph(ChartObject):
             first_point, last_point = self._do_draw_lines(context, rect, xrange, yrange, xaxis, yaxis)
             
         if self._type in [GRAPH_POINTS, GRAPH_BOTH]:
-            first_point, last_point = self._do_draw_points(context, rect, xrange, yrange, xaxis, yaxis)
+            first_point, last_point = self._do_draw_points(context, rect, xrange, yrange, xaxis, yaxis, highlighted_points)
 
         if self._fill_to != None:
             self._do_draw_fill(context, rect, xrange, xaxis, yaxis)
@@ -1602,6 +1633,26 @@ class Graph(ChartObject):
         @return: a point style constant or gtk.gdk.Pixbuf.
         """
         return self.get_property("point-style")
+        
+    def set_clickable(self, clickable):
+        """
+        Set whether the datapoints of the graph should be clickable
+        (only if the datapoints are shown).
+        If this is set to True, the LineChart will emit the signal
+        'datapoint-clicked' when a datapoint was clicked.
+        
+        @type clickable: boolean.
+        """
+        self.set_property("clickable", clickable)
+        self.emit("appearance_changed")
+        
+    def get_clickable(self):
+        """
+        Returns True if the datapoints of the graph are clickable.
+        
+        @return: boolean.
+        """
+        return self.get_property("clickable")
         
         
 def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimize_sampling=True):

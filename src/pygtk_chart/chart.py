@@ -48,6 +48,32 @@ from pygtk_chart.basics import *
 from pygtk_chart import label
 
 COLOR_AUTO = 0
+AREA_CIRCLE = 0
+AREA_RECTANGLE = 1
+CLICK_SENSITIVE_AREAS = []
+
+
+def init_sensitive_areas():
+    global CLICK_SENSITIVE_AREAS
+    CLICK_SENSITIVE_AREAS = []
+    
+def add_sensitive_area(type, coords, data):
+    global CLICK_SENSITIVE_AREAS
+    CLICK_SENSITIVE_AREAS.append((type, coords, data))
+    
+def get_sensitive_areas(x, y):
+    res = []
+    global CLICK_SENSITIVE_AREAS
+    for type, coords, data in CLICK_SENSITIVE_AREAS:
+        if type == AREA_CIRCLE:
+            ax, ay, radius = coords
+            if (ax - x) ** 2 + (ay - y) ** 2 <= radius ** 2:
+                res.append(data)
+        elif type == AREA_RECTANGLE:
+            ax, ay, width, height = coords
+            if ax <= x <= ax + width and ay <= y <= ay + height:
+                res.append(data)
+    return res
 
 
 class Chart(gtk.DrawingArea):
@@ -64,12 +90,22 @@ class Chart(gtk.DrawingArea):
         self.title = Title()
         self.title.connect("appearance-changed", self._cb_appearance_changed)
         
+        self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
+        self.connect("button_press_event", self._cb_button_pressed)
+        self.connect("motion-notify-event", self._cb_motion_notify)
+        
     def _cb_appearance_changed(self, object):
         """
         This method is called after the appearance of an object changed
         and forces a redraw.
         """
         self.queue_draw()
+        
+    def _cb_button_pressed(self, widget, event):
+        pass
+    
+    def _cb_motion_notify(self, widget, event):
+        pass
         
     def expose(self, widget, event):
         """

@@ -163,6 +163,7 @@ class Gui:
         else:
             self._w("graph_point_style").set_active(self._graph.get_point_style())
         self._w("graph_point_size").set_value(self._graph.get_point_size())
+        self._w("graph_clickable").set_active(self._graph.get_clickable())
         
         #graph filling
         self._w("graph_fill_value").set_sensitive(False)
@@ -259,6 +260,7 @@ class Gui:
         self._w("graph_point_style").connect("changed", self._cb_graph_point_style_changed)
         self._datapoint_chooser.connect("selection-changed", self._cb_graph_point_pb_changed)
         self._w("graph_point_size").connect("value-changed", self._cb_graph_point_size_changed)
+        self._w("graph_clickable").connect("toggled", self._cb_graph_clickable_changed)
         
         #graph filling
         self._w("graph_fill_type_none").connect("toggled", self._cb_graph_fill_type_changed)
@@ -268,6 +270,9 @@ class Gui:
         self._w("graph_fill_graph").connect("changed", self._cb_graph_fill_graph_changed)
         self._w("graph_fill_color").connect("color-set", self._cb_graph_fill_color_changed)
         self._w("graph_fill_opacity").connect("value-changed", self._cb_graph_fill_opacity_changed)
+        
+        #linechart
+        self._chart.connect("datapoint-clicked", self._cb_datapoint_clicked)
                 
     def _cb_close(self, widget):
         gtk.main_quit()
@@ -419,6 +424,9 @@ class Gui:
     def _cb_graph_point_size_changed(self, spin):
         self._graph.set_point_size(spin.get_value())
         
+    def _cb_graph_clickable_changed(self, button):
+        self._graph.set_clickable(button.get_active())
+        
     #graph filling callbacks
     def _cb_graph_fill_type_changed(self, button):
         self._w("graph_fill_value").set_sensitive(False)
@@ -447,6 +455,10 @@ class Gui:
         
     def _cb_graph_fill_opacity_changed(self, spin):
         self._graph.set_fill_opacity(spin.get_value())
+        
+    #linechart callbacks
+    def _cb_datapoint_clicked(self, chart, graph, (x, y)):
+        print "Point (%s, %s) on '%s' clicked." % (x, y, graph.get_title())
         
         
 if __name__ == "__main__":
