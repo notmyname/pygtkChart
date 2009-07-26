@@ -168,12 +168,16 @@ class Gui:
         self._w("graph_fill_value").set_sensitive(False)
         self._w("graph_fill_graph").set_sensitive(False)
             
+        i = 0
+        n = 0
         store = gtk.ListStore(gobject.TYPE_PYOBJECT, str)        
         for graph in self._chart:
             if graph == self._graph: continue
             store.set(store.append(None), 0, graph, 1, graph.get_title())
+            if graph == self._graph.get_fill_to(): n = i
+            i += 1
         self._w("graph_fill_graph").set_model(store)
-        self._w("graph_fill_graph").set_active(0)
+        self._w("graph_fill_graph").set_active(n)
         
         if self._graph.get_fill_to() == None:
             self._w("graph_fill_type_none").set_active(True)
