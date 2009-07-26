@@ -389,6 +389,10 @@ class LineChart(chart.Chart):
         @param xrange: The new xrange.
         """
         self._range_calc.set_xrange(xrange)
+        self.queue_draw()
+        
+    def get_xrange(self):
+        return self._range_calc.get_ranges(self.xaxis, self.yaxis)[0]
 
     def set_yrange(self, yrange):
         """
@@ -400,6 +404,10 @@ class LineChart(chart.Chart):
         @param yrange: The new yrange.
         """
         self._range_calc.set_yrange(yrange)
+        self.queue_draw()
+        
+    def get_yrange(self):
+        return self._range_calc.get_ranges(self.xaxis, self.yaxis)[1]
 
 
 class Axis(ChartObject):
