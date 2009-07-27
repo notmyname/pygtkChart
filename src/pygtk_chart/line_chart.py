@@ -1097,7 +1097,12 @@ class Graph(ChartObject):
 
     def __init__(self, name, title, data):
         """
-        Create a new instance.
+        Create a new graph instance.
+        data should be a list of x,y pairs. If you want to provide
+        error data for a datapoint, the tuple for that point has to be
+        (x, y, xerror, yerror). If you want only one error, set the
+        other to zero. You can mix datapoints with and without error
+        data in data.
 
         @type name: string
         @param name: A unique name for the graph. This could be everything.
@@ -1105,9 +1110,9 @@ class Graph(ChartObject):
         this if you want to access or delete a graph from a chart.
         @type title: string
         @param title: The graphs title. This can be drawn on the chart.
-        @type data: list of pairs of numbers
-        @param data: This is the data you want to be visualized. data has to
-        be a list of (x, y) pairs.
+        @type data: list (see above)
+        @param data: This is the data you want to be visualized. For
+        detail see description above.
         """
         ChartObject.__init__(self)
         self._name = name
@@ -1637,8 +1642,13 @@ class Graph(ChartObject):
     def add_data(self, data_list):
         """
         Add data to the graph.
+        data_list should be a list of x,y pairs. If you want to provide
+        error data for a datapoint, the tuple for that point has to be
+        (x, y, xerror, yerror). If you want only one error, set the
+        other to zero. You can mix datapoints with and without error
+        data in data_list.
 
-        @type data_list: a list of pairs of numbers
+        @type data_list: a list (see above).
         """
         new_data, new_errors = separate_data_and_errors(data_list)
         self._data += new_data
@@ -1841,6 +1851,10 @@ def graph_new_from_file(filename, graph_name, x_col=0, y_col=1, xerror_col=-1, y
     for plotting. By default, the first column (x_col=0) is used for
     x values, the second (y_col=1) is used for y values.
     
+    The parameters xerror_col and yerror_col should point to the column
+    in which the x/y error values are. If you do not want to provide
+    x or y error data, omit the paramter or set it to -1 (default).
+    
     @type filename: string
     @param filename: path to the data file
     @type graph_name: string
@@ -1849,6 +1863,10 @@ def graph_new_from_file(filename, graph_name, x_col=0, y_col=1, xerror_col=-1, y
     @param x_col: the number of the column to use for x values
     @type y_col: int
     @param y_col: the number of the column to use for y values
+    @type xerror_col: int
+    @param xerror_col: index of the column for x error values
+    @type yerror_col: int
+    @param yerror_col: index of the column for y error values
     
     @return: line_chart.Graph
     """
