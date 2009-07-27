@@ -69,7 +69,7 @@ class Gui:
         cubic_exp.set_title("Test")
         self._chart.add_graph(cubic_exp)
         
-        filegrapha = line_chart.graph_new_from_file("line_chart_test_data", "filea", 0, 1)
+        filegrapha = line_chart.graph_new_from_file("line_chart_test_data", "filea", 0, 1, xerror_col=4, yerror_col=3)
         filegrapha.set_title("File data 0:1")
         self._chart.add_graph(filegrapha)
         
@@ -164,6 +164,10 @@ class Gui:
             self._w("graph_point_style").set_active(self._graph.get_point_style())
         self._w("graph_point_size").set_value(self._graph.get_point_size())
         self._w("graph_clickable").set_active(self._graph.get_clickable())
+        
+        #graph errors
+        self._w("graph_show_xerrors").set_active(self._graph.get_show_xerrors())
+        self._w("graph_show_yerrors").set_active(self._graph.get_show_yerrors())
         
         #graph filling
         self._w("graph_fill_value").set_sensitive(False)
@@ -261,6 +265,10 @@ class Gui:
         self._datapoint_chooser.connect("selection-changed", self._cb_graph_point_pb_changed)
         self._w("graph_point_size").connect("value-changed", self._cb_graph_point_size_changed)
         self._w("graph_clickable").connect("toggled", self._cb_graph_clickable_changed)
+        
+        #graph errors
+        self._w("graph_show_xerrors").connect("toggled", self._cb_graph_show_xerrors_changed)
+        self._w("graph_show_yerrors").connect("toggled", self._cb_graph_show_yerrors_changed)
         
         #graph filling
         self._w("graph_fill_type_none").connect("toggled", self._cb_graph_fill_type_changed)
@@ -428,6 +436,13 @@ class Gui:
     def _cb_graph_clickable_changed(self, button):
         self._graph.set_clickable(button.get_active())
         
+    #graph error callbacks
+    def _cb_graph_show_xerrors_changed(self, button):
+        self._graph.set_show_xerrors(button.get_active())
+        
+    def _cb_graph_show_yerrors_changed(self, button):
+        self._graph.set_show_yerrors(button.get_active())
+    
     #graph filling callbacks
     def _cb_graph_fill_type_changed(self, button):
         self._w("graph_fill_value").set_sensitive(False)

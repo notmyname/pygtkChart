@@ -128,6 +128,46 @@ def draw_point_pixbuf(context, x, y, pixbuf):
     context.set_source_pixbuf(pixbuf, ax, ay)
     context.rectangle(ax, ay, w, h)
     context.fill()
+    
+def draw_errors(context, rect, range_calc, x, y, errors, draw_x, draw_y, xaxis, yaxis, size):
+    if (x, y) in errors:
+        xerror, yerror = errors[(x, y)]
+        if draw_x and xerror > 0:
+            #rect, x, y, xaxis, yaxis
+            left = range_calc.get_absolute_point(rect, x - xerror, y, xaxis, yaxis)
+            right = range_calc.get_absolute_point(rect, x + xerror, y, xaxis, yaxis)
+            context.move_to(left[0], left[1])
+            context.line_to(right[0], right[1])
+            context.stroke()
+            context.move_to(left[0], left[1] - size)
+            context.rel_line_to(0, 2 * size)
+            context.stroke()
+            context.move_to(right[0], right[1] - size)
+            context.rel_line_to(0, 2 * size)
+            context.stroke()
+        if draw_y and yerror > 0:
+            top = range_calc.get_absolute_point(rect, x, y - yerror, xaxis, yaxis)
+            bottom = range_calc.get_absolute_point(rect, x, y + yerror, xaxis, yaxis)
+            context.move_to(top[0], top[1])
+            context.line_to(bottom[0], bottom[1])
+            context.stroke()
+            context.move_to(top[0] - size, top[1])
+            context.rel_line_to(2 * size, 0)
+            context.stroke()
+            context.move_to(bottom[0] - size, bottom[1])
+            context.rel_line_to(2 * size, 0)
+            context.stroke()
+    
+def separate_data_and_errors(old_data):
+    data = []
+    errors = {}
+    for d in old_data:
+        if len(d) == 2:
+            data.append(d)
+        elif len(d) == 4:
+            data.append((d[0], d[1]))
+            errors[(d[0], d[1])] = (d[2], d[3])
+    return data, errors
 
 
 class RangeCalculator:
@@ -1045,7 +1085,15 @@ class Graph(ChartObject):
                                         gobject.PARAM_READWRITE),
                         "clickable": (gobject.TYPE_BOOLEAN, "clickable",
                                     "Sets whether datapoints should be clickable.",
-                                    True, gobject.PARAM_READWRITE)}
+                                    True, gobject.PARAM_READWRITE),
+                        "show-xerrors": (gobject.TYPE_BOOLEAN,
+                                            "show xerrors",
+                                            "Set whether to show x-errorbars.",
+                                            True, gobject.PARAM_READWRITE),
+                        "show-yerrors": (gobject.TYPE_BOOLEAN,
+                                            "show yerrors",
+                                            "Set whether to show y-errorbars.",
+                                            True, gobject.PARAM_READWRITE)}
 
     def __init__(self, name, title, data):
         """
@@ -1064,7 +1112,7 @@ class Graph(ChartObject):
         ChartObject.__init__(self)
         self._name = name
         self._title = title
-        self._data = data
+        self._data, self._errors = separate_data_and_errors(data)
         self._color = COLOR_AUTO
         self._type = GRAPH_BOTH
         self._point_size = 2
@@ -1076,6 +1124,8 @@ class Graph(ChartObject):
         self._line_style = LINE_STYLE_SOLID
         self._point_style = POINT_STYLE_CIRCLE
         self._clickable = True
+        self._draw_xerrors = True
+        self._draw_yerrors = True
 
         self._range_calc = None
         self._label = label.Label((0, 0), self._title, anchor=label.ANCHOR_LEFT_CENTER)
@@ -1111,6 +1161,10 @@ class Graph(ChartObject):
             return self._point_style
         elif property.name == "clickable":
             return self._clickable
+        elif property.name == "show-xerrors":
+            return self._draw_xerrors
+        elif property.name == "show-yerrors":
+            return self._draw_yerrors
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -1144,6 +1198,10 @@ class Graph(ChartObject):
             self._point_style = value
         elif property.name == "clickable":
             self._clickable = value
+        elif property.name == "show-xerrors":
+            self._draw_xerrors = value
+        elif property.name == "show-yerrors":
+            self._draw_yerrors = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
 
@@ -1197,6 +1255,10 @@ class Graph(ChartObject):
                 if first_point == None:
                     context.move_to(ax, ay)
                     
+                #draw errors
+                draw_errors(context, rect, self._range_calc, x, y, self._errors, self._draw_xerrors, self._draw_yerrors, xaxis, yaxis, self._point_size)
+                    
+                #draw the point
                 if type(self._point_style) != gtk.gdk.Pixbuf:
                     draw_point(context, ax, ay, self._point_size, self._point_style)
                     highlighted = (x, y, self) in highlighted_points
@@ -1578,7 +1640,9 @@ class Graph(ChartObject):
 
         @type data_list: a list of pairs of numbers
         """
-        self._data += data_list
+        new_data, new_errors = separate_data_and_errors(data_list)
+        self._data += new_data
+        self._errors = dict(self._errors, **new_errors)
         self._range_calc.add_graph(self)
         
     def get_data(self):
@@ -1662,6 +1726,44 @@ class Graph(ChartObject):
         """
         return self.get_property("clickable")
         
+    def set_show_xerrors(self, show):
+        """
+        Use this method to set whether x-errorbars should be shown
+        if error data is available.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-xerrors", show)
+        self.emit("appearance_changed")
+        
+    def get_show_xerrors(self):
+        """
+        Returns True if x-errorbars should be drawn if error data is
+        available.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-xerrors")
+        
+    def set_show_yerrors(self, show):
+        """
+        Use this method to set whether y-errorbars should be shown
+        if error data is available.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-yerrors", show)
+        self.emit("appearance_changed")
+        
+    def get_show_yerrors(self):
+        """
+        Returns True if y-errorbars should be drawn if error data is
+        available.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-yerrors")
+        
         
 def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimize_sampling=True):
     """
@@ -1725,7 +1827,7 @@ def optimize_sampling(func, data):
     else:
         return data
         
-def graph_new_from_file(filename, graph_name, x_col=0, y_col=1):
+def graph_new_from_file(filename, graph_name, x_col=0, y_col=1, xerror_col=-1, yerror_col=-1):
     """
     Returns a line_chart.Graph with point taken from data file
     filename.
@@ -1776,7 +1878,20 @@ def graph_new_from_file(filename, graph_name, x_col=0, y_col=1):
             d = filter(lambda x: x, d)
             d = map(lambda x: float(x), d)
             
-            points.append((d[x_col], d[y_col]))
+            new_data = (d[x_col], d[y_col])
+            
+            if xerror_col != -1 or yerror_col != -1:
+                xerror = 0
+                yerror = 0
+                
+                if xerror_col != -1:
+                    xerror = d[xerror_col]
+                if yerror_col != -1:
+                    yerror = d[yerror_col]
+                
+                new_data = (d[x_col], d[y_col], xerror, yerror)
+                
+            points.append(new_data)
     return Graph(graph_name, "", points)
 
 
