@@ -201,7 +201,7 @@ class Background(ChartObject):
         self._color = (1, 1, 1) #the backgound is filled white by default
         self._gradient = None
         self._image = ""
-        self._image_surface = None
+        self._pixbuf = None
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -251,8 +251,8 @@ class Background(ChartObject):
             gradient.add_color_stop_rgb(0, cs[0], cs[1], cs[2])
             gradient.add_color_stop_rgb(1, ce[0], ce[1], ce[2])
             context.set_source(gradient)
-        elif self._image_surface:
-            context.set_source_surface(self._image_surface, 0, 0)
+        elif self._pixbuf:
+            context.set_source_pixbuf(self._pixbuf, 0, 0)
         else:
             context.set_source_rgb(1, 1, 1) #fallback to white bg
         #create the background rectangle and fill it:
@@ -294,17 +294,17 @@ class Background(ChartObject):
         
     def set_image(self, filename):
         """
-        The set_image() method sets the background to be filled with a png
+        The set_image() method sets the background to be filled with an
         image.
         
         @type filename: string
-        @param filename: Path to the png file you want to use as background
+        @param filename: Path to the file you want to use as background
         image. If the file does not exists, the background is set to white.
         """
         try:
-            self._image_surface = cairo.ImageSurface.create_from_png(filename)
+            self._pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
         except:
-            self._image_surface = None
+            self._pixbuf = None
         
         self.set_property("color", None)
         self.set_property("gradient", None)
