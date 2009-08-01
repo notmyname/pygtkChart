@@ -104,3 +104,15 @@ def color_list_from_file(filename):
             result.append(color_html_to_cairo(line))
     return result
 
+def gdk_color_list_from_file(filename):
+    """
+    Read a file with one html hex color per line and return a list
+    of gdk colors.
+    """
+    result = []
+    if os.path.exists(filename):
+        f = open(filename, "r")
+        for line in f.readlines():
+            line = line.strip()
+            result.append(gtk.gdk.color_parse(line))
+    return result

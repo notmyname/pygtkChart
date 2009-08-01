@@ -65,7 +65,7 @@ POINT_STYLE_TRIANGLE_DOWN = 4
 POINT_STYLE_DIAMOND = 5
 
 #load default color palette
-COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
+COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
 def set_context_line_style(context, style):
@@ -1214,7 +1214,7 @@ class Graph(ChartObject):
         return self._data != []
         
     def _do_draw_lines(self, context, rect, xrange, yrange, xaxis, yaxis):
-        context.set_source_rgb(*self._color)
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
         
         set_context_line_style(context, self._line_style)
         
@@ -1242,7 +1242,7 @@ class Graph(ChartObject):
         return first_point, last_point
         
     def _do_draw_points(self, context, rect, xrange, yrange, xaxis, yaxis, highlighted_points):
-        context.set_source_rgb(*self._color)
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
         
         first_point = None
         last_point = None
@@ -1270,7 +1270,7 @@ class Graph(ChartObject):
                     if highlighted and self._clickable:
                         context.set_source_rgba(1, 1, 1, 0.3)
                         draw_point(context, ax, ay, self._point_size, self._point_style)
-                        context.set_source_rgb(*self._color)
+                        context.set_source_rgb(*color_gdk_to_cairo(self._color))
                 else:
                     draw_point_pixbuf(context, ax, ay, self._point_style)
                     
@@ -1325,7 +1325,7 @@ class Graph(ChartObject):
             if (x, y) in anchors and is_in_range(x, xrange) and is_in_range(y, yrange):
                 (ax, ay) = self._range_calc.get_absolute_point(rect, x, y, xaxis, yaxis)
                 value_label = label.Label((ax, ay), str(y), anchor=anchors[(x, y)])
-                value_label.set_color(color_cairo_to_gdk(*self._color))
+                value_label.set_color(self._color)
                 value_label.draw(context, rect)
 
     def _do_draw_title(self, context, rect, last_point, xaxis, yaxis):
@@ -1343,7 +1343,7 @@ class Graph(ChartObject):
             x = last_point[0] + 5
             y = last_point[1]
             self._label.set_position((x, y))
-            self._label.set_color(color_cairo_to_gdk(*self._color))
+            self._label.set_color(self._color)
             self._label.draw(context, rect)
             
     def _do_draw_fill(self, context, rect, xrange, xaxis, yaxis):
@@ -1375,6 +1375,7 @@ class Graph(ChartObject):
         
         c = self._fill_color
         if c == COLOR_AUTO: c = self._color
+        c = color_gdk_to_cairo(c)
         context.set_source_rgba(c[0], c[1], c[2], self._fill_opacity)
         
         data_a = self._data
@@ -1998,7 +1999,7 @@ class Legend(ChartObject):
                 lines = graph_label.get_line_count()
                 line_height = graph_label.get_real_dimensions()[1] / lines
                 set_context_line_style(context, graph.get_line_style())
-                context.set_source_rgb(*graph.get_color())
+                context.set_source_rgb(*color_gdk_to_cairo(graph.get_color()))
                 context.move_to(x + 6, y + line_height / 2)
                 context.rel_line_to(20, 0)
                 context.stroke()
@@ -2006,7 +2007,7 @@ class Legend(ChartObject):
             if graph.get_type() in [GRAPH_POINTS, GRAPH_BOTH]:
                 lines = graph_label.get_line_count()
                 line_height = graph_label.get_real_dimensions()[1] / lines
-                context.set_source_rgb(*graph.get_color())
+                context.set_source_rgb(*color_gdk_to_cairo(graph.get_color()))
                 if type(graph.get_point_style()) != gtk.gdk.Pixbuf:
                     draw_point(context, x + 6 + 20, y + line_height / 2, graph.get_point_size(), graph.get_point_style())
                 else:

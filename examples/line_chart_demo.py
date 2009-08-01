@@ -153,7 +153,7 @@ class Gui:
         self._w("graph_antialias").set_active(self._graph.get_antialias())        
         self._w("graph_title").set_text(self._graph.get_title())
         self._w("graph_show_title").set_active(self._graph.get_show_title())
-        self._w("graph_color").set_color(to_gdkColor(*self._graph.get_color()))
+        self._w("graph_color").set_color(self._graph.get_color())
         
         #graph lines and points
         self._w("graph_type").set_active(self._graph.get_type() - 1)
@@ -194,9 +194,9 @@ class Gui:
             self._w("graph_fill_graph").set_sensitive(True)
             
         if self._graph.get_fill_color() == line_chart.COLOR_AUTO:
-            self._w("graph_fill_color").set_color(to_gdkColor(*self._graph.get_color()))
+            self._w("graph_fill_color").set_color(self._graph.get_color())
         else:
-            self._w("graph_fill_color").set_color(to_gdkColor(*self._graph.get_fill_color()))
+            self._w("graph_fill_color").set_color(self._graph.get_fill_color())
             
         self._w("graph_fill_opacity").set_value(self._graph.get_fill_opacity())
         
@@ -411,7 +411,7 @@ class Gui:
         self._graph.set_show_title(button.get_active())
         
     def _cb_graph_color_changed(self, chooser):
-        self._graph.set_color(from_gdkColor(chooser.get_color()))
+        self._graph.set_color(chooser.get_color())
         
     #graph style callbacks
     def _cb_graph_type_changed(self, combo):
@@ -467,7 +467,7 @@ class Gui:
         self._graph.set_fill_to(graph)
         
     def _cb_graph_fill_color_changed(self, chooser):
-        self._graph.set_fill_color(from_gdkColor(chooser.get_color()))
+        self._graph.set_fill_color(chooser.get_color())
         
     def _cb_graph_fill_opacity_changed(self, spin):
         self._graph.set_fill_opacity(spin.get_value())
