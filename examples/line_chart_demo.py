@@ -93,7 +93,7 @@ class Gui:
         self._bg_picture_chooser.set_sensitive(False)
         
         #chart grid
-        self._w("chart_grid_color").set_color(to_gdkColor(*chart.grid.get_color()))
+        self._w("chart_grid_color").set_color(chart.grid.get_color())
         self._w("chart_grid_show_horizontal").set_active(chart.grid.get_draw_horizontal_lines())
         self._w("chart_grid_style_horizontal").set_active(chart.grid.get_line_style_horizontal())
         self._w("chart_grid_show_vertical").set_active(chart.grid.get_draw_vertical_lines())
@@ -326,7 +326,7 @@ class Gui:
         
     #chart grid callbacks
     def _cb_chart_grid_color_changed(self, chooser):
-        self._chart.grid.set_color(from_gdkColor(chooser.get_color()))
+        self._chart.grid.set_color(chooser.get_color())
         
     def _cb_chart_grid_show_horizontal_changed(self, button):
         self._chart.grid.set_draw_horizontal_lines(button.get_active())

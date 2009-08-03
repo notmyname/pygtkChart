@@ -872,7 +872,7 @@ class Grid(ChartObject):
         ChartObject.__init__(self)
         self.set_property("antialias", False)
         self._range_calc = range_calc
-        self._color = (0.9, 0.9, 0.9)
+        self._color = gtk.gdk.color_parse("#DEDEDE")
         self._show_h = True
         self._show_v = True
         self._line_style_h = LINE_STYLE_SOLID
@@ -915,8 +915,7 @@ class Grid(ChartObject):
             raise AttributeError, "Property %s does not exist." % property.name
 
     def _do_draw(self, context, rect, xaxis, yaxis):
-        c = self._color
-        context.set_source_rgb(c[0], c[1], c[2])
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
         #draw horizontal lines
         if self._show_h:
             set_context_line_style(context, self._line_style_h)
