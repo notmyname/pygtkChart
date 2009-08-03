@@ -38,7 +38,7 @@ from pygtk_chart import label
 COLOR_AUTO = 0
 
 #load default color palette
-COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
+COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
 def draw_sector(context, cx, cy, radius, angle, angle_offset):
@@ -55,7 +55,7 @@ class PieArea(chart.Area):
         self._label_object = label.Label((0, 0), title)
         
     def _do_draw(self, context, rect, cx, cy, radius, angle, angle_offset, draw_label, draw_percentage, draw_value):
-        context.set_source_rgb(*self._color)
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
         draw_sector(context, cx, cy, radius, angle, angle_offset)
         if self._highlighted:
             context.set_source_rgba(1, 1, 1, 0.1)
@@ -90,7 +90,7 @@ class PieArea(chart.Area):
                 self._label_object.set_underline(label.UNDERLINE_SINGLE)
             else:
                 self._label_object.set_underline(label.UNDERLINE_NONE)
-            self._label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._label_object.set_color(self._color)
             self._label_object.set_text(title)
             self._label_object.set_position((x, y))
             self._label_object.set_anchor(ref)

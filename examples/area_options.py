@@ -22,12 +22,6 @@ import gobject
 import gtk
 import pygtk
 
-def to_gdkColor(r, g, b):
-    return gtk.gdk.Color(int(65535 * r), int(65535 * g), int(65535 * b))
-    
-def from_gdkColor(c):
-    return (c.red / 65535.0, c.green / 65535.0, c.blue / 65535.0)
-
 class AreaControl(gtk.Table):
     
     def __init__(self, areas):
@@ -103,7 +97,7 @@ class AreaControl(gtk.Table):
             self.checkbox_antialias.set_active(self.selected.get_antialias())
             self.entry_area_title.set_text(self.selected.get_label())
             self.spin_value.set_value(self.selected.get_value())
-            self.color_chooser.set_color(to_gdkColor(*self.selected.get_color()))
+            self.color_chooser.set_color(self.selected.get_color())
         except:
             pass
         
@@ -128,4 +122,4 @@ class AreaControl(gtk.Table):
         self.selected.set_value(spin.get_value())
         
     def _cb_area_color_changed(self, chooser):
-        self.selected.set_color(from_gdkColor(chooser.get_color()))
+        self.selected.set_color(chooser.get_color())
