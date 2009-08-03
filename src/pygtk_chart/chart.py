@@ -198,7 +198,7 @@ class Background(ChartObject):
     
     def __init__(self):
         ChartObject.__init__(self)
-        self._color = (1, 1, 1) #the backgound is filled white by default
+        self._color = gtk.gdk.color_parse("#ffffff") #the backgound is filled white by default
         self._gradient = None
         self._image = ""
         self._pixbuf = None
@@ -242,11 +242,11 @@ class Background(ChartObject):
         """
         if self._color != None:
             #set source color
-            c = self._color
-            context.set_source_rgb(c[0], c[1], c[2])
+            context.set_source_rgb(*color_gdk_to_cairo(self._color))
         elif self._gradient != None:
             #set source gradient
-            cs, ce = self._gradient
+            cs = color_gdk_to_cairo(self._gradient[0])
+            ce = color_gdk_to_cairo(self._gradient[1])
             gradient = cairo.LinearGradient(0, 0, 0, rect.height)
             gradient.add_color_stop_rgb(0, cs[0], cs[1], cs[2])
             gradient.add_color_stop_rgb(1, ce[0], ce[1], ce[2])

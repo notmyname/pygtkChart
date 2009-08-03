@@ -21,12 +21,6 @@
 import gtk
 import pygtk
 
-def to_gdkColor(r, g, b):
-    return gtk.gdk.Color(int(65535 * r), int(65535 * g), int(65535 * b))
-    
-def from_gdkColor(c):
-    return (c.red / 65535.0, c.green / 65535.0, c.blue / 65535.0)
-
 class ChartControl(gtk.Table):
     
     def __init__(self, chart):
@@ -74,7 +68,7 @@ class ChartControl(gtk.Table):
         self.radio_bg_color = gtk.RadioButton(label="Background color:")
         self.radio_bg_color.connect("toggled", self._cb_bg_type_changed)
         self.color_bg_chooser = gtk.ColorButton()
-        self.color_bg_chooser.set_color(to_gdkColor(*self.chart.background.get_color()))
+        self.color_bg_chooser.set_color(self.chart.background.get_color())
         self.color_bg_chooser.connect("color-set", self._cb_bg_color_changed)
         self.attach(self.radio_bg_color, 0, 1, 5, 6, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
         self.attach(self.color_bg_chooser, 1, 3, 5, 6, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
@@ -82,10 +76,10 @@ class ChartControl(gtk.Table):
         self.radio_bg_gradient = gtk.RadioButton(self.radio_bg_color, "Background gradient:")
         self.radio_bg_gradient.connect("toggled", self._cb_bg_type_changed)
         self.color_bg_grad1 = gtk.ColorButton()
-        self.color_bg_grad1.set_color(to_gdkColor(1, 1, 1))
+        self.color_bg_grad1.set_color(gtk.gdk.color_parse("#ffffff"))
         self.color_bg_grad1.connect("color-set", self._cb_bg_gradient_changed)
         self.color_bg_grad2 = gtk.ColorButton()
-        self.color_bg_grad2.set_color(to_gdkColor(1, 1, 1))
+        self.color_bg_grad2.set_color(gtk.gdk.color_parse("#ffffff"))
         self.color_bg_grad2.connect("color-set", self._cb_bg_gradient_changed)
         self.attach(self.radio_bg_gradient, 0, 1, 6, 7, xoptions=gtk.FILL, yoptions=gtk.SHRINK)
         self.attach(self.color_bg_grad1, 1, 2, 6, 7, xoptions=gtk.EXPAND|gtk.FILL, yoptions=gtk.SHRINK)
@@ -163,17 +157,17 @@ class ChartControl(gtk.Table):
         self.file_chooser_image.set_sensitive(self.radio_bg_image.get_active())
         
         if self.radio_bg_color.get_active():
-            self.chart.background.set_color(from_gdkColor(self.color_bg_chooser.get_color()))
+            self.chart.background.set_color(self.color_bg_chooser.get_color())
         elif self.radio_bg_gradient.get_active():
-            self.chart.background.set_gradient(from_gdkColor(self.color_bg_grad1.get_color()), from_gdkColor(self.color_bg_grad2.get_color()))
+            self.chart.background.set_gradient(self.color_bg_grad1.get_color(), self.color_bg_grad2.get_color())
         elif self.radio_bg_image.get_active():
             self.chart.background.set_image(self.file_chooser_image.get_filename())      
         
     def _cb_bg_color_changed(self, chooser):
-        self.chart.background.set_color(from_gdkColor(chooser.get_color()))
+        self.chart.background.set_color(chooser.get_color())
         
     def _cb_bg_gradient_changed(self, chooser):
-        self.chart.background.set_gradient(from_gdkColor(self.color_bg_grad1.get_color()), from_gdkColor(self.color_bg_grad2.get_color()))
+        self.chart.background.set_gradient(self.color_bg_grad1.get_color(), self.color_bg_grad2.get_color())
         
     def _cb_bg_image_changed(self, chooser):
         self.chart.background.set_image(chooser.get_filename())       

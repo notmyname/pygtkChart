@@ -27,13 +27,6 @@ import pygtk
 from pygtk_chart import line_chart
 
 
-def to_gdkColor(r, g, b):
-    return gtk.gdk.Color(int(65535 * r), int(65535 * g), int(65535 * b))
-    
-def from_gdkColor(c):
-    return (c.red / 65535.0, c.green / 65535.0, c.blue / 65535.0)
-
-
 class Gui:
     
     def __init__(self):
@@ -314,11 +307,11 @@ class Gui:
             self._cb_chart_background_image_changed(self._bg_picture_chooser)
             
     def _cb_chart_background_color_changed(self, chooser):
-        self._chart.background.set_color(from_gdkColor(chooser.get_color()))
-        
+        self._chart.background.set_color(chooser.get_color())
+    
     def _cb_chart_background_gradient_changed(self, chooser):
-        ca = from_gdkColor(self._w("chart_background_gradient1").get_color())
-        cb = from_gdkColor(self._w("chart_background_gradient2").get_color())
+        ca = self._w("chart_background_gradient1").get_color()
+        cb = self._w("chart_background_gradient2").get_color()
         self._chart.background.set_gradient(ca, cb)
         
     def _cb_chart_background_image_changed(self, filechooser):
