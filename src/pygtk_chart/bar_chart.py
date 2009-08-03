@@ -18,7 +18,7 @@ from pygtk_chart import label
 
 COLOR_AUTO = 0
 
-COLORS = color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
+COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
 
 
 def draw_rounded_rectangle(context, x, y, width, height, radius=0):
@@ -116,7 +116,7 @@ class Bar(chart.Area):
             self._label_object.set_text(self._label)
             if i == 0 and j == 0:
                 self._label_object.set_wrap(False)
-            self._label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._label_object.set_color(self._color)
             self._label_object.set_anchor(label.ANCHOR_TOP_RIGHT)
             self._label_object.set_fixed(True)
             self._label_object.set_rotation(label_rotation)
@@ -146,7 +146,7 @@ class Bar(chart.Area):
         if draw_labels:
             #draw label under bar
             self._label_object.set_text(self._label)
-            self._label_object.set_color(color_cairo_to_gdk(*self._color))
+            self._label_object.set_color(self._color)
             self._label_object.set_anchor(label.ANCHOR_TOP_CENTER)
             self._label_object.set_position((x + width / 2, y + height + 3))
             self._label_object.set_max_width(width)
@@ -156,7 +156,7 @@ class Bar(chart.Area):
             self._do_draw_value_label(context, rect, x, y, width)
             
     def _do_draw_rectangle(self, context, x, y, width, height):
-        context.set_source_rgb(*self._color)
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
         radius = min((width / 2, height / 2, self._corner_radius))
         draw_rounded_rectangle(context, x, y, width, height, radius)
         context.fill()
@@ -168,7 +168,7 @@ class Bar(chart.Area):
             
     def _do_draw_value_label(self, context, rect, x, y, width):
         self._value_label_object.set_text(str(self._value))
-        self._value_label_object.set_color(color_cairo_to_gdk(*self._color))
+        self._value_label_object.set_color(self._color)
         self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
         self._value_label_object.set_position((x + width / 2, y - 3))
         self._value_label_object.set_max_width(width)
