@@ -29,9 +29,7 @@ This is the main module. It contains the base classes for chart widgets.
 
 Colors
 ------
-All colors have to be C{(r, g, b)} tuples. The value of C{r, g} and C{b}
-has to be between 0.0 and 1.0.
-For example C{(0, 0, 0)} is black and C{(1, 1, 1)} is white.
+All colors that pygtkChart uses are gtk.gdk.Colors as used by PyGTK.
 
 Author: Sven Festersen (sven@sven-festersen.de)
 """
@@ -264,7 +262,7 @@ class Background(ChartObject):
         The set_color() method can be used to change the color of the
         background.
         
-        @type color: a color
+        @type color: gtk.gdk.Color
         @param color: Set the background to be filles with this color.
         """
         self.set_property("color", color)
@@ -273,15 +271,20 @@ class Background(ChartObject):
         self.emit("appearance_changed")
         
     def get_color(self):
+        """
+        Returns the background's color.
+        
+        @return: gtk.gdk.Color.
+        """
         return self.get_property("color")
         
     def set_gradient(self, color_start, color_end):
         """
         Use set_gradient() to define a vertical gradient as the background.
         
-        @type color_start: a color
+        @type color_start: gtk.gdk.Color
         @param color_start: The starting (top) color of the gradient.
-        @type color_end: a color
+        @type color_end: gtk.gdk.Color
         @param color_end: The ending (bottom) color of the gradient.
         """
         self.set_property("color", None)
@@ -290,6 +293,11 @@ class Background(ChartObject):
         self.emit("appearance_changed")
         
     def get_gradient(self):
+        """
+        Returns the gradient of the background or None.
+        
+        @return: A (gtk.gdk.Color, gtk.gdk.Color) tuple or None.
+        """
         return self.get_property("gradient")
         
     def set_image(self, filename):
@@ -414,10 +422,9 @@ class Area(ChartObject):
         
     def set_color(self, color):
         """
-        Set the color of the area. Color has to either COLOR_AUTO or
-        a tuple (r, g, b) with r, g, b in [0, 1].
+        Set the color of the area.
         
-        @type color: a color.
+        @type color: gtk.gdk.Color.
         """
         self.set_property("color", color)
         self.emit("appearance_changed")
@@ -426,7 +433,7 @@ class Area(ChartObject):
         """
         Returns the current color of the area or COLOR_AUTO.
         
-        @return: a color.
+        @return: gtk.gdk.Color or COLOR_AUTO.
         """
         return self.get_property("color")
         

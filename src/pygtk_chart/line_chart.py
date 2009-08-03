@@ -978,7 +978,7 @@ class Grid(ChartObject):
         """
         Set the color of the grid.
 
-        @type color: a color
+        @type color: gtk.gdk.Color
         @param color: The new color of the grid.
         """
         self.set_property("color", color)
@@ -988,7 +988,7 @@ class Grid(ChartObject):
         """
         Returns the color of the grid.
 
-        @return: a color.
+        @return: gtk.gdk.Color.
         """
         return self.get_property("color")
         
@@ -1491,17 +1491,16 @@ class Graph(ChartObject):
         """
         Returns the current color of the graph or COLOR_AUTO.
 
-        @return: a color (see set_color() for details).
+        @return: gtk.gdk.Color or COLOR_AUTO.
         """
         return self.get_property("color")
 
     def set_color(self, color):
         """
-        Set the color of the graph. color has to be a (r, g, b) triple
-        where r, g, b are between 0 and 1.
+        Set the color of the graph.
         If set to COLOR_AUTO, the color will be choosen dynamicly.
 
-        @type color: a color
+        @type color: gtk.gdk.Color
         @param color: The new color of the graph.
         """
         self.set_property("color", color)
@@ -1574,6 +1573,8 @@ class Graph(ChartObject):
         """
         Returns the color that is used to fill space under the graph
         or COLOR_AUTO.
+        
+        @return: gtk.gdk.Color or COLOR_AUTO.
         """
         return self.get_property("fill-color")
         
@@ -1583,7 +1584,7 @@ class Graph(ChartObject):
         graph.
         If color is COLOR_AUTO, the graph's color will be used.
         
-        @type color: a color or COLOR_AUTO.
+        @type color: gtk.gdk.Color or COLOR_AUTO.
         """
         self.set_property("fill-color", color)
         self.emit("appearance_changed")
