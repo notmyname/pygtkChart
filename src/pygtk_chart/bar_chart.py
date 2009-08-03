@@ -16,6 +16,9 @@ from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 from pygtk_chart import label
 
+MODE_VERTICAL = 0
+MODE_HORIZONTAL = 1
+
 COLOR_AUTO = 0
 
 COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
@@ -90,11 +93,13 @@ class Bar(chart.Area):
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
-    def _do_draw(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0):
-        if not multi_bar:
-            self._do_draw_single(context, rect, i, n, padding, height_factor, max_value, draw_labels)
+    def _do_draw(self, context, rect, mode, i, n, padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0):
+        if not multi_bar and mode == MODE_VERTICAL:
+            self._do_draw_single_vertical(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels)
+        elif not multi_bar and mode == MODE_HORIZONTAL:
+            self._do_draw_single_horizontal(context, rect, i, n, padding, height_factor_horizontal, max_value, draw_labels)
         else:
-            return self._do_draw_multi(context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, width, label_rotation)
+            return self._do_draw_multi(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels, j, m, width, label_rotation)
             
     def _do_draw_multi(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, complete_width, label_rotation):
         """
@@ -129,7 +134,7 @@ class Bar(chart.Area):
         return y + height + 8 + self._label_object.get_real_dimensions()[1]
         
             
-    def _do_draw_single(self, context, rect, i, n, padding, height_factor, max_value, draw_labels):
+    def _do_draw_single_vertical(self, context, rect, i, n, padding, height_factor, max_value, draw_labels):
         """
         This method is used for drawing if the bar is on a BarChart.
         """
@@ -139,6 +144,7 @@ class Bar(chart.Area):
         y = rect.height * (1 - height_factor) / 2 + rect.height * height_factor - height
         
         self._do_draw_rectangle(context, x, y, width, height)
+        chart.add_sensitive_area(chart.AREA_RECTANGLE, (x, y, width, height), self)
         
         if self._highlighted:
             self._do_draw_higlighted(context, x, y, width, height)
@@ -153,7 +159,31 @@ class Bar(chart.Area):
             self._label_object.draw(context, rect)
             
             #draw value on top of bar
-            self._do_draw_value_label(context, rect, x, y, width)
+            self._do_draw_value_label_vertical(context, rect, x, y, width)
+   
+    def _do_draw_single_horizontal(self, context, rect, i, n, padding, height_factor, max_value, draw_labels):
+        height = (rect.height * height_factor - n * padding) / n
+        width = self._value / max_value * (rect.width - 8 * padding)
+        x = 5 * padding
+        y = padding + i * (height + padding) + rect.height * (1 - height_factor) / 2
+        
+        self._do_draw_rectangle(context, x, y, width, height)
+        chart.add_sensitive_area(chart.AREA_RECTANGLE, (x, y, width, height), self)
+        
+        if self._highlighted:
+            self._do_draw_higlighted(context, x, y, width, height)
+        
+        if draw_labels:
+            #draw label left of bar
+            self._label_object.set_text(self._label)
+            self._label_object.set_color(self._color)
+            self._label_object.set_anchor(label.ANCHOR_RIGHT_CENTER)
+            self._label_object.set_position((x - 3, y + height / 2))
+            self._label_object.set_max_width(4 * padding)
+            self._label_object.draw(context, rect)
+            
+            #draw value right of bar
+            self._do_draw_value_label_horizontal(context, rect, x, y, width, height)
             
     def _do_draw_rectangle(self, context, x, y, width, height):
         context.set_source_rgb(*color_gdk_to_cairo(self._color))
@@ -166,12 +196,19 @@ class Bar(chart.Area):
         draw_rounded_rectangle(context, x, y, width, height, self._corner_radius)
         context.fill()
             
-    def _do_draw_value_label(self, context, rect, x, y, width):
+    def _do_draw_value_label_vertical(self, context, rect, x, y, width):
         self._value_label_object.set_text(str(self._value))
         self._value_label_object.set_color(self._color)
         self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
         self._value_label_object.set_position((x + width / 2, y - 3))
         self._value_label_object.set_max_width(width)
+        self._value_label_object.draw(context, rect)
+        
+    def _do_draw_value_label_horizontal(self, context, rect, x, y, width, height):
+        self._value_label_object.set_text(str(self._value))
+        self._value_label_object.set_color(self._color)
+        self._value_label_object.set_anchor(label.ANCHOR_LEFT_CENTER)
+        self._value_label_object.set_position((x + width + 3, y + height / 2))
         self._value_label_object.draw(context, rect)
         
     def set_corner_radius(self, radius):
@@ -205,7 +242,10 @@ class BarChart(chart.Chart):
                        "enable-mouseover": (gobject.TYPE_BOOLEAN,
                                         "enable mouseover",
                                         "Set whether a mouseover effect should be visible if moving the mouse over a bar.",
-                                        True, gobject.PARAM_READWRITE)}
+                                        True, gobject.PARAM_READWRITE),
+                        "mode": (gobject.TYPE_INT, "mode",
+                                "The BarChart's mode.", 0, 1, 0,
+                                gobject.PARAM_READWRITE)}
     
     __gsignals__ = {"bar-clicked": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))}
     
@@ -213,10 +253,12 @@ class BarChart(chart.Chart):
         super(BarChart, self).__init__()
         self._bars = []
         self._enable_mouseover = True
+        self._mode = MODE_VERTICAL
         self._values = True
         self._labels = True
         
-        self._height_factor = 0.8
+        self._height_factor_vertical = 0.8
+        self._height_factor_horizontal = 0.9
         self._bar_padding = 16
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
@@ -230,6 +272,8 @@ class BarChart(chart.Chart):
             return self._values
         elif property.name == "enable-mouseover":
             return self._enable_mouseover
+        elif property.name == "mode":
+            return self._mode
         else:
             raise AttributeError, "Property %s does not exist." % property.name
     
@@ -240,6 +284,8 @@ class BarChart(chart.Chart):
             self._values = value
         elif property.name == "enable-mouseover":
             self._enable_mouseover = value
+        elif property.name == "mode":
+            self._mode = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
     
@@ -248,39 +294,15 @@ class BarChart(chart.Chart):
     
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
-        bar = self._get_bar_at_pos(event.x, event.y)
-        for b in self._bars:
-            b.set_property("highlighted", b == bar)
+        bars = chart.get_sensitive_areas(event.x, event.y)
+        for bar in self._bars:
+            bar.set_property("highlighted", bar in bars)
         self.queue_draw()
     
     def _cb_button_pressed(self, widget, event):
-        bar = self._get_bar_at_pos(event.x, event.y)
-        if bar:
-            self.emit("bar-clicked", bar)
-    
-    def _get_bar_at_pos(self, x, y):
-        if not self._bars: return None
-        rect = self.get_allocation()
-        
-        number_of_bars = len(self._bars)
-        max_value = max(x.get_value() for x in self._bars)
-        bar_padding = self._bar_padding
-        bar_height_factor = self._height_factor 
-        bar_vertical_padding = (1.0 - bar_height_factor) / 2.0 # space above and below the bars
-        total_height = int(rect.height * bar_height_factor) # maximum height for a bar
-        bottom = rect.height # y-value of bottom of bar chart
-        bar_bottom = bottom * (1.0 - bar_vertical_padding)
-        bar_width = int((rect.width -(bar_padding * number_of_bars)) / number_of_bars)
-        for i,info in enumerate(self._bars):
-            bar_x = int(rect.width / float(number_of_bars) * i) + rect.x + (bar_padding // 2)
-            percent = float(info.get_value()) / float(max_value)
-            bar_height = int(total_height * percent)
-            bar_top = int(rect.height*bar_vertical_padding) + total_height - bar_height
-            
-            if bar_x <= x <= bar_x+bar_width and bar_top <= y <= bar_bottom:
-                return info
-        
-        return None
+        bars = chart.get_sensitive_areas(event.x, event.y)
+        for bar in bars:
+            self.emit("bar-clicked", bar)            
     
     def _do_draw_bars(self, context, rect):
         """
@@ -292,11 +314,12 @@ class BarChart(chart.Chart):
         @param rect: A rectangle representing the charts area.
         """
         if not self._bars: return
+        chart.init_sensitive_areas()
         n = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
         
         for i, bar in enumerate(self._bars):
-            bar.draw(context, rect, i, n, self._bar_padding, self._height_factor, max_value, self._labels)
+            bar.draw(context, rect, self._mode, i, n, self._bar_padding, self._height_factor_vertical, self._height_factor_horizontal, max_value, self._labels)
     
     def draw(self, context):
         """
@@ -408,6 +431,25 @@ class BarChart(chart.Chart):
         for bar in self._bars:
             bar.set_property("corner-radius", radius)
         self.queue_draw()
+        
+    def set_mode(self, mode):
+        """
+        Set whether the bars should be displayed horizontal or
+        vertical. The parameter mode has to be one of these constants:
+        - bar_chart.MODE_VERTICAL (default)
+        - bar_chart.MODE_HORIZONTAL
+        
+        @type mode: one of the constants above.
+        """
+        self.set_property("mode", mode)
+        
+    def get_mode(self):
+        """
+        Returns the BarChart's mode. (MODE_VERTICAL or MODE_HORIZONTAL).
+        
+        @return: a mode constant.
+        """
+        return self.get_property("mode")
 
 
 class MultiBar(ChartObject):
