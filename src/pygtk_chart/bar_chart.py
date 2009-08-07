@@ -39,6 +39,29 @@ def draw_rounded_rectangle(context, x, y, width, height, radius=0):
         context.close_path()
 
 
+class Grid(ChartObject):
+    
+    def __init__(self):
+        ChartObject.__init__(self)
+        self._antialias = False
+        self._color = gtk.gdk.color_parse("#DEDEDE")
+        
+    def _do_draw(self, context, rect, mode, max_value, height_factor, padding):
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
+        n = int(max_value / (10 ** int(math.log10(max_value))))
+        
+        if mode == MODE_VERTICAL:
+            delta = (rect.height * height_factor) / max_value
+            x = padding
+            y = rect.height - rect.height * (1 - height_factor) / 2
+            for i in range(0, n + 1):
+                context.move_to(x, y)
+                context.line_to(rect.width - padding, y)
+                context.stroke()
+                y -= 10 ** int(math.log10(max_value)) * delta
+            
+
+
 class Bar(chart.Area):
     """
     A class that represents a bar on a bar chart,
@@ -251,6 +274,7 @@ class BarChart(chart.Chart):
     
     def __init__(self):
         super(BarChart, self).__init__()
+        self.grid = Grid()
         self._bars = []
         self._enable_mouseover = True
         self._mode = MODE_VERTICAL
@@ -302,7 +326,12 @@ class BarChart(chart.Chart):
     def _cb_button_pressed(self, widget, event):
         bars = chart.get_sensitive_areas(event.x, event.y)
         for bar in bars:
-            self.emit("bar-clicked", bar)            
+            self.emit("bar-clicked", bar)     
+            
+    def _do_draw_grid(self, context, rect):
+        max_value = max(x.get_value() for x in self._bars)
+        if self._mode == MODE_VERTICAL:
+            self.grid.draw(context, rect, self._mode, max_value, self._height_factor_vertical, self._bar_padding / 2)
     
     def _do_draw_bars(self, context, rect):
         """
@@ -340,6 +369,7 @@ class BarChart(chart.Chart):
                                     cairo.FONT_WEIGHT_NORMAL)
                                     
         self.draw_basics(context, rect)
+        self._do_draw_grid(context, rect)
         self._do_draw_bars(context, rect)
         
         label.finish_drawing()
