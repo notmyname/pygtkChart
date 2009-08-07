@@ -59,6 +59,15 @@ class Grid(ChartObject):
                 context.line_to(rect.width - padding, y)
                 context.stroke()
                 y -= 10 ** int(math.log10(max_value)) * delta
+        else:
+            delta = (rect.width - 8 * padding) / max_value
+            x = 5 * padding
+            y = rect.height * (1 - height_factor) / 2 + padding
+            for i in range(0, n + 1):
+                context.move_to(x, y)
+                context.line_to(x, rect.height - rect.height * (1 - height_factor) / 2)
+                context.stroke()
+                x += 10 ** int(math.log10(max_value)) * delta
             
 
 
@@ -332,6 +341,8 @@ class BarChart(chart.Chart):
         max_value = max(x.get_value() for x in self._bars)
         if self._mode == MODE_VERTICAL:
             self.grid.draw(context, rect, self._mode, max_value, self._height_factor_vertical, self._bar_padding / 2)
+        elif self._mode == MODE_HORIZONTAL:
+            self.grid.draw(context, rect, self._mode, max_value, self._height_factor_horizontal, self._bar_padding)
     
     def _do_draw_bars(self, context, rect):
         """
