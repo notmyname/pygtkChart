@@ -24,6 +24,7 @@ import gtk.glade
 import math
 import pygtk
 
+import pygtk_chart
 from pygtk_chart import line_chart
 
 
@@ -58,7 +59,7 @@ class Gui:
         
         cubic_exp = line_chart.graph_new_from_function(lambda x: 0.8 * x ** 3 * math.exp(-x / 2.0), -1, 10, "cubic", 50)
         cubic_exp.set_type(line_chart.GRAPH_LINES)
-        cubic_exp.set_line_style(line_chart.LINE_STYLE_DASHED_ASYMMETRIC)
+        cubic_exp.set_line_style(pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC)
         cubic_exp.set_title("Test")
         self._chart.add_graph(cubic_exp)
         

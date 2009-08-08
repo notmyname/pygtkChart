@@ -31,3 +31,17 @@ __version__ = "beta"
 __author__ = "Sven Festersen, John Dickinson"
 __license__ = "GPL"
 __url__ = "http://notmyname.github.com/pygtkChart/"
+
+#line style
+LINE_STYLE_SOLID = 0
+LINE_STYLE_DOTTED = 1
+LINE_STYLE_DASHED = 2
+LINE_STYLE_DASHED_ASYMMETRIC = 3
+
+#point styles
+POINT_STYLE_CIRCLE = 0
+POINT_STYLE_SQUARE = 1
+POINT_STYLE_CROSS = 2
+POINT_STYLE_TRIANGLE_UP = 3
+POINT_STYLE_TRIANGLE_DOWN = 4
+POINT_STYLE_DIAMOND = 5

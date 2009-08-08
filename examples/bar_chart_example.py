@@ -1,6 +1,7 @@
 import gtk
 import pygtk
 
+import pygtk_chart
 from pygtk_chart import bar_chart
 
 
@@ -14,7 +15,7 @@ data = [('wheat', 276, 'Wheat'),
 barchart = bar_chart.BarChart()
 barchart.title.set_text('Loaves of Bread Made')
 barchart.grid.set_visible(True)
-barchart.grid.set_line_style(bar_chart.LINE_STYLE_DOTTED)
+barchart.grid.set_line_style(pygtk_chart.LINE_STYLE_DOTTED)
 
 for bar_info in data:
     bar = bar_chart.Bar(*bar_info)
