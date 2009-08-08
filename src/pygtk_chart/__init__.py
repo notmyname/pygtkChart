@@ -31,3 +31,8 @@ __version__ = "beta"
 __author__ = "Sven Festersen, John Dickinson"
 __license__ = "GPL"
 __url__ = "http://notmyname.github.com/pygtkChart/"
+
+COLOR_AUTO = 0
+import os
+from pygtk_chart.basics import gdk_color_list_from_file
+COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))

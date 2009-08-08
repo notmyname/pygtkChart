@@ -35,6 +35,7 @@ from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 from pygtk_chart import label
+from pygtk_chart import COLORS, COLOR_AUTO
 
 RANGE_AUTO = 0
 GRAPH_PADDING = 1 / 15.0 #a relative padding
@@ -63,10 +64,6 @@ POINT_STYLE_CROSS = 2
 POINT_STYLE_TRIANGLE_UP = 3
 POINT_STYLE_TRIANGLE_DOWN = 4
 POINT_STYLE_DIAMOND = 5
-
-#load default color palette
-COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
-
 
 def set_context_line_style(context, style):
     if style == LINE_STYLE_SOLID:

@@ -15,11 +15,7 @@ from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 from pygtk_chart import label
-
-COLOR_AUTO = 0
-
-COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
-
+from pygtk_chart import COLORS, COLOR_AUTO
 
 def draw_rounded_rectangle(context, x, y, width, height, radius=0):
     if radius == 0:

@@ -34,12 +34,7 @@ from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
 from pygtk_chart import label
-
-COLOR_AUTO = 0
-
-#load default color palette
-COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
-
+from pygtk_chart import COLORS, COLOR_AUTO
 
 def draw_sector(context, cx, cy, radius, angle, angle_offset):
     context.move_to(cx, cy)
