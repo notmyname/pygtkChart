@@ -169,15 +169,15 @@ class Bar(chart.Area):
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
-    def _do_draw(self, context, rect, mode, i, n, padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0):
+    def _do_draw(self, context, rect, mode, i, n, padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0, multi=None):
         if not multi_bar and mode == MODE_VERTICAL:
             self._do_draw_single_vertical(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels)
         elif not multi_bar and mode == MODE_HORIZONTAL:
             self._do_draw_single_horizontal(context, rect, i, n, padding, height_factor_horizontal, max_value, draw_labels)
-        else:
-            return self._do_draw_multi(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels, j, m, width, label_rotation)
+        elif multi_bar and mode == MODE_VERTICAL:
+            return self._do_draw_multi_vertical(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels, j, m, width, label_rotation, multi)
             
-    def _do_draw_multi(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, complete_width, label_rotation):
+    def _do_draw_multi_vertical(self, context, rect, i, n, padding, height_factor, max_value, draw_labels, j, m, complete_width, label_rotation, multi_bar):
         """
         This method is used for drawing if the bar is on a
         MultiBarChart.
@@ -188,6 +188,7 @@ class Bar(chart.Area):
         y = rect.height * (1 - height_factor) / 2 + rect.height * height_factor - height
         
         self._do_draw_rectangle(context, x, y, width, height)
+        chart.add_sensitive_area(chart.AREA_RECTANGLE, (x, y, width, height), (multi_bar, self))
         
         if self._highlighted:
             self._do_draw_higlighted(context, x, y, width, height)
@@ -205,7 +206,7 @@ class Bar(chart.Area):
             self._label_object.draw(context, rect)
             
             #draw value on top of bar
-            self._do_draw_value_label(context, rect, x, y, width)
+            self._do_draw_value_label_vertical(context, rect, x, y, width)
             
         return y + height + 8 + self._label_object.get_real_dimensions()[1]
         
@@ -586,7 +587,7 @@ class MultiBar(ChartObject):
         else:
             raise AttributeError, "Property %s does not exist." % property.name
             
-    def _do_draw(self, context, rect, i, n, bar_padding, height_factor, max_value, draw_labels, label_rotation):
+    def _do_draw(self, context, rect, i, n, bar_padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, label_rotation, mode):
         width = (rect.width - n * bar_padding) / n
         x = i * (width + bar_padding) + bar_padding / 2
         
@@ -594,7 +595,8 @@ class MultiBar(ChartObject):
         bottom = 0
         
         for j, bar in enumerate(self._bars):
-            b = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, draw_labels, True, j, m, width, label_rotation)
+            #self, context, rect, mode, i, n, padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0
+            b = bar.draw(context, rect, mode, i, n, bar_padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, True, j, m, width, label_rotation, self)
             if draw_labels:
                 bottom = max(b, bottom)
             
@@ -694,7 +696,8 @@ class MultiBarChart(BarChart):
         self.name_map = {}
         self._label_rotation = 300 # amout of rotation in the sub bar labels
         self._bar_padding = 16
-        self._height_factor = 0.7
+        self._height_factor_vertical = 0.7
+        self._height_factor_horizontal = 0.8
     
     def add_bar(self, bar):
         """
@@ -730,63 +733,41 @@ class MultiBarChart(BarChart):
     
     def _cb_motion_notify(self, widget, event):
         if not self._enable_mouseover: return
-        multibar, subbar = self._get_bar_at_pos(event.x, event.y)
+        bars = chart.get_sensitive_areas(event.x, event.y)
         for bar in self._bars:
             for sub_bar in bar.get_bars():
-                sub_bar.set_property("highlighted", subbar == sub_bar)
+                sub_bar.set_property("highlighted", ((bar, sub_bar) in bars))
         self.queue_draw()
 
     def _cb_button_pressed(self, widget, event):
-        multibar, subbar = self._get_bar_at_pos(event.x, event.y)
-        if subbar:
-            self.emit("multibar-clicked", multibar, subbar)
+        bars = chart.get_sensitive_areas(event.x, event.y)
+        for multibar, bar in bars:
+            self.emit("multibar-clicked", multibar, bar)
             self.emit("bar-clicked", multibar)
+            
+    def _do_draw_grid(self, context, rect):
+        max_value = max(x.get_max_value() for x in self._bars)
+        if self._mode == MODE_VERTICAL:
+            self.grid.draw(context, rect, self._mode, max_value, self._height_factor_vertical, self._bar_padding / 2)
             
     def _do_draw_bars(self, context, rect):
         if not self._bars: return
+        chart.init_sensitive_areas()
         
         n = len(self._bars)
         max_value = max(x.get_max_value() for x in self._bars)
-        height_factor = self._height_factor
         bar_padding = self._bar_padding
         width = (rect.width - n * bar_padding) / n
         
         bottom = rect.height
         
         for i, bar in enumerate(self._bars):
-            label_y = bar.draw(context, rect, i, n, bar_padding, height_factor, max_value, self._labels, self._label_rotation)
+            label_y = bar.draw(context, rect, i, n, bar_padding, self._height_factor_vertical, self._height_factor_horizontal, max_value, self._labels, self._label_rotation, self._mode)
             bottom = min(bottom, label_y)
             
         for i, bar in enumerate(self._bars):
             label_x = i * (width + bar_padding) + bar_padding / 2 + width / 2
             bar.draw_label(context, rect, label_x, bottom, width)
-    
-    def _get_bar_at_pos(self, x, y):
-        if not self._bars:
-            return None,None
-            
-        rect = self.get_allocation()
-        max_value = max(x.get_max_value() for x in self._bars)
-        n = len(self._bars)
-        padding = self._bar_padding
-        height_factor = self._height_factor
-        width = (rect.width - n * padding) / n
-        
-        for i, bar in enumerate(self._bars):
-            px = padding / 2 + i * (width + padding)
-            if px <= x <= px + width:
-                m = len(bar.get_bars())
-                sub_width = width / m
-                for j, sub_bar in enumerate(bar.get_bars()):
-                    spx = px + j * sub_width
-                    if spx <= x <= spx + sub_width:
-                        bottom = rect.height * (1 - height_factor) / 2 + rect.height * height_factor
-                        height = sub_bar.get_value() / max_value * height_factor * rect.height
-                        top = bottom - height
-                        if top <= y <= bottom:
-                            return bar, sub_bar
-
-        return None,None
     
 
 

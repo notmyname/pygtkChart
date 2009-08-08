@@ -152,7 +152,7 @@ class Label(ChartObject):
         self._fixed = fixed
         self._wrap = True
         
-        self._real_dimension = (0, 0)
+        self._real_dimensions = (0, 0)
         self._real_position = (0, 0)
         self._line_count = 1
         
