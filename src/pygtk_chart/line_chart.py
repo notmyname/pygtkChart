@@ -65,19 +65,7 @@ POINT_STYLE_TRIANGLE_DOWN = 4
 POINT_STYLE_DIAMOND = 5
 
 #load default color palette
-COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
-
-
-def set_context_line_style(context, style):
-    if style == LINE_STYLE_SOLID:
-        context.set_dash([])
-    elif style == LINE_STYLE_DASHED:
-        context.set_dash([5])
-    elif style == LINE_STYLE_DASHED_ASYMMETRIC:
-        context.set_dash([6, 6, 2, 6])
-    elif style == LINE_STYLE_DOTTED:
-        context.set_dash([1])
-        
+COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))        
         
 def draw_point(context, x, y, radius, style):
     a = radius / 1.414 #1.414=sqrt(2)

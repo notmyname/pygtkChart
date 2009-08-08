@@ -13,6 +13,8 @@ data = [('wheat', 276, 'Wheat'),
 
 barchart = bar_chart.BarChart()
 barchart.title.set_text('Loaves of Bread Made')
+barchart.grid.set_visible(True)
+barchart.grid.set_line_style(bar_chart.LINE_STYLE_DOTTED)
 
 for bar_info in data:
     bar = bar_chart.Bar(*bar_info)

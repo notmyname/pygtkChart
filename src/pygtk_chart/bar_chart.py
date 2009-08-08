@@ -20,8 +20,12 @@ MODE_VERTICAL = 0
 MODE_HORIZONTAL = 1
 
 COLOR_AUTO = 0
-
 COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
+
+LINE_STYLE_SOLID = 0
+LINE_STYLE_DOTTED = 1
+LINE_STYLE_DASHED = 2
+LINE_STYLE_DASHED_ASYMMETRIC = 3
 
 
 def draw_rounded_rectangle(context, x, y, width, height, radius=0):
@@ -41,12 +45,38 @@ def draw_rounded_rectangle(context, x, y, width, height, radius=0):
 
 class Grid(ChartObject):
     
+    __gproperties__ = {"line-style": (gobject.TYPE_INT,
+                                        "line style",
+                                        "Line Style for the grid lines",
+                                        0, 3, 0, gobject.PARAM_READWRITE)}
+    
     def __init__(self):
         ChartObject.__init__(self)
         self._antialias = False
         self._color = gtk.gdk.color_parse("#DEDEDE")
+        self._line_style = LINE_STYLE_SOLID
+        
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "line-style":
+            return self._line_style
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "line-style":
+            self._line_style = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _do_draw(self, context, rect, mode, max_value, height_factor, padding):
+        set_context_line_style(context, self._line_style)
         context.set_source_rgb(*color_gdk_to_cairo(self._color))
         n = int(max_value / (10 ** int(math.log10(max_value))))
         
@@ -68,6 +98,24 @@ class Grid(ChartObject):
                 context.line_to(x, rect.height - rect.height * (1 - height_factor) / 2)
                 context.stroke()
                 x += 10 ** int(math.log10(max_value)) * delta
+                
+    def set_line_style(self, style):
+        """
+        Set the grid's line style.
+        
+        @param style: the new line style
+        @type style: a line style constant.
+        """
+        self.set_property("line-style", style)
+        self.emit("appearance_changed")
+        
+    def get_line_style(self):
+        """
+        Returns the grid's current line style.
+        
+        @return: a line style constant.
+        """
+        return self.get_property("line-style")
             
 
 
@@ -744,4 +792,5 @@ class MultiBarChart(BarChart):
 
         return None,None
     
+
 

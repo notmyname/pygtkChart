@@ -28,6 +28,11 @@ import cairo
 import gtk
 import os
 
+LINE_STYLE_SOLID = 0
+LINE_STYLE_DOTTED = 1
+LINE_STYLE_DASHED = 2
+LINE_STYLE_DASHED_ASYMMETRIC = 3
+
 def is_in_range(x, (xmin, xmax)):
     """
     Use this method to test whether M{xmin <= x <= xmax}.
@@ -116,3 +121,16 @@ def gdk_color_list_from_file(filename):
             line = line.strip()
             result.append(gtk.gdk.color_parse(line))
     return result
+
+def set_context_line_style(context, style):
+    """
+    The the line style for a context.
+    """
+    if style == LINE_STYLE_SOLID:
+        context.set_dash([])
+    elif style == LINE_STYLE_DASHED:
+        context.set_dash([5])
+    elif style == LINE_STYLE_DASHED_ASYMMETRIC:
+        context.set_dash([6, 6, 2, 6])
+    elif style == LINE_STYLE_DOTTED:
+        context.set_dash([1])
