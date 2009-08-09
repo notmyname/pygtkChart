@@ -279,6 +279,7 @@ class Bar(chart.Area):
             
     def _do_draw_value_label_vertical(self, context, rect, x, y, width):
         self._value_label_object.set_text(str(self._value))
+        self._value_label_object.set_fixed(True)
         self._value_label_object.set_color(self._color)
         self._value_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
         self._value_label_object.set_position((x + width / 2, y - 3))
@@ -416,8 +417,6 @@ class BarChart(chart.Chart):
         if self._mode == MODE_HORIZONTAL:
             print minimum_height
             self.set_size_request(0, int(minimum_height))
-            
-        
     
     def draw(self, context):
         """
