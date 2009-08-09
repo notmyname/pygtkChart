@@ -8,7 +8,6 @@ import cairo
 import gtk
 import gobject
 import os
-import collections # for defaultdict
 import math # for pi
 
 import pygtk_chart
