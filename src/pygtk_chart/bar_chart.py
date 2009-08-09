@@ -171,9 +171,9 @@ class Bar(chart.Area):
         
     def _do_draw(self, context, rect, mode, i, n, padding, height_factor_vertical, height_factor_horizontal, max_value, draw_labels, multi_bar=False, j=0, m=0, width=0, label_rotation=0, multi=None):
         if not multi_bar and mode == MODE_VERTICAL:
-            self._do_draw_single_vertical(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels)
+            return self._do_draw_single_vertical(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels)
         elif not multi_bar and mode == MODE_HORIZONTAL:
-            self._do_draw_single_horizontal(context, rect, i, n, padding, height_factor_horizontal, max_value, draw_labels)
+            return self._do_draw_single_horizontal(context, rect, i, n, padding, height_factor_horizontal, max_value, draw_labels)
         elif multi_bar and mode == MODE_VERTICAL:
             return self._do_draw_multi_vertical(context, rect, i, n, padding, height_factor_vertical, max_value, draw_labels, j, m, width, label_rotation, multi)
             
@@ -237,8 +237,10 @@ class Bar(chart.Area):
             
             #draw value on top of bar
             self._do_draw_value_label_vertical(context, rect, x, y, width)
+        return 0
    
     def _do_draw_single_horizontal(self, context, rect, i, n, padding, height_factor, max_value, draw_labels):
+        minimum_height = 4
         height = (rect.height * height_factor - n * padding) / n
         width = self._value / max_value * (rect.width - 8 * padding)
         x = 5 * padding
@@ -258,9 +260,11 @@ class Bar(chart.Area):
             self._label_object.set_position((x - 3, y + height / 2))
             self._label_object.set_max_width(4 * padding)
             self._label_object.draw(context, rect)
+            minimum_height = self._label_object.get_real_dimensions()[1]
             
             #draw value right of bar
             self._do_draw_value_label_horizontal(context, rect, x, y, width, height)
+        return minimum_height
             
     def _do_draw_rectangle(self, context, x, y, width, height):
         context.set_source_rgb(*color_gdk_to_cairo(self._color))
@@ -403,8 +407,17 @@ class BarChart(chart.Chart):
         n = len(self._bars)
         max_value = max(x.get_value() for x in self._bars)
         
+        minimum_height = self._bar_padding
+        
         for i, bar in enumerate(self._bars):
-            bar.draw(context, rect, self._mode, i, n, self._bar_padding, self._height_factor_vertical, self._height_factor_horizontal, max_value, self._labels)
+            m = bar.draw(context, rect, self._mode, i, n, self._bar_padding, self._height_factor_vertical, self._height_factor_horizontal, max_value, self._labels)
+            if self._mode == MODE_HORIZONTAL: minimum_height += m + self._bar_padding
+            
+        if self._mode == MODE_HORIZONTAL:
+            print minimum_height
+            self.set_size_request(0, int(minimum_height))
+            
+        
     
     def draw(self, context):
         """
