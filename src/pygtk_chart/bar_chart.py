@@ -24,6 +24,23 @@ COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data"
 
 
 def draw_rounded_rectangle(context, x, y, width, height, radius=0):
+    """
+    Draws a rectangle with rounded corners to context. radius specifies
+    the corner radius in px.
+    
+    @param context: the context to draw on
+    @type context: CairoContext
+    @param x: x coordinate of the upper left corner
+    @type x: float
+    @param y: y coordinate of the upper left corner
+    @type y: float
+    @param width: width of the rectangle in px
+    @type width: float
+    @param height: height of the rectangle in px
+    @type height: float
+    @param radius: corner radius in px (default: 0)
+    @type radius: float.
+    """
     if radius == 0:
         context.rectangle(x, y, width, height)
     else:
@@ -39,6 +56,10 @@ def draw_rounded_rectangle(context, x, y, width, height, radius=0):
 
 
 class Grid(ChartObject):
+    """
+    This class represents the grid on BarChart and MultiBarChart
+    widgets.
+    """
     
     __gproperties__ = {"line-style": (gobject.TYPE_INT,
                                         "line style",
@@ -116,7 +137,17 @@ class Grid(ChartObject):
 
 class Bar(chart.Area):
     """
-    A class that represents a bar on a bar chart,
+    A class that represents a bar on a bar chart.
+    
+    Properties
+    ==========
+    The Bar class inherits properties from chart.Area.
+    Additional properties:
+    - corner-radius (radius of the bar's corners, in px; type: float)
+    
+    Signals
+    =======
+    The Bar class inherits signals from chart.Area.
     """
     
     __gproperties__ = {"corner-radius": (gobject.TYPE_INT, "bar corner radius",
