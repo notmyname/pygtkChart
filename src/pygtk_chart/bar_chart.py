@@ -618,7 +618,21 @@ class BarChart(chart.Chart):
 
 class MultiBar(ChartObject):
     """
-    This class represents a group of bars on a MultiBarChart.
+    This class represents a group of bar_chart.Bar objects that
+    should be displayed on a MultiBarChart.
+    
+    Properties
+    ==========
+    The MultiBar class inherits properties from ChartObject.
+    Additional properties:
+    - name (a unique identifier for the MultiBar, type: string)
+    - max-value (the maximum value of the bars in the group, type:
+      float, read only)
+    - label (a label for the MultiBar, type: string).
+    
+    Signals
+    =======
+    The MultiBar class inherits signals from ChartObject.
     """
     
     __gproperties__ = {"name": (gobject.TYPE_STRING, "bar name",
