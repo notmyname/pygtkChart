@@ -59,6 +59,17 @@ class Grid(ChartObject):
     """
     This class represents the grid on BarChart and MultiBarChart
     widgets.
+    
+    Properties
+    ==========
+    bar_chart.Grid inherits properties from ChartObject.
+    Additional properties:
+    - line-style (the style of the grid lines, type: a line style
+      constant).
+      
+    Signals
+    =======
+    The Grid class inherits signal from chart_object.ChartObject.
     """
     
     __gproperties__ = {"line-style": (gobject.TYPE_INT,
@@ -343,6 +354,31 @@ class Bar(chart.Area):
 
 
 class BarChart(chart.Chart):
+    """
+    This is a widget that show a simple BarChart.
+    
+    Properties
+    ==========
+    The BarChart class inherits properties from chart.Chart.
+    Additional properites:
+    - draw-labels (set wether to draw bar label, type: boolean)
+    - show-values (set wether to show values on top of bars, type:
+      boolean)
+    - enable-mouseover (set whether to show a mouseover effect, type:
+      boolean)
+    - mode (the mode of the bar chart, type: one of MODE_VERTICAL,
+      MODE_HORIZONTAL).
+      
+    Signals
+    =======
+    The BarChart class inherits signals from chart.Chart.
+    Additional signals:
+    - bar-clicked: emitted when a bar on the bar chart was clicked
+      callback signature:
+      def bar_clicked(chart, bar).
+    
+    """
+    
     __gproperties__ = {"draw-labels": (gobject.TYPE_BOOLEAN,
                                         "draw bar labels",
                                         "Set whether to draw bar labels.",
