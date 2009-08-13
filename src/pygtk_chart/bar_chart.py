@@ -75,13 +75,18 @@ class Grid(ChartObject):
     __gproperties__ = {"line-style": (gobject.TYPE_INT,
                                         "line style",
                                         "Line Style for the grid lines",
-                                        0, 3, 0, gobject.PARAM_READWRITE)}
+                                        0, 3, 0, gobject.PARAM_READWRITE),
+                        "show-values": (gobject.TYPE_BOOLEAN,
+                                        "show values",
+                                        "Set whether to how values at grid lines.",
+                                        False, gobject.PARAM_READWRITE)}
     
     def __init__(self):
         ChartObject.__init__(self)
         self._antialias = False
         self._color = gtk.gdk.color_parse("#DEDEDE")
         self._line_style = pygtk_chart.LINE_STYLE_SOLID
+        self._show_values = True
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -90,6 +95,9 @@ class Grid(ChartObject):
             return self._antialias
         elif property.name == "line-style":
             return self._line_style
+        elif property.name == "show-values":
+            return self._show_values
+        else:
             raise AttributeError, "Property %s does not exist." % property.name
 
     def do_set_property(self, property, value):
@@ -99,6 +107,8 @@ class Grid(ChartObject):
             self._antialias = value
         elif property.name == "line-style":
             self._line_style = value
+        elif property.name == "show-values":
+            self._show_values = value
         else:
             raise AttributeError, "Property %s does not exist." % property.name
         
@@ -108,6 +118,7 @@ class Grid(ChartObject):
         n = int(max_value / (10 ** int(math.log10(max_value))))
         
         if mode == MODE_VERTICAL:
+            #vertical mode
             delta = (rect.height * height_factor) / max_value
             x = padding
             y = rect.height - rect.height * (1 - height_factor) / 2
@@ -117,6 +128,7 @@ class Grid(ChartObject):
                 context.stroke()
                 y -= 10 ** int(math.log10(max_value)) * delta
         else:
+            #horizontal mode
             delta = (rect.width - 8 * padding) / max_value
             x = 5 * padding
             y = rect.height * (1 - height_factor) / 2 + padding
@@ -124,6 +136,11 @@ class Grid(ChartObject):
                 context.move_to(x, y)
                 context.line_to(x, rect.height - rect.height * (1 - height_factor) / 2)
                 context.stroke()
+                if self._show_values:
+                    context.save()
+                    l = label.Label((x, 2 + rect.height - rect.height * (1 - height_factor) / 2), str(i * 10 ** int(math.log10(max_value))), anchor=label.ANCHOR_TOP_CENTER)
+                    l.draw(context, rect)
+                    context.restore()
                 x += 10 ** int(math.log10(max_value)) * delta
                 
     def set_line_style(self, style):
@@ -143,7 +160,23 @@ class Grid(ChartObject):
         @return: a line style constant.
         """
         return self.get_property("line-style")
-            
+        
+    def set_show_values(self, show):
+        """
+        Set whether to show values at grid lines.
+        
+        @type show: boolean.
+        """
+        self.set_property("show-values", show)
+        self.emit("appearance_changed")
+        
+    def get_show_value(self):
+        """
+        Returns True if values are shown at grid lines.
+        
+        @return: boolean.
+        """
+        return self.get_property("show-values")            
 
 
 class Bar(chart.Area):
@@ -481,7 +514,6 @@ class BarChart(chart.Chart):
             if self._mode == MODE_HORIZONTAL: minimum_height += m + self._bar_padding
             
         if self._mode == MODE_HORIZONTAL:
-            print minimum_height
             self.set_size_request(0, int(minimum_height))
     
     def draw(self, context):
