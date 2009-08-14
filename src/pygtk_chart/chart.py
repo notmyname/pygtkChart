@@ -78,6 +78,7 @@ class Chart(gtk.DrawingArea):
     """
     This is the base class for all chart widgets.
     """
+    _padding = 16
     
     def __init__(self):
         gtk.DrawingArea.__init__(self)
@@ -134,6 +135,14 @@ class Chart(gtk.DrawingArea):
         self.background.draw(context, rect)
         self.title.draw(context, rect)
         
+        #calculate the rectangle that's available for drawing the chart
+        title_height = self.title.get_real_dimensions()[1]
+        rect_height = rect.height - 3 * self._padding - title_height
+        rect_width = rect.width - 2 * self._padding
+        rect_x = rect.x + self._padding
+        rect_y = rect.y + self._padding
+        return gtk.gdk.Rectangle(rect_x, rect_y, rect_width, rect_height)
+        
     def draw(self, context):
         """
         Draw the widget. This method is called automatically. Don't call it
@@ -145,7 +154,7 @@ class Chart(gtk.DrawingArea):
         """
         rect = self.get_allocation()
         context.set_line_width(1)
-        self.draw_basics(context, rect)
+        rect = self.draw_basics(context, rect)
         
     def export_svg(self, filename):
         """
