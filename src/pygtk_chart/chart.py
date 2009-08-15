@@ -79,19 +79,36 @@ class Chart(gtk.DrawingArea):
     This is the base class for all chart widgets.
     """
     
+    __gproperties__ = {"padding": (gobject.TYPE_INT, "padding",
+                                    "The chart's padding.", 0, 100, 16,
+                                    gobject.PARAM_READWRITE)}
+    
     def __init__(self):
         gtk.DrawingArea.__init__(self)
-        self.connect("expose_event", self.expose)
-        #objects needed for every chart
+        #private properties:
         self._padding = 16
+        #objects needed for every chart:
         self.background = Background()
         self.background.connect("appearance-changed", self._cb_appearance_changed)
         self.title = Title()
         self.title.connect("appearance-changed", self._cb_appearance_changed)
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
+        self.connect("expose_event", self.expose)
         self.connect("button_press_event", self._cb_button_pressed)
         self.connect("motion-notify-event", self._cb_motion_notify)
+        
+    def do_get_property(self, property):
+        if property.name == "padding":
+            return self._padding
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "padding":
+            self._padding = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _cb_appearance_changed(self, object):
         """
@@ -183,7 +200,27 @@ class Chart(gtk.DrawingArea):
                                         rect.height)
         context = cairo.Context(surface)
         self.draw(context)
-        surface.write_to_png(filename)        
+        surface.write_to_png(filename)     
+        
+        
+    def set_padding(self, padding):
+        """
+        Set the chart's padding.
+        
+        @param padding: the padding in px
+        @type padding: int in [0, 100] (default: 16).
+        """
+        self.set_property("padding", padding)
+        self.queue_draw()
+        
+    def get_padding(self):
+        """
+        Returns the chart's padding.
+        
+        @return: int in [0, 100].
+        """
+        return self.get_property("padding")
+    
         
 class Background(ChartObject):
     """
