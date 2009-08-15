@@ -78,12 +78,12 @@ class Chart(gtk.DrawingArea):
     """
     This is the base class for all chart widgets.
     """
-    _padding = 16
     
     def __init__(self):
         gtk.DrawingArea.__init__(self)
         self.connect("expose_event", self.expose)
         #objects needed for every chart
+        self._padding = 16
         self.background = Background()
         self.background.connect("appearance-changed", self._cb_appearance_changed)
         self.title = Title()
@@ -137,10 +137,10 @@ class Chart(gtk.DrawingArea):
         
         #calculate the rectangle that's available for drawing the chart
         title_height = self.title.get_real_dimensions()[1]
-        rect_height = rect.height - 3 * self._padding - title_height
-        rect_width = rect.width - 2 * self._padding
-        rect_x = rect.x + self._padding
-        rect_y = rect.y + self._padding
+        rect_height = int(rect.height - 3 * self._padding - title_height)
+        rect_width = int(rect.width - 2 * self._padding)
+        rect_x = int(rect.x + self._padding)
+        rect_y = int(rect.y + title_height + 2 * self._padding)
         return gtk.gdk.Rectangle(rect_x, rect_y, rect_width, rect_height)
         
     def draw(self, context):
