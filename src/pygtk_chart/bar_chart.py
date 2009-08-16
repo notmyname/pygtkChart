@@ -1,5 +1,5 @@
 """
-Contains the BarChart and MultiBarChart widgets.
+Contains the BarChart widget.
 
 Author: John Dickinson (john@johnandkaren.com),
         Sven Festersen (sven@sven-festersen.de)
