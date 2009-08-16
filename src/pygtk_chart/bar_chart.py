@@ -1,14 +1,15 @@
 """
-Contains the BarChart widget.
+Contains the BarChart and MultiBarChart widgets.
 
-Author: John Dickinson (john@johnandkaren.com)
+Author: John Dickinson (john@johnandkaren.com),
+        Sven Festersen (sven@sven-festersen.de)
 """
 __docformat__ = "epytext"
 import cairo
 import gtk
 import gobject
 import os
-import math # for pi
+import math
 
 import pygtk_chart
 from pygtk_chart.basics import *
@@ -237,6 +238,25 @@ class Bar(chart.Area):
         
         
 class Grid(ChartObject):
+    """
+    This class represents the grid on BarChart and MultiBarChart
+    widgets.
+    
+    Properties
+    ==========
+    bar_chart.Grid inherits properties from ChartObject.
+    Additional properties:
+    - line-style (the style of the grid lines, type: a line style
+      constant)
+    - color (the color of the grid lines, type: gtk.gdk.Color)
+    - show-values (sets whether values should be shown at the grid
+      lines, type: boolean)
+    - padding (the grid's padding in px, type: int in [0, 100]).
+      
+    Signals
+    =======
+    The Grid class inherits signal from chart_object.ChartObject.
+    """
     
     __gproperties__ = {"show-values": (gobject.TYPE_BOOLEAN, "show values",
                                         "Set whether to show grid values.",
@@ -431,6 +451,29 @@ class Grid(ChartObject):
 
 
 class BarChart(chart.Chart):
+    """
+    This is a widget that show a simple BarChart.
+    
+    Properties
+    ==========
+    The BarChart class inherits properties from chart.Chart.
+    Additional properites:
+    - draw-labels (set wether to draw bar label, type: boolean)
+    - enable-mouseover (set whether to show a mouseover effect, type:
+      boolean)
+    - mode (the mode of the bar chart, type: one of MODE_VERTICAL,
+      MODE_HORIZONTAL)
+    - bar-padding (the sace between bars in px, type: int in [0, 100]).
+      
+    Signals
+    =======
+    The BarChart class inherits signals from chart.Chart.
+    Additional signals:
+    - bar-clicked: emitted when a bar on the bar chart was clicked
+      callback signature:
+      def bar_clicked(chart, bar).
+    
+    """
     
     __gsignals__ = {"bar-clicked": (gobject.SIGNAL_RUN_LAST, 
                                     gobject.TYPE_NONE, 
