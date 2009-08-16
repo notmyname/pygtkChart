@@ -170,6 +170,7 @@ class Chart(gtk.DrawingArea):
         @param context: The context to draw on.
         """
         rect = self.get_allocation()
+        rect = gtk.gdk.Rectangle(0, 0, rect.width, rect.height) #transform rect to context coordinates
         context.set_line_width(1)
         rect = self.draw_basics(context, rect)
         
