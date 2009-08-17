@@ -33,6 +33,8 @@ class Bar(bar_chart.Bar):
     def _do_draw(self, context, rect, group, bar_count, n, i, m, j, mode, group_padding, bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels):
         if mode == MODE_VERTICAL:
             return self._do_draw_multi_vertical(context, rect, group, bar_count, n, i, m, j, mode, group_padding, bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels)
+        elif mode == MODE_HORIZONTAL:
+            return self._do_draw_multi_horizontal(context, rect, group, bar_count, n, i, m, j, mode, group_padding, bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels)
             
     def _do_draw_multi_vertical(self, context, rect, group, bar_count, n, i, m, j, mode, group_padding, bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels):
         bar_width = (rect.width - (bar_count - n) * bar_padding - (n - 1) * group_padding) / bar_count
@@ -73,13 +75,58 @@ class Bar(bar_chart.Bar):
             context.fill()
         
         return bar_x + bar_width
+            
+    def _do_draw_multi_horizontal(self, context, rect, group, bar_count, n, i, m, j, mode, group_padding, bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels):
+        bar_height = (rect.height - (bar_count - n) * bar_padding - (n - 1) * group_padding) / bar_count
+        bar_width = (rect.width - value_label_size - label_size) * self._value / maximum_value
+        bar_x = rect.x + label_size
+        bar_y = group_end + j * (bar_height + bar_padding)
+        context.set_source_rgb(*color_gdk_to_cairo(self._color))
+        bar_chart.draw_rounded_rectangle(context, bar_x, bar_y, bar_width, bar_height, self._corner_radius)
+        context.fill()
+        
+        chart.add_sensitive_area(chart.AREA_RECTANGLE, (bar_x, bar_y, bar_width, bar_height), (group, self))
+        
+        if self._highlighted:
+            context.set_source_rgba(1, 1, 1, 0.1)
+            bar_chart.draw_rounded_rectangle(context, bar_x, bar_y, bar_width, bar_height, self._corner_radius)
+            context.fill()
+            
+        if draw_labels:
+            #draw the value label
+            self._value_label_object.set_text(str(self._value))
+            self._value_label_object.set_wrap(False)
+            self._value_label_object.set_color(self._color)
+            self._value_label_object.set_position((bar_x + bar_width + 3, bar_y + bar_height / 2))
+            self._value_label_object.set_anchor(label.ANCHOR_LEFT_CENTER)
+            self._value_label_object.draw(context, rect)
+            context.fill()
+            
+            #draw label
+            self._label_object.set_rotation(0)
+            self._label_object.set_wrap(False)
+            self._label_object.set_color(self._color)
+            self._label_object.set_fixed(True)
+            self._label_object.set_max_width(0.25 * rect.width)
+            self._label_object.set_text(self._label)
+            self._label_object.set_position((bar_x - 3, bar_y + bar_height / 2))
+            self._label_object.set_anchor(label.ANCHOR_RIGHT_CENTER)
+            self._label_object.draw(context, rect)
+            context.fill()
+        
+        return bar_y + bar_height
         
     def get_value_label_size(self, context, rect, mode, bar_count, n, group_padding, bar_padding):
         if mode == MODE_VERTICAL:
             bar_width = (rect.width - (bar_count - n) * bar_padding - (n - 1) * group_padding) / bar_count
             self._value_label_object.set_max_width(bar_width)
             self._value_label_object.set_text(str(self._value))
-            return self._value_label_object.get_calculated_dimensions(context, rect)[1]   
+            return self._value_label_object.get_calculated_dimensions(context, rect)[1]  
+        elif mode == MODE_HORIZONTAL:
+            self._value_label_object.set_wrap(False)
+            self._value_label_object.set_fixed(True)
+            self._value_label_object.set_text(str(self._value))
+            return self._value_label_object.get_calculated_dimensions(context, rect)[0]
             
     def get_label_size(self, context, rect, mode, bar_count, n, group_padding, bar_padding, label_rotation):
         if mode == MODE_VERTICAL:
@@ -90,6 +137,10 @@ class Bar(bar_chart.Bar):
             self._label_object.set_max_width(3 * bar_width)
             self._label_object.set_text(self._label)
             return self._label_object.get_calculated_dimensions(context, rect)[1]   
+        elif mode == MODE_HORIZONTAL:
+            self._label_object.set_max_width(0.25 * rect.width)
+            self._label_object.set_text(self._label)
+            return self._label_object.get_calculated_dimensions(context, rect)[0]
         
         
         
@@ -104,6 +155,7 @@ class BarGroup(ChartObject):
         self._name = name
         self._title = title
         self._bar_padding = 2
+        self._rotate_label_in_horizontal_mode = False
         
     #drawing methods
     def _do_draw(self, context, rect, bar_count, n, i, mode, group_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels):
@@ -111,7 +163,7 @@ class BarGroup(ChartObject):
         for j, bar in enumerate(self._bars):
             end = bar.draw(context, rect, self, bar_count, n, i, len(self._bars), j, mode, group_padding, self._bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels)
         
-        if draw_labels:
+        if draw_labels and mode == MODE_VERTICAL:
             context.set_source_rgb(0, 0, 0)
             group_width = end - group_end
             self._group_label_object.set_text(self._title)
@@ -119,6 +171,22 @@ class BarGroup(ChartObject):
             self._group_label_object.set_max_width(group_width)
             self._group_label_object.set_position((group_end + group_width / 2, rect.y + rect.height))
             self._group_label_object.set_anchor(label.ANCHOR_BOTTOM_CENTER)
+            self._group_label_object.draw(context, rect)
+            context.fill()
+        elif draw_labels and mode == MODE_HORIZONTAL:
+            context.set_source_rgb(0, 0, 0)
+            group_height = end - group_end
+            if self._rotate_label_in_horizontal_mode:
+                self._group_label_object.set_rotation(90)
+                offset = self.get_group_label_size(context, rect, mode) #fixes postioning bug
+            else:
+                self._group_label_object.set_rotation(0)
+                offset = 0
+            self._group_label_object.set_text(self._title)
+            self._group_label_object.set_wrap(False)
+            self._group_label_object.set_fixed(True)
+            self._group_label_object.set_position((rect.x + offset, group_end + group_height / 2))
+            self._group_label_object.set_anchor(label.ANCHOR_LEFT_CENTER)
             self._group_label_object.draw(context, rect)
             context.fill()
         
@@ -165,6 +233,13 @@ class BarGroup(ChartObject):
         self._group_label_object.set_text(self._title)
         if mode == MODE_VERTICAL:
             return self._group_label_object.get_calculated_dimensions(context, rect)[1]
+        elif mode == MODE_HORIZONTAL:
+            if self._rotate_label_in_horizontal_mode:
+                self._group_label_object.set_rotation(90)
+            else:
+                self._group_label_object.set_rotation(0)
+            self._group_label_object.set_wrap(False)
+            return self._group_label_object.get_calculated_dimensions(context, rect)[0]
         
         
 class MultiBarChart(bar_chart.BarChart):
@@ -224,6 +299,10 @@ class MultiBarChart(bar_chart.BarChart):
         context.set_line_width(1)
                                     
         rect = self.draw_basics(context, rect)
+        
+        context.set_source_rgb(0, 0, 0)
+        context.rectangle(rect.x, rect.y, rect.width, rect.height)
+        context.stroke()
         
         maximum_value = max(group.get_maximum_value() for group in self._groups)
         bar_count = 0
