@@ -146,19 +146,148 @@ class Bar(bar_chart.Bar):
         
 class BarGroup(ChartObject):
     
+    __gproperties__ = {"name": (gobject.TYPE_STRING, "group name",
+                                "A unique identifeir for this group.",
+                                "", gobject.PARAM_READABLE),
+                        "title": (gobject.TYPE_STRING, "group title",
+                                    "The group's title.", "",
+                                    gobject.PARAM_READWRITE),
+                        "bar-padding": (gobject.TYPE_INT, "bar padding",
+                                        "The space between bars in this group.",
+                                        0, 100, 2, gobject.PARAM_READWRITE),
+                        "bars": (gobject.TYPE_PYOBJECT, "bars in the group",
+                                "A list of bars in this group.",
+                                gobject.PARAM_READABLE),
+                        "maximum-value": (gobject.TYPE_FLOAT, "max value",
+                                        "The maximum value of the bars in this group.",
+                                        0, 9999999, 0, gobject.PARAM_READABLE),
+                        "bar-count": (gobject.TYPE_INT, "bar count",
+                                        "The number of bars in this group.",
+                                        0, 100, 0, gobject.PARAM_READWRITE)}
+    
     def __init__(self, name, title=""):
         ChartObject.__init__(self)
         #private properties:
-        self._bars = []
         self._group_label_object = label.Label((0, 0), title)
         #gobject properties:
+        self._bars = []
         self._name = name
         self._title = title
         self._bar_padding = 2
-        self._rotate_label_in_horizontal_mode = False
+    
+    #gobject set_* and get_* methods
+    def do_get_property(self, property):
+        if property.name == "visible":
+            return self._show
+        elif property.name == "antialias":
+            return self._antialias
+        elif property.name == "name":
+            return self._name
+        elif property.name == "title":
+            return self._title
+        elif property.name == "bar-padding":
+            return self._bar_padding
+        elif property.name == "bars":
+            return self._bars
+        elif property.name == "maximum-value":
+            return max(bar.get_value() for bar in self._bars)
+        elif property.name == "bar-count":
+            return len(self._bars)
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def do_set_property(self, property, value):
+        if property.name == "visible":
+            self._show = value
+        elif property.name == "antialias":
+            self._antialias = value
+        elif property.name == "name":
+            self._name = value
+        elif property.name == "title":
+            self._title = value
+        elif property.name == "bar-padding":
+            self._bar_padding = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def get_bar_count(self):
+        """
+        Returns the number of bars in this group.
+        
+        @return: int in [0, 100].
+        """
+        return self.get_property("bar-count")
+        
+    def get_maximum_value(self):
+        """
+        Returns the maximum value of the bars in this group.
+        
+        @return: float.
+        """
+        return self.get_property("maximum-value")
+        
+    def get_bars(self):
+        """
+        Returns a list of the bars in this group.
+        
+        @return: list of multi_bar_chart.Bar.
+        """
+        return self.get_property("bars")
+        
+    def get_name(self):
+        """
+        Returns the name (a unique identifier) of this group.
+        
+        @return: string.
+        """
+        return self.get_property("name")
+        
+    def set_title(self, title):
+        """
+        Set the title of the group.
+        
+        @param title: the new title
+        @type title: string.
+        """
+        self.set_property("title", title)
+        self.emit("appearance_changed")
+        
+    def get_title(self):
+        """
+        Returns the title of the group.
+        
+        @return: string.
+        """
+        return self.get_property("title")
+        
+    def get_label(self):
+        """
+        Alias for get_title.
+        
+        @return: string.
+        """
+        return self.get_title()
+        
+    def set_bar_padding(self, padding):
+        """
+        Set the distance between two bars in this group (in px).
+        
+        @param padding: the padding in px
+        @type padding: int in [0, 100].
+        """
+        self.set_property("bar-padding", padding)
+        self.emit("appearance_changed")
+        
+    def get_bar_padding(self):
+        """
+        Returns the distance of two bars in the group (in px).
+        
+        @return: int in [0, 100].
+        """
+        return self.get_property("bar-padding")
         
     #drawing methods
-    def _do_draw(self, context, rect, bar_count, n, i, mode, group_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels):
+    def _do_draw(self, context, rect, bar_count, n, i, mode, group_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels, rotate_label_horizontal):
         end = group_end
         for j, bar in enumerate(self._bars):
             end = bar.draw(context, rect, self, bar_count, n, i, len(self._bars), j, mode, group_padding, self._bar_padding, maximum_value, group_end, value_label_size, label_size, label_rotation, draw_labels)
@@ -176,9 +305,9 @@ class BarGroup(ChartObject):
         elif draw_labels and mode == MODE_HORIZONTAL:
             context.set_source_rgb(0, 0, 0)
             group_height = end - group_end
-            if self._rotate_label_in_horizontal_mode:
+            if rotate_label_horizontal:
                 self._group_label_object.set_rotation(90)
-                offset = self.get_group_label_size(context, rect, mode) #fixes postioning bug
+                offset = self.get_group_label_size(context, rect, mode, rotate_label_horizontal) #fixes postioning bug
             else:
                 self._group_label_object.set_rotation(0)
                 offset = 0
@@ -205,18 +334,6 @@ class BarGroup(ChartObject):
         self._bars.append(bar)
         self.emit("appearance_changed")
         
-    def get_bar_count(self):
-        return len(self._bars)
-        
-    def get_maximum_value(self):
-        return max(bar.get_value() for bar in self._bars)
-        
-    def get_bars(self):
-        return self._bars
-        
-    def get_label(self):
-        return self._title
-        
     def get_value_label_size(self, context, rect, mode, bar_count, n, group_padding, bar_padding):
         value_label_size = 0
         for bar in self._bars:
@@ -229,12 +346,12 @@ class BarGroup(ChartObject):
             label_size = max(label_size, bar.get_label_size(context, rect, mode, bar_count, n, group_padding, bar_padding, label_rotation))
         return label_size
         
-    def get_group_label_size(self, context, rect, mode):
+    def get_group_label_size(self, context, rect, mode, rotate_label_horizontal):
         self._group_label_object.set_text(self._title)
         if mode == MODE_VERTICAL:
             return self._group_label_object.get_calculated_dimensions(context, rect)[1]
         elif mode == MODE_HORIZONTAL:
-            if self._rotate_label_in_horizontal_mode:
+            if rotate_label_horizontal:
                 self._group_label_object.set_rotation(90)
             else:
                 self._group_label_object.set_rotation(0)
@@ -253,13 +370,15 @@ class MultiBarChart(bar_chart.BarChart):
         #private properties:
         self._groups = []
         #gobject properties:
-        self._group_padding = 16
-        self._label_rotation = 300
+        self._group_padding = 16 #TODO: make gobject property
+        self._label_rotation = 300 #TODO: make gobject property
+        self._rotate_group_label_in_horizontal_mode = False #TODO: make gobject property
         
     #callbacks
     def _cb_motion_notify(self, widget, event):
         if not self._mouseover: return
         active = chart.get_sensitive_areas(event.x, event.y)
+        if active == []: return
         for group in self._groups:
             for bar in group.get_bars():
                 bar.set_highlighted((group, bar) in active)
@@ -280,7 +399,7 @@ class MultiBarChart(bar_chart.BarChart):
             group_end = rect.y
         
         for i, group in enumerate(self._groups):
-            group_end = group.draw(context, rect, bar_count, len(self._groups), i, self._mode, self._group_padding, maximum_value, group_end, value_label_size, label_size, self._label_rotation, self._draw_labels)
+            group_end = group.draw(context, rect, bar_count, len(self._groups), i, self._mode, self._group_padding, maximum_value, group_end, value_label_size, label_size, self._label_rotation, self._draw_labels, self._rotate_group_label_in_horizontal_mode)
         
     def draw(self, context):
         """
@@ -300,10 +419,6 @@ class MultiBarChart(bar_chart.BarChart):
                                     
         rect = self.draw_basics(context, rect)
         
-        context.set_source_rgb(0, 0, 0)
-        context.rectangle(rect.x, rect.y, rect.width, rect.height)
-        context.stroke()
-        
         maximum_value = max(group.get_maximum_value() for group in self._groups)
         bar_count = 0
         for group in self._groups: bar_count += group.get_bar_count()
@@ -318,7 +433,7 @@ class MultiBarChart(bar_chart.BarChart):
             for group in self._groups:
                 label_size = max(label_size, group.get_label_size(context, rect, self._mode, bar_count, len(self._groups), self._group_padding, self._bar_padding, self._label_rotation))
             label_size += 10
-            label_size += group.get_group_label_size(context, rect, self._mode)
+            label_size += group.get_group_label_size(context, rect, self._mode, self._rotate_group_label_in_horizontal_mode)
         
         rect = self._do_draw_grid(context, rect, maximum_value, value_label_size, label_size)
         self._do_draw_groups(context, rect, maximum_value, value_label_size, label_size, bar_count)
