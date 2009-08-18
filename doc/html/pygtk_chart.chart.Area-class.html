@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygtk_chart.chart.Area</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygtk_chart-module.html">Package&nbsp;pygtk_chart</a> ::
+        <a href="pygtk_chart.chart-module.html">Module&nbsp;chart</a> ::
+        Class&nbsp;Area
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygtk_chart.chart.Area-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Area</h1><p class="nomargin-top"><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pygtk_ch_4" name="uml_class_diagram_for_pygtk_ch_4">
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#__gsignals__" title="pygtk_chart.chart_object.ChartObject.__gsignals__" alt="" coords="64,377,251,396"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#draw" title="This method is called by the parent Chart instance." alt="" coords="64,398,251,417"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_antialias" title="This method sets the antialiasing mode of the ChartObject." alt="" coords="64,417,251,436"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_antialias" title="Returns True if antialiasing is enabled for the object." alt="" coords="64,436,251,454"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_visible" title="Use this method to set whether the ChartObject should be visible or not." alt="" coords="64,454,251,473"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_visible" title="Returns True if the object is visble." alt="" coords="64,473,251,492"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html" title="This is the base class for all things that can be drawn on a chart widget." alt="" coords="63,360,252,493"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#__gproperties__" title="pygtk_chart.chart.Area.__gproperties__" alt="" coords="41,540,273,558"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#__gtype__" title="pygtk_chart.chart.Area.__gtype__" alt="" coords="41,558,273,577"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="41,580,273,598"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#do_get_property" title="pygtk_chart.chart.Area.do_get_property" alt="" coords="41,598,273,617"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#do_set_property" title="pygtk_chart.chart.Area.do_set_property" alt="" coords="41,617,273,636"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#set_value" title="Set the value of the area." alt="" coords="41,636,273,654"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#get_value" title="Returns the current value of the area." alt="" coords="41,654,273,673"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#set_color" title="Set the color of the area." alt="" coords="41,673,273,692"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#get_color" title="Returns the current color of the area or COLOR_AUTO." alt="" coords="41,692,273,710"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#set_label" title="Set the label for the area." alt="" coords="41,710,273,729"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#get_label" title="Returns the current label of the area." alt="" coords="41,729,273,748"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#set_highlighted" title="Set whether the area should be highlighted." alt="" coords="41,748,273,766"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html#get_highlighted" title="Returns True if the area is currently highlighted." alt="" coords="41,766,273,785"/>
+<area shape="rect" href="pygtk_chart.chart.Area&#45;class.html" title="This is a base class for classes that represent areas, e.g." alt="" coords="40,522,275,786"/>
+<area shape="rect" href="pygtk_chart.multi_bar_chart.Bar&#45;class.html" title="This is a special version of the bar_chart.Bar class that draws the bars on a MultiBarChart widget." alt="" coords="172,872,303,898"/>
+<area shape="rect" href="pygtk_chart.pie_chart.PieArea&#45;class.html" title="pygtk_chart.pie_chart.PieArea" alt="" coords="16,816,139,842"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Bar&#45;class.html" title="A class that represents a bar on a bar chart." alt="" coords="189,816,285,842"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__grefcount__" alt="" coords="96,28,219,46"/>
+<area shape="rect" href="javascript:void(0);" title="cmp(x,y)" alt="" coords="96,49,219,68"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__copy__" alt="" coords="96,68,219,86"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__deepcopy__" alt="" coords="96,86,219,105"/>
+<area shape="rect" href="javascript:void(0);" title="x.__delattr__(&#39;name&#39;) &lt;==&gt; del x.name" alt="" coords="96,105,219,124"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gdoc__" alt="" coords="96,124,219,142"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gobject_init__" alt="" coords="96,142,219,161"/>
+<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="96,161,219,180"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__new__" alt="" coords="96,180,219,198"/>
+<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="96,198,219,217"/>
+<area shape="rect" href="javascript:void(0);" title="x.__setattr__(&#39;name&#39;, value) &lt;==&gt; x.name = value" alt="" coords="96,217,219,236"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.chain" alt="" coords="96,236,219,254"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect" alt="" coords="96,254,219,273"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect_after" alt="" coords="96,273,219,292"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.weak_ref" alt="" coords="96,310,219,329"/>
+<area shape="rect" href="javascript:void(0);" title="Object GObject" alt="" coords="95,10,220,330"/>
+</map>
+  <img src="uml_class_diagram_for_pygtk_ch_4.gif" alt='' usemap="#uml_class_diagram_for_pygtk_ch_4" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>This is a base class for classes that represent areas, e.g. the 
+  pie_chart.PieArea class and the bar_chart.Bar class.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">value</span>,
+        <span class="summary-sig-arg">title</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      x.__init__(...) initializes x; see x.__class__.__doc__ for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#do_get_property" class="summary-sig-name">do_get_property</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.do_get_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#do_set_property" class="summary-sig-name">do_set_property</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>,
+        <span class="summary-sig-arg">value</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.do_set_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#set_value" class="summary-sig-name">set_value</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">value</span>)</span><br />
+      Set the value of the area.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_value">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#get_value" class="summary-sig-name">get_value</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current value of the area.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_value">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#set_color" class="summary-sig-name">set_color</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">color</span>)</span><br />
+      Set the color of the area.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_color">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#get_color" class="summary-sig-name">get_color</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current color of the area or COLOR_AUTO.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_color">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#set_label" class="summary-sig-name">set_label</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">label</span>)</span><br />
+      Set the label for the area.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_label">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#get_label" class="summary-sig-name">get_label</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current label of the area.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_label">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#set_highlighted" class="summary-sig-name">set_highlighted</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">highlighted</span>)</span><br />
+      Set whether the area should be highlighted.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_highlighted">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.chart.Area-class.html#get_highlighted" class="summary-sig-name">get_highlighted</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if the area is currently highlighted.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_highlighted">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b>:
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#draw">draw</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#get_antialias">get_antialias</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#get_visible">get_visible</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#set_antialias">set_antialias</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#set_visible">set_visible</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b> (private):
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#_do_draw" onclick="show_private();">_do_draw</a></code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__cmp__</code>,
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__gdoc__</code>,
+      <code>__gobject_init__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__str__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.chart.Area-class.html#__gproperties__" class="summary-name">__gproperties__</a> = <code title="{&quot;name&quot;:(gobject.TYPE_STRING, &quot;area name&quot;, &quot;A unique name for the area\
+.&quot;, &quot;&quot;, gobject.PARAM_READABLE), &quot;value&quot;:(gobject.TYPE_FLOAT, &quot;value&quot;,\
+ &quot;The value.&quot;, 0.0, 9999999999.0, 0.0, gobject.PARAM_READWRITE), &quot;colo\
+r&quot;:(gobject.TYPE_PYOBJECT, &quot;area color&quot;, &quot;The color of the area.&quot;, gob\
+ject.PARAM_READWRITE), &quot;label&quot;:(gobject.TYPE_STRING, &quot;area label&quot;, &quot;Th\
+e label for the area.&quot;, &quot;&quot;, gobject.PARAM_READWRITE), &quot;highlighted&quot;:(g\
+object.TYPE_BOOLEAN, &quot;area is higlighted&quot;, &quot;Set whether the area shoul\
+d be higlighted.&quot;, False, gobject.PARAM_READWRITE)}">{&quot;name&quot;:(gobject.TYPE_STRING, &quot;area name&quot;, &quot;<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType pygtk_chart+chart+Area (153068648)&gt;">&lt;GType pygtk_chart+chart+Area (153068648)&gt;</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b>:
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#__gsignals__">__gsignals__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">value</span>,
+        <span class="sig-arg">title</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see x.__class__.__doc__ for 
+  signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="do_get_property"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">do_get_property</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">property</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.do_get_property">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#do_get_property">chart_object.ChartObject.do_get_property</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="do_set_property"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">do_set_property</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">property</span>,
+        <span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.do_set_property">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#do_set_property">chart_object.ChartObject.do_set_property</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_value"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_value</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_value">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the value of the area.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>value</code></strong> (float.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_value"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_value</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_value">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current value of the area.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>float.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_color"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_color</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">color</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_color">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the color of the area.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>color</code></strong> (gtk.gdk.Color.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_color"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_color</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_color">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current color of the area or COLOR_AUTO.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>gtk.gdk.Color or COLOR_AUTO.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_label"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_label</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">label</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_label">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the label for the area.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>label</code></strong> (string.) - the new label</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_label"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_label</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_label">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current label of the area.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>string.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_highlighted"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_highlighted</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">highlighted</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.set_highlighted">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether the area should be highlighted.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>highlighted</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_highlighted"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_highlighted</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Area.get_highlighted">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if the area is currently highlighted.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__gproperties__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__gproperties__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;name&quot;:(gobject.TYPE_STRING, &quot;area name&quot;, &quot;A unique name for the area<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.&quot;, &quot;&quot;, gobject.PARAM_READABLE), &quot;value&quot;:(gobject.TYPE_FLOAT, &quot;value&quot;,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ &quot;The value.&quot;, 0.0, 9999999999.0, 0.0, gobject.PARAM_READWRITE), &quot;colo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+r&quot;:(gobject.TYPE_PYOBJECT, &quot;area color&quot;, &quot;The color of the area.&quot;, gob<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ject.PARAM_READWRITE), &quot;label&quot;:(gobject.TYPE_STRING, &quot;area label&quot;, &quot;Th<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+e label for the area.&quot;, &quot;&quot;, gobject.PARAM_READWRITE), &quot;highlighted&quot;:(g<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+object.TYPE_BOOLEAN, &quot;area is higlighted&quot;, &quot;Set whether the area shoul<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+d be higlighted.&quot;, False, gobject.PARAM_READWRITE)}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:05 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

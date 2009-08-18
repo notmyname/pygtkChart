@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -140,6 +140,41 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.basics-module.html#color_gdk_to_cairo" class="summary-sig-name">color_gdk_to_cairo</a>(<span class="summary-sig-arg">color</span>)</span><br />
+      Convert a gtk.gdk.Color to cairo color.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.basics-pysrc.html#color_gdk_to_cairo">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="color_cairo_to_gdk"></a><span class="summary-sig-name">color_cairo_to_gdk</span>(<span class="summary-sig-arg">r</span>,
+        <span class="summary-sig-arg">g</span>,
+        <span class="summary-sig-arg">b</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.basics-pysrc.html#color_cairo_to_gdk">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygtk_chart.basics-module.html#color_rgb_to_cairo" class="summary-sig-name">color_rgb_to_cairo</a>(<span class="summary-sig-arg">color</span>)</span><br />
       Convert a 8 bit RGB value to cairo color.</td>
           <td align="right" valign="top">
@@ -192,19 +227,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="show_text"></a><span class="summary-sig-name">show_text</span>(<span class="summary-sig-arg">context</span>,
-        <span class="summary-sig-arg">rect</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">text</span>,
-        <span class="summary-sig-arg">font</span>,
-        <span class="summary-sig-arg">size</span>,
-        <span class="summary-sig-arg">slant</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">weight</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">underline</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">reference_point</span>=<span class="summary-sig-default">0</span>)</span></td>
+          <td><span class="summary-sig"><a name="gdk_color_list_from_file"></a><span class="summary-sig-name">gdk_color_list_from_file</span>(<span class="summary-sig-arg">filename</span>)</span><br />
+      Read a file with one html hex color per line and return a list of gdk
+      colors.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="pygtk_chart.basics-pysrc.html#show_text">source&nbsp;code</a></span>
+            <span class="codelink"><a href="pygtk_chart.basics-pysrc.html#gdk_color_list_from_file">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -212,50 +239,22 @@
       
     </td>
   </tr>
-</table>
-<!-- ==================== VARIABLES ==================== -->
-<a name="section-Variables"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Variables</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-Variables"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="REF_BOTTOM_LEFT"></a><span class="summary-name">REF_BOTTOM_LEFT</span> = <code title="0">0</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="REF_TOP_LEFT"></a><span class="summary-name">REF_TOP_LEFT</span> = <code title="1">1</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="REF_TOP_RIGHT"></a><span class="summary-name">REF_TOP_RIGHT</span> = <code title="2">2</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="REF_BOTTOM_RIGHT"></a><span class="summary-name">REF_BOTTOM_RIGHT</span> = <code title="4">4</code>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_context_line_style"></a><span class="summary-sig-name">set_context_line_style</span>(<span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">style</span>)</span><br />
+      The the line style for a context.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.basics-pysrc.html#set_context_line_style">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -326,6 +325,31 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A (x, y) tuple specifying the center point.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="color_gdk_to_cairo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">color_gdk_to_cairo</span>(<span class="sig-arg">color</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.basics-pysrc.html#color_gdk_to_cairo">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a gtk.gdk.Color to cairo color.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>color</code></strong> (gtk.gdk.Color) - the color to convert</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>a color in cairo format.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -404,14 +428,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:28 2009
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:04 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

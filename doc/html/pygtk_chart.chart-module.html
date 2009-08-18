@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -69,10 +69,6 @@
         class Chart: base class for all chart widgets.
       </li>
       <li>
-        class ChartObject: base class for all things that can be drawn on a
-        chart.
-      </li>
-      <li>
         class Background: background of a chart widget.
       </li>
       <li>
@@ -80,10 +76,8 @@
       </li>
     </ul>
     <h2 class="heading">Colors</h2>
-      <p>All colors have to be <code>(r, g, b)</code> tuples. The value of 
-      <code>r, g</code> and <code>b</code> has to be between 0.0 and 1.0. 
-      For example <code>(0, 0, 0)</code> is black and <code>(1, 1, 
-      1)</code> is white.</p>
+      <p>All colors that pygtkChart uses are gtk.gdk.Colors as used by 
+      PyGTK.</p>
       <p>Author: Sven Festersen (sven@sven-festersen.de)</p>
 
 <!-- ==================== CLASSES ==================== -->
@@ -115,15 +109,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygtk_chart.chart.ChartObject-class.html" class="summary-name">ChartObject</a><br />
-      This is the base class for all things that can be drawn in a chart,
-        e.g.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygtk_chart.chart.Background-class.html" class="summary-name">Background</a><br />
       The background of a chart.
     </td>
@@ -134,6 +119,129 @@
     </td><td class="summary">
         <a href="pygtk_chart.chart.Title-class.html" class="summary-name">Title</a><br />
       The title of a chart.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.chart.Area-class.html" class="summary-name">Area</a><br />
+      This is a base class for classes that represent areas, e.g.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="init_sensitive_areas"></a><span class="summary-sig-name">init_sensitive_areas</span>()</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#init_sensitive_areas">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="add_sensitive_area"></a><span class="summary-sig-name">add_sensitive_area</span>(<span class="summary-sig-arg">type</span>,
+        <span class="summary-sig-arg">coords</span>,
+        <span class="summary-sig-arg">data</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#add_sensitive_area">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_sensitive_areas"></a><span class="summary-sig-name">get_sensitive_areas</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.chart-pysrc.html#get_sensitive_areas">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="COLOR_AUTO"></a><span class="summary-name">COLOR_AUTO</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="AREA_CIRCLE"></a><span class="summary-name">AREA_CIRCLE</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="AREA_RECTANGLE"></a><span class="summary-name">AREA_RECTANGLE</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="CLICK_SENSITIVE_AREAS"></a><span class="summary-name">CLICK_SENSITIVE_AREAS</span> = <code title="[]"><code class="variable-group">[</code><code class="variable-group">]</code></code>
     </td>
   </tr>
 </table>
@@ -161,14 +269,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:28 2009
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:04 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

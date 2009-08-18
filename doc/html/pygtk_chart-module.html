@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -109,7 +109,10 @@
     <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart-module.html">pygtk_chart.bar_chart</a></strong>: <em class="summary">Contains the BarChart widget.</em>    </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.basics-module.html">pygtk_chart.basics</a></strong>: <em class="summary">This module contains simple functions needed by all other modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.chart-module.html">pygtk_chart.chart</a></strong>: <em class="summary">This is the main module.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.chart_object-module.html">pygtk_chart.chart_object</a></strong>: <em class="summary">This module contains the ChartObject class.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.label-module.html">pygtk_chart.label</a></strong>: <em class="summary">Contains the Label class.</em>    </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.line_chart-module.html">pygtk_chart.line_chart</a></strong>: <em class="summary">Contains the LineChart widget.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.multi_bar_chart-module.html">pygtk_chart.multi_bar_chart</a></strong>: <em class="summary">Contains the MultiBarChart widget.</em>    </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.pie_chart-module.html">pygtk_chart.pie_chart</a></strong>: <em class="summary">Contains the PieChart widget.</em>    </li>
   </ul></td></tr>
 </table>
@@ -136,10 +139,133 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__url__"></a><span class="summary-name">__url__</span> = <code title="'http://pygtkchart.sven-festersen.de'"><code class="variable-quote">'</code><code class="variable-string">http://pygtkchart.sven-festersen.de</code><code class="variable-quote">'</code></code>
+        <a name="__url__"></a><span class="summary-name">__url__</span> = <code title="'http://notmyname.github.com/pygtkChart/'"><code class="variable-quote">'</code><code class="variable-string">http://notmyname.github.com/pygtkChart/</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="COLOR_AUTO"></a><span class="summary-name">COLOR_AUTO</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart-module.html#COLORS" class="summary-name">COLORS</a> = <code title="gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), &quot;data\
+&quot;, &quot;tango.color&quot;]))">gdk_color_list_from_file(os.sep.join([os.path.dirname<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="LINE_STYLE_SOLID"></a><span class="summary-name">LINE_STYLE_SOLID</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="LINE_STYLE_DOTTED"></a><span class="summary-name">LINE_STYLE_DOTTED</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="LINE_STYLE_DASHED"></a><span class="summary-name">LINE_STYLE_DASHED</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="LINE_STYLE_DASHED_ASYMMETRIC"></a><span class="summary-name">LINE_STYLE_DASHED_ASYMMETRIC</span> = <code title="3">3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POINT_STYLE_CIRCLE"></a><span class="summary-name">POINT_STYLE_CIRCLE</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POINT_STYLE_SQUARE"></a><span class="summary-name">POINT_STYLE_SQUARE</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POINT_STYLE_CROSS"></a><span class="summary-name">POINT_STYLE_CROSS</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POINT_STYLE_TRIANGLE_UP"></a><span class="summary-name">POINT_STYLE_TRIANGLE_UP</span> = <code title="3">3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POINT_STYLE_TRIANGLE_DOWN"></a><span class="summary-name">POINT_STYLE_TRIANGLE_DOWN</span> = <code title="4">4</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POINT_STYLE_DIAMOND"></a><span class="summary-name">POINT_STYLE_DIAMOND</span> = <code title="5">5</code>
     </td>
   </tr>
 </table>
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="COLORS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">COLORS</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), &quot;data<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+&quot;, &quot;tango.color&quot;]))
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -164,14 +290,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:28 2009
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:04 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

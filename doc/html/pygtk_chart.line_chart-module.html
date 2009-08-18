@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -137,6 +137,13 @@
         LineChart widget.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.line_chart.Legend-class.html" class="summary-name">Legend</a>
+    </td>
+  </tr>
 </table>
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -155,6 +162,87 @@
     </table>
   </td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="draw_point"></a><span class="summary-sig-name">draw_point</span>(<span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">radius</span>,
+        <span class="summary-sig-arg">style</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.line_chart-pysrc.html#draw_point">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="draw_point_pixbuf"></a><span class="summary-sig-name">draw_point_pixbuf</span>(<span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">pixbuf</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.line_chart-pysrc.html#draw_point_pixbuf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="draw_errors"></a><span class="summary-sig-name">draw_errors</span>(<span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">rect</span>,
+        <span class="summary-sig-arg">range_calc</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">errors</span>,
+        <span class="summary-sig-arg">draw_x</span>,
+        <span class="summary-sig-arg">draw_y</span>,
+        <span class="summary-sig-arg">xaxis</span>,
+        <span class="summary-sig-arg">yaxis</span>,
+        <span class="summary-sig-arg">size</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.line_chart-pysrc.html#draw_errors">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="separate_data_and_errors"></a><span class="summary-sig-name">separate_data_and_errors</span>(<span class="summary-sig-arg">old_data</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.line_chart-pysrc.html#separate_data_and_errors">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -204,7 +292,9 @@
           <td><span class="summary-sig"><a href="pygtk_chart.line_chart-module.html#graph_new_from_file" class="summary-sig-name">graph_new_from_file</a>(<span class="summary-sig-arg">filename</span>,
         <span class="summary-sig-arg">graph_name</span>,
         <span class="summary-sig-arg">x_col</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">y_col</span>=<span class="summary-sig-default">1</span>)</span><br />
+        <span class="summary-sig-arg">y_col</span>=<span class="summary-sig-default">1</span>,
+        <span class="summary-sig-arg">xerror_col</span>=<span class="summary-sig-default">-1</span>,
+        <span class="summary-sig-arg">yerror_col</span>=<span class="summary-sig-default">-1</span>)</span><br />
       Returns a line_chart.Graph with point taken from data file filename.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="pygtk_chart.line_chart-pysrc.html#graph_new_from_file">source&nbsp;code</a></span>
@@ -314,13 +404,28 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygtk_chart.line_chart-module.html#COLORS" class="summary-name">COLORS</a> = <code title="[(0.8, 0.0, 0.0),
- (0.203921568627, 0.396078431373, 0.643137254902),
- (0.450980392157, 0.823529411765, 0.0862745098039),
- (0.960784313725, 0.474509803922, 0.0),
- (0.458823529412, 0.313725490196, 0.482352941176),
- (0.756862745098, 0.490196078431, 0.0666666666667),
- (0.929411764706, 0.83137254902, 0.0)]"><code class="variable-group">[</code><code class="variable-group">(</code>0.8<code class="variable-op">, </code>0.0<code class="variable-op">, </code>0.0<code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code>0.203921568627<code class="variable-op">, </code>0.396078431373<code class="variable-op">, </code>0.<code class="variable-ellipsis">...</code></code>
+        <a name="POSITION_TOP_RIGHT"></a><span class="summary-name">POSITION_TOP_RIGHT</span> = <code title="8">8</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POSITION_BOTTOM_RIGHT"></a><span class="summary-name">POSITION_BOTTOM_RIGHT</span> = <code title="9">9</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POSITION_BOTTOM_LEFT"></a><span class="summary-name">POSITION_BOTTOM_LEFT</span> = <code title="10">10</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="POSITION_TOP_LEFT"></a><span class="summary-name">POSITION_TOP_LEFT</span> = <code title="11">11</code>
     </td>
   </tr>
 </table>
@@ -391,7 +496,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">graph_new_from_file</span>(<span class="sig-arg">filename</span>,
         <span class="sig-arg">graph_name</span>,
         <span class="sig-arg">x_col</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">y_col</span>=<span class="sig-default">1</span>)</span>
+        <span class="sig-arg">y_col</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">xerror_col</span>=<span class="sig-default">-1</span>,
+        <span class="sig-arg">yerror_col</span>=<span class="sig-default">-1</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="pygtk_chart.line_chart-pysrc.html#graph_new_from_file">source&nbsp;code</a></span>&nbsp;
@@ -405,6 +512,9 @@
   <p>Use the parameters x_col and y_col to control which columns to use for
   plotting. By default, the first column (x_col=0) is used for x values, 
   the second (y_col=1) is used for y values.</p>
+  <p>The parameters xerror_col and yerror_col should point to the column in
+  which the x/y error values are. If you do not want to provide x or y 
+  error data, omit the paramter or set it to -1 (default).</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -412,52 +522,11 @@
         <li><strong class="pname"><code>graph_name</code></strong> (string) - a unique name for the graph</li>
         <li><strong class="pname"><code>x_col</code></strong> (int) - the number of the column to use for x values</li>
         <li><strong class="pname"><code>y_col</code></strong> (int) - the number of the column to use for y values</li>
+        <li><strong class="pname"><code>xerror_col</code></strong> (int) - index of the column for x error values</li>
+        <li><strong class="pname"><code>yerror_col</code></strong> (int) - index of the column for y error values</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>line_chart.Graph</dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
-<!-- ==================== VARIABLES DETAILS ==================== -->
-<a name="section-VariablesDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Variables Details</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-VariablesDetails"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-</table>
-<a name="COLORS"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">COLORS</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-group">[</code><code class="variable-group">(</code>0.8<code class="variable-op">, </code>0.0<code class="variable-op">, </code>0.0<code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code>0.203921568627<code class="variable-op">, </code>0.396078431373<code class="variable-op">, </code>0.643137254902<code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code>0.450980392157<code class="variable-op">, </code>0.823529411765<code class="variable-op">, </code>0.0862745098039<code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code>0.960784313725<code class="variable-op">, </code>0.474509803922<code class="variable-op">, </code>0.0<code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code>0.458823529412<code class="variable-op">, </code>0.313725490196<code class="variable-op">, </code>0.482352941176<code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code>0.756862745098<code class="variable-op">, </code>0.490196078431<code class="variable-op">, </code>0.0666666666667<code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code>0.929411764706<code class="variable-op">, </code>0.83137254902<code class="variable-op">, </code>0.0<code class="variable-group">)</code><code class="variable-group">]</code>
-</pre></td></tr></table>
-</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -486,14 +555,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:29 2009
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:04 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
