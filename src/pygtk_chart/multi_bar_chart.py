@@ -364,15 +364,125 @@ class MultiBarChart(bar_chart.BarChart):
     __gsignals__ = {"group-clicked": (gobject.SIGNAL_RUN_LAST, 
                                     gobject.TYPE_NONE, 
                                     (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))}
+                                    
+    __gproperties__ = {"group-padding": (gobject.TYPE_INT, "group padding",
+                                        "The space between two bar groups.",
+                                        0, 100, 16, gobject.PARAM_READWRITE),
+                        "label-rotation": (gobject.TYPE_INT, "label rotation",
+                                            "The angle that should bar labels be rotated by in vertical mode.",
+                                            0, 360, 300, gobject.PARAM_READWRITE),
+                        "rotate-group-labels": (gobject.TYPE_BOOLEAN,
+                                                "rotate group label",
+                                                "Sets whether the group label should be rotated by 90 degrees in horizontal mode.",
+                                                False, gobject.PARAM_READWRITE),
+                        "mode": (gobject.TYPE_INT, "mode",
+                                "The chart's mode.", 0, 1, 0,
+                                gobject.PARAM_READWRITE),
+                        "draw-labels": (gobject.TYPE_BOOLEAN,
+                                        "draw labels", "Set whether to draw labels on bars.",
+                                        True, gobject.PARAM_READWRITE),
+                        "enable-mouseover": (gobject.TYPE_BOOLEAN, "enable mouseover",
+                                        "Set whether to enable mouseover effect.",
+                                        True, gobject.PARAM_READWRITE)}
     
     def __init__(self):
         bar_chart.BarChart.__init__(self)
         #private properties:
         self._groups = []
         #gobject properties:
-        self._group_padding = 16 #TODO: make gobject property
-        self._label_rotation = 300 #TODO: make gobject property
-        self._rotate_group_label_in_horizontal_mode = False #TODO: make gobject property
+        self._group_padding = 16
+        self._label_rotation = 300
+        self._rotate_group_label_in_horizontal_mode = False
+        
+    #gobject set_* and get_* methods
+    def do_get_property(self, property):
+        if property.name == "group-padding":
+            return self._group_padding
+        elif property.name == "label-rotation":
+            return self._label_rotation
+        elif property.name == "rotate-group-labels":
+            return self._rotate_group_label_in_horizontal_mode
+        elif property.name == "mode":
+            return self._mode
+        elif property.name == "draw-labels":
+            return self._draw_labels
+        elif property.name == "enable-mouseover":
+            return self._mouseover
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def do_set_property(self, property, value):
+        if property.name == "group-padding":
+            self._group_padding = value
+        elif property.name == "label-rotation":
+            self._label_rotation = value
+        elif property.name == "rotate-group-labels":
+            self._rotate_group_label_in_horizontal_mode = value
+        elif property.name == "mode":
+            self._mode = value
+        elif property.name == "draw-labels":
+            self._draw_labels = value
+        elif property.name == "enable-mouseover":
+            self._mouseover = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+            
+    def set_group_padding(self, padding):
+        """
+        Set the amount of free space between bar groups (in px,
+        default: 16).
+        
+        @param padding: the padding
+        @type padding: int in [0, 100].
+        """
+        self.set_property("group-padding", padding)
+        self.queue_draw()
+        
+    def get_group_padding(self):
+        """
+        Returns the amount of free space between two bar groups (in px).
+        
+        @return: int in [0, 100].
+        """
+        return self.get_property("group-padding")
+        
+    def set_label_rotation(self, angle):
+        """
+        Set the abgle (in degrees) that should be used to rotate the
+        bar labels in vertical mode (defualt: 300 degrees).
+        
+        @type angle: int in [0, 360].
+        """
+        self.set_property("label-rotation", angle)
+        self.queue_draw()
+        
+    def get_label_rotation(self):
+        """
+        Returns the angle by which bar labels are rotated in vertical
+        mode.
+        
+        @return: int in [0, 350].
+        """
+        return self.get_property("label-rotation")
+        
+    def set_rotate_group_labels(self, rotate):
+        """
+        Set wether the groups' labels should be rotated by 90 degrees in
+        horizontal mode (default: False).
+        
+        @type rotate: boolean.
+        """
+        self.set_property("rotate-group-labels", rotate)
+        self.queue_draw()
+        
+    def get_rotate_group_labels(self):
+        """
+        Returns True if group labels should be rotated by 90 degrees
+        in horizontal mode.
+        
+        @return: boolean.
+        """
+        return self.get_property("rotate-group-labels")
         
     #callbacks
     def _cb_motion_notify(self, widget, event):
