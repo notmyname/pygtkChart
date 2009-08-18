@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -80,9 +80,11 @@
     <li> <strong class="uidlink"><a href="pygtk_chart.chart.Chart-class.html">pygtk_chart.chart.Chart</a></strong>:
       <em class="summary">This is the base class for all chart widgets.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.BarChart-class.html">pygtk_chart.bar_chart.BarChart</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.BarChart-class.html">pygtk_chart.bar_chart.BarChart</a></strong>:
+      <em class="summary">This is a widget that show a simple BarChart.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.MultiBarChart-class.html">pygtk_chart.bar_chart.MultiBarChart</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.multi_bar_chart.MultiBarChart-class.html">pygtk_chart.multi_bar_chart.MultiBarChart</a></strong>:
+      <em class="summary">The MultiBarChart widget displays groups of bars.</em>
     </li>
     </ul>
     </li>
@@ -110,9 +112,11 @@
     <li> <strong class="uidlink"><a href="pygtk_chart.chart.Chart-class.html">pygtk_chart.chart.Chart</a></strong>:
       <em class="summary">This is the base class for all chart widgets.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.BarChart-class.html">pygtk_chart.bar_chart.BarChart</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.BarChart-class.html">pygtk_chart.bar_chart.BarChart</a></strong>:
+      <em class="summary">This is a widget that show a simple BarChart.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.MultiBarChart-class.html">pygtk_chart.bar_chart.MultiBarChart</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.multi_bar_chart.MultiBarChart-class.html">pygtk_chart.multi_bar_chart.MultiBarChart</a></strong>:
+      <em class="summary">The MultiBarChart widget displays groups of bars.</em>
     </li>
     </ul>
     </li>
@@ -134,10 +138,26 @@
     <li> <strong class="uidlink"><i>unreachable</i>.GObject</strong>:
       <em class="summary">Object GObject</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.chart.ChartObject-class.html">pygtk_chart.chart.ChartObject</a></strong>:
-      <em class="summary">This is the base class for all things that can be drawn in a chart,
-        e.g.</em>
+    <li> <strong class="uidlink"><a href="pygtk_chart.chart_object.ChartObject-class.html">pygtk_chart.chart_object.ChartObject</a></strong>:
+      <em class="summary">This is the base class for all things that can be drawn on a chart 
+        widget.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygtk_chart.chart.Area-class.html">pygtk_chart.chart.Area</a></strong>:
+      <em class="summary">This is a base class for classes that represent areas, e.g.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.Bar-class.html">pygtk_chart.bar_chart.Bar</a></strong>:
+      <em class="summary">A class that represents a bar on a bar chart.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygtk_chart.multi_bar_chart.Bar-class.html">pygtk_chart.multi_bar_chart.Bar</a></strong>:
+      <em class="summary">This is a special version of the bar_chart.Bar class that draws the
+        bars on a MultiBarChart widget.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.pie_chart.PieArea-class.html">pygtk_chart.pie_chart.PieArea</a></strong>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.line_chart.Axis-class.html">pygtk_chart.line_chart.Axis</a></strong>
     <ul>
     <li> <strong class="uidlink"><a href="pygtk_chart.line_chart.XAxis-class.html">pygtk_chart.line_chart.XAxis</a></strong>:
@@ -151,21 +171,29 @@
     <li> <strong class="uidlink"><a href="pygtk_chart.chart.Background-class.html">pygtk_chart.chart.Background</a></strong>:
       <em class="summary">The background of a chart.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.Bar-class.html">pygtk_chart.bar_chart.Bar</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.multi_bar_chart.BarGroup-class.html">pygtk_chart.multi_bar_chart.BarGroup</a></strong>:
+      <em class="summary">This class represents a group of bars on the MultiBarChart widget.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.line_chart.Graph-class.html">pygtk_chart.line_chart.Graph</a></strong>:
       <em class="summary">This class represents a graph or the data you want to plot on your 
         LineChart widget.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.Grid-class.html">pygtk_chart.bar_chart.Grid</a></strong>:
+      <em class="summary">This class represents the grid on BarChart and MultiBarChart 
+        widgets.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygtk_chart.line_chart.Grid-class.html">pygtk_chart.line_chart.Grid</a></strong>:
       <em class="summary">A class representing the grid of the chart.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.MultiBar-class.html">pygtk_chart.bar_chart.MultiBar</a></strong>
-    </li>
-    <li> <strong class="uidlink"><a href="pygtk_chart.pie_chart.PieArea-class.html">pygtk_chart.pie_chart.PieArea</a></strong>
-    </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.label.Label-class.html">pygtk_chart.label.Label</a></strong>:
+      <em class="summary">This class is used for drawing all the text on the chart widgets.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygtk_chart.chart.Title-class.html">pygtk_chart.chart.Title</a></strong>:
       <em class="summary">The title of a chart.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygtk_chart.line_chart.Legend-class.html">pygtk_chart.line_chart.Legend</a></strong>
     </li>
     </ul>
     </li>
@@ -181,9 +209,11 @@
     <li> <strong class="uidlink"><a href="pygtk_chart.chart.Chart-class.html">pygtk_chart.chart.Chart</a></strong>:
       <em class="summary">This is the base class for all chart widgets.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.BarChart-class.html">pygtk_chart.bar_chart.BarChart</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.BarChart-class.html">pygtk_chart.bar_chart.BarChart</a></strong>:
+      <em class="summary">This is a widget that show a simple BarChart.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygtk_chart.bar_chart.MultiBarChart-class.html">pygtk_chart.bar_chart.MultiBarChart</a></strong>
+    <li> <strong class="uidlink"><a href="pygtk_chart.multi_bar_chart.MultiBarChart-class.html">pygtk_chart.multi_bar_chart.MultiBarChart</a></strong>:
+      <em class="summary">The MultiBarChart widget displays groups of bars.</em>
     </li>
     </ul>
     </li>
@@ -229,14 +259,14 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:28 2009
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:04 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

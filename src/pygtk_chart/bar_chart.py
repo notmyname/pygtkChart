@@ -19,7 +19,7 @@
 Contains the BarChart widget.
 
 Author: John Dickinson (john@johnandkaren.com),
-        Sven Festersen (sven@sven-festersen.de)
+Sven Festersen (sven@sven-festersen.de)
 """
 __docformat__ = "epytext"
 import cairo
@@ -79,7 +79,7 @@ class Bar(chart.Area):
     ==========
     The Bar class inherits properties from chart.Area.
     Additional properties:
-    - corner-radius (radius of the bar's corners, in px; type: float)
+     - corner-radius (radius of the bar's corners, in px; type: float)
     
     Signals
     =======
@@ -261,12 +261,12 @@ class Grid(ChartObject):
     ==========
     bar_chart.Grid inherits properties from ChartObject.
     Additional properties:
-    - line-style (the style of the grid lines, type: a line style
+     - line-style (the style of the grid lines, type: a line style
       constant)
-    - color (the color of the grid lines, type: gtk.gdk.Color)
-    - show-values (sets whether values should be shown at the grid
+     - color (the color of the grid lines, type: gtk.gdk.Color)
+     - show-values (sets whether values should be shown at the grid
       lines, type: boolean)
-    - padding (the grid's padding in px, type: int in [0, 100]).
+     - padding (the grid's padding in px, type: int in [0, 100]).
       
     Signals
     =======
@@ -427,10 +427,10 @@ class Grid(ChartObject):
     def set_line_style(self, style):
         """
         Set the style of the grid lines. style has to be one of
-        - pygtk_chart.LINE_STYLE_SOLID (default)
-        - pygtk_chart.LINE_STYLE_DOTTED
-        - pygtk_chart.LINE_STYLE_DASHED
-        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC
+         - pygtk_chart.LINE_STYLE_SOLID (default)
+         - pygtk_chart.LINE_STYLE_DOTTED
+         - pygtk_chart.LINE_STYLE_DASHED
+         - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC
         
         @param style: the new line style
         @type style: one of the constants above.
@@ -473,18 +473,18 @@ class BarChart(chart.Chart):
     ==========
     The BarChart class inherits properties from chart.Chart.
     Additional properites:
-    - draw-labels (set wether to draw bar label, type: boolean)
-    - enable-mouseover (set whether to show a mouseover effect, type:
+     - draw-labels (set wether to draw bar label, type: boolean)
+     - enable-mouseover (set whether to show a mouseover effect, type:
       boolean)
-    - mode (the mode of the bar chart, type: one of MODE_VERTICAL,
+     - mode (the mode of the bar chart, type: one of MODE_VERTICAL,
       MODE_HORIZONTAL)
-    - bar-padding (the sace between bars in px, type: int in [0, 100]).
+     - bar-padding (the sace between bars in px, type: int in [0, 100]).
       
     Signals
     =======
     The BarChart class inherits signals from chart.Chart.
     Additional signals:
-    - bar-clicked: emitted when a bar on the bar chart was clicked
+     - bar-clicked: emitted when a bar on the bar chart was clicked
       callback signature:
       def bar_clicked(chart, bar).
     

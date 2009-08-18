@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -92,8 +92,31 @@
 <a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-name">__version__</tt> <tt class="py-op">=</tt> <tt class="py-string">"beta"</tt> </tt>
 <a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"><tt class="py-name">__author__</tt> <tt class="py-op">=</tt> <tt class="py-string">"Sven Festersen, John Dickinson"</tt> </tt>
 <a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-name">__license__</tt> <tt class="py-op">=</tt> <tt class="py-string">"GPL"</tt> </tt>
-<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable pygtk_chart.__url__=pygtk_chart-module.html#__url__"><a title="pygtk_chart.__url__" class="py-name" href="#" onclick="return doclink('link-0', '__url__', 'link-0');">__url__</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"http://pygtkchart.sven-festersen.de"</tt> </tt>
-<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable pygtk_chart.__url__=pygtk_chart-module.html#__url__"><a title="pygtk_chart.__url__" class="py-name" href="#" onclick="return doclink('link-0', '__url__', 'link-0');">__url__</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"http://notmyname.github.com/pygtkChart/"</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">os</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package pygtk_chart=pygtk_chart-module.html"><a title="pygtk_chart" class="py-name" href="#" onclick="return doclink('link-1', 'pygtk_chart', 'link-1');">pygtk_chart</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module pygtk_chart.basics=pygtk_chart.basics-module.html"><a title="pygtk_chart.basics" class="py-name" href="#" onclick="return doclink('link-2', 'basics', 'link-2');">basics</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Function pygtk_chart.basics.gdk_color_list_from_file()=pygtk_chart.basics-module.html#gdk_color_list_from_file"><a title="pygtk_chart.basics.gdk_color_list_from_file" class="py-name" href="#" onclick="return doclink('link-3', 'gdk_color_list_from_file', 'link-3');">gdk_color_list_from_file</a></tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"><tt id="link-4" class="py-name" targets="Variable pygtk_chart.COLOR_AUTO=pygtk_chart-module.html#COLOR_AUTO,Variable pygtk_chart.chart.COLOR_AUTO=pygtk_chart.chart-module.html#COLOR_AUTO,Variable pygtk_chart.line_chart.COLOR_AUTO=pygtk_chart.line_chart-module.html#COLOR_AUTO,Variable pygtk_chart.multi_bar_chart.COLOR_AUTO=pygtk_chart.multi_bar_chart-module.html#COLOR_AUTO"><a title="pygtk_chart.COLOR_AUTO
+pygtk_chart.chart.COLOR_AUTO
+pygtk_chart.line_chart.COLOR_AUTO
+pygtk_chart.multi_bar_chart.COLOR_AUTO" class="py-name" href="#" onclick="return doclink('link-4', 'COLOR_AUTO', 'link-4');">COLOR_AUTO</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable pygtk_chart.COLORS=pygtk_chart-module.html#COLORS,Variable pygtk_chart.multi_bar_chart.COLORS=pygtk_chart.multi_bar_chart-module.html#COLORS"><a title="pygtk_chart.COLORS
+pygtk_chart.multi_bar_chart.COLORS" class="py-name" href="#" onclick="return doclink('link-5', 'COLORS', 'link-5');">COLORS</a></tt> <tt class="py-op">=</tt> <tt id="link-6" class="py-name"><a title="pygtk_chart.basics.gdk_color_list_from_file" class="py-name" href="#" onclick="return doclink('link-6', 'gdk_color_list_from_file', 'link-3');">gdk_color_list_from_file</a></tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">sep</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">dirname</tt><tt class="py-op">(</tt><tt class="py-name">__file__</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">"data"</tt><tt class="py-op">,</tt> <tt class="py-string">"tango.color"</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"><tt class="py-comment">#line style</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt id="link-7" class="py-name" targets="Variable pygtk_chart.LINE_STYLE_SOLID=pygtk_chart-module.html#LINE_STYLE_SOLID"><a title="pygtk_chart.LINE_STYLE_SOLID" class="py-name" href="#" onclick="return doclink('link-7', 'LINE_STYLE_SOLID', 'link-7');">LINE_STYLE_SOLID</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"><tt id="link-8" class="py-name" targets="Variable pygtk_chart.LINE_STYLE_DOTTED=pygtk_chart-module.html#LINE_STYLE_DOTTED"><a title="pygtk_chart.LINE_STYLE_DOTTED" class="py-name" href="#" onclick="return doclink('link-8', 'LINE_STYLE_DOTTED', 'link-8');">LINE_STYLE_DOTTED</a></tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"><tt id="link-9" class="py-name" targets="Variable pygtk_chart.LINE_STYLE_DASHED=pygtk_chart-module.html#LINE_STYLE_DASHED"><a title="pygtk_chart.LINE_STYLE_DASHED" class="py-name" href="#" onclick="return doclink('link-9', 'LINE_STYLE_DASHED', 'link-9');">LINE_STYLE_DASHED</a></tt> <tt class="py-op">=</tt> <tt class="py-number">2</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"><tt id="link-10" class="py-name" targets="Variable pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC=pygtk_chart-module.html#LINE_STYLE_DASHED_ASYMMETRIC"><a title="pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC" class="py-name" href="#" onclick="return doclink('link-10', 'LINE_STYLE_DASHED_ASYMMETRIC', 'link-10');">LINE_STYLE_DASHED_ASYMMETRIC</a></tt> <tt class="py-op">=</tt> <tt class="py-number">3</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-comment">#point styles</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt id="link-11" class="py-name" targets="Variable pygtk_chart.POINT_STYLE_CIRCLE=pygtk_chart-module.html#POINT_STYLE_CIRCLE"><a title="pygtk_chart.POINT_STYLE_CIRCLE" class="py-name" href="#" onclick="return doclink('link-11', 'POINT_STYLE_CIRCLE', 'link-11');">POINT_STYLE_CIRCLE</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line"><tt id="link-12" class="py-name" targets="Variable pygtk_chart.POINT_STYLE_SQUARE=pygtk_chart-module.html#POINT_STYLE_SQUARE"><a title="pygtk_chart.POINT_STYLE_SQUARE" class="py-name" href="#" onclick="return doclink('link-12', 'POINT_STYLE_SQUARE', 'link-12');">POINT_STYLE_SQUARE</a></tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"><tt id="link-13" class="py-name" targets="Variable pygtk_chart.POINT_STYLE_CROSS=pygtk_chart-module.html#POINT_STYLE_CROSS"><a title="pygtk_chart.POINT_STYLE_CROSS" class="py-name" href="#" onclick="return doclink('link-13', 'POINT_STYLE_CROSS', 'link-13');">POINT_STYLE_CROSS</a></tt> <tt class="py-op">=</tt> <tt class="py-number">2</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"><tt id="link-14" class="py-name" targets="Variable pygtk_chart.POINT_STYLE_TRIANGLE_UP=pygtk_chart-module.html#POINT_STYLE_TRIANGLE_UP"><a title="pygtk_chart.POINT_STYLE_TRIANGLE_UP" class="py-name" href="#" onclick="return doclink('link-14', 'POINT_STYLE_TRIANGLE_UP', 'link-14');">POINT_STYLE_TRIANGLE_UP</a></tt> <tt class="py-op">=</tt> <tt class="py-number">3</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"><tt id="link-15" class="py-name" targets="Variable pygtk_chart.POINT_STYLE_TRIANGLE_DOWN=pygtk_chart-module.html#POINT_STYLE_TRIANGLE_DOWN"><a title="pygtk_chart.POINT_STYLE_TRIANGLE_DOWN" class="py-name" href="#" onclick="return doclink('link-15', 'POINT_STYLE_TRIANGLE_DOWN', 'link-15');">POINT_STYLE_TRIANGLE_DOWN</a></tt> <tt class="py-op">=</tt> <tt class="py-number">4</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"><tt id="link-16" class="py-name" targets="Variable pygtk_chart.POINT_STYLE_DIAMOND=pygtk_chart-module.html#POINT_STYLE_DIAMOND"><a title="pygtk_chart.POINT_STYLE_DIAMOND" class="py-name" href="#" onclick="return doclink('link-16', 'POINT_STYLE_DIAMOND', 'link-16');">POINT_STYLE_DIAMOND</a></tt> <tt class="py-op">=</tt> <tt class="py-number">5</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -124,14 +147,14 @@ expandto(location.href);
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="http://pygtkchart.sven-festersen.de">pygtkChart</a></th>
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 11 13:28:34 2009
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:13 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

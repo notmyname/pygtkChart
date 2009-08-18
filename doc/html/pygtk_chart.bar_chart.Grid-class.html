@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygtk_chart.bar_chart.Grid</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygtk_chart-module.html">Package&nbsp;pygtk_chart</a> ::
+        <a href="pygtk_chart.bar_chart-module.html">Module&nbsp;bar_chart</a> ::
+        Class&nbsp;Grid
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygtk_chart.bar_chart.Grid-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Grid</h1><p class="nomargin-top"><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pygtk_ch_3" name="uml_class_diagram_for_pygtk_ch_3">
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#__gsignals__" title="pygtk_chart.chart_object.ChartObject.__gsignals__" alt="" coords="40,377,227,396"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#draw" title="This method is called by the parent Chart instance." alt="" coords="40,398,227,417"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_antialias" title="This method sets the antialiasing mode of the ChartObject." alt="" coords="40,417,227,436"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_antialias" title="Returns True if antialiasing is enabled for the object." alt="" coords="40,436,227,454"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_visible" title="Use this method to set whether the ChartObject should be visible or not." alt="" coords="40,454,227,473"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_visible" title="Returns True if the object is visble." alt="" coords="40,473,227,492"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html" title="This is the base class for all things that can be drawn on a chart widget." alt="" coords="39,360,228,493"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#__gproperties__" title="pygtk_chart.bar_chart.Grid.__gproperties__" alt="" coords="17,540,249,558"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#__gtype__" title="pygtk_chart.bar_chart.Grid.__gtype__" alt="" coords="17,558,249,577"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,580,249,598"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#do_get_property" title="pygtk_chart.bar_chart.Grid.do_get_property" alt="" coords="17,598,249,617"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#do_set_property" title="pygtk_chart.bar_chart.Grid.do_set_property" alt="" coords="17,617,249,636"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#set_show_values" title="Set whether values should be shown." alt="" coords="17,636,249,654"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#get_show_values" title="Returns True if grid values are shown." alt="" coords="17,654,249,673"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#set_color" title="Set the color of the grid lines." alt="" coords="17,673,249,692"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#get_color" title="Returns the current color of the grid lines." alt="" coords="17,692,249,710"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#set_line_style" title="Set the style of the grid lines." alt="" coords="17,710,249,729"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#get_line_style" title="Returns the current grid&#39;s line style." alt="" coords="17,729,249,748"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#set_padding" title="Set the grid&#39;s padding." alt="" coords="17,748,249,766"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html#get_padding" title="Returns the grid&#39;s padding." alt="" coords="17,766,249,785"/>
+<area shape="rect" href="pygtk_chart.bar_chart.Grid&#45;class.html" title="This class represents the grid on BarChart and MultiBarChart widgets." alt="" coords="16,522,251,786"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__grefcount__" alt="" coords="72,28,195,46"/>
+<area shape="rect" href="javascript:void(0);" title="cmp(x,y)" alt="" coords="72,49,195,68"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__copy__" alt="" coords="72,68,195,86"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__deepcopy__" alt="" coords="72,86,195,105"/>
+<area shape="rect" href="javascript:void(0);" title="x.__delattr__(&#39;name&#39;) &lt;==&gt; del x.name" alt="" coords="72,105,195,124"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gdoc__" alt="" coords="72,124,195,142"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gobject_init__" alt="" coords="72,142,195,161"/>
+<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="72,161,195,180"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__new__" alt="" coords="72,180,195,198"/>
+<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="72,198,195,217"/>
+<area shape="rect" href="javascript:void(0);" title="x.__setattr__(&#39;name&#39;, value) &lt;==&gt; x.name = value" alt="" coords="72,217,195,236"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.chain" alt="" coords="72,236,195,254"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect" alt="" coords="72,254,195,273"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect_after" alt="" coords="72,273,195,292"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.weak_ref" alt="" coords="72,310,195,329"/>
+<area shape="rect" href="javascript:void(0);" title="Object GObject" alt="" coords="71,10,196,330"/>
+</map>
+  <img src="uml_class_diagram_for_pygtk_ch_3.gif" alt='' usemap="#uml_class_diagram_for_pygtk_ch_3" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>This class represents the grid on BarChart and MultiBarChart 
+  widgets.</p>
+  <h1 class="heading">Properties</h1>
+    <p>bar_chart.Grid inherits properties from ChartObject. Additional 
+    properties:</p>
+    <ul>
+      <li>
+        line-style (the style of the grid lines, type: a line style 
+        constant)
+      </li>
+      <li>
+        color (the color of the grid lines, type: gtk.gdk.Color)
+      </li>
+      <li>
+        show-values (sets whether values should be shown at the grid lines,
+        type: boolean)
+      </li>
+      <li>
+        padding (the grid's padding in px, type: int in [0, 100]).
+      </li>
+    </ul>
+  <h1 class="heading">Signals</h1>
+    <p>The Grid class inherits signal from chart_object.ChartObject.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      x.__init__(...) initializes x; see x.__class__.__doc__ for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#do_get_property" class="summary-sig-name">do_get_property</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.do_get_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#do_set_property" class="summary-sig-name">do_set_property</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>,
+        <span class="summary-sig-arg">value</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.do_set_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#_do_draw" class="summary-sig-name" onclick="show_private();">_do_draw</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">rect</span>,
+        <span class="summary-sig-arg">mode</span>,
+        <span class="summary-sig-arg">maximum_value</span>,
+        <span class="summary-sig-arg">value_label_size</span>,
+        <span class="summary-sig-arg">label_size</span>)</span><br />
+      A derived class should override this method.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid._do_draw">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#set_show_values" class="summary-sig-name">set_show_values</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">show</span>)</span><br />
+      Set whether values should be shown.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_show_values">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#get_show_values" class="summary-sig-name">get_show_values</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if grid values are shown.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_show_values">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#set_color" class="summary-sig-name">set_color</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">color</span>)</span><br />
+      Set the color of the grid lines.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_color">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#get_color" class="summary-sig-name">get_color</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current color of the grid lines.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_color">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#set_line_style" class="summary-sig-name">set_line_style</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">style</span>)</span><br />
+      Set the style of the grid lines.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_line_style">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#get_line_style" class="summary-sig-name">get_line_style</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current grid's line style.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_line_style">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#set_padding" class="summary-sig-name">set_padding</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">padding</span>)</span><br />
+      Set the grid's padding.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_padding">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.bar_chart.Grid-class.html#get_padding" class="summary-sig-name">get_padding</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the grid's padding.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_padding">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b>:
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#draw">draw</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#get_antialias">get_antialias</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#get_visible">get_visible</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#set_antialias">set_antialias</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#set_visible">set_visible</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__cmp__</code>,
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__gdoc__</code>,
+      <code>__gobject_init__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__str__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.bar_chart.Grid-class.html#__gproperties__" class="summary-name">__gproperties__</a> = <code title="{&quot;show-values&quot;:(gobject.TYPE_BOOLEAN, &quot;show values&quot;, &quot;Set whether to s\
+how grid values.&quot;, True, gobject.PARAM_READWRITE), &quot;color&quot;:(gobject.TY\
+PE_PYOBJECT, &quot;color&quot;, &quot;The color of the grid lines.&quot;, gobject.PARAM_RE\
+ADWRITE), &quot;line-style&quot;:(gobject.TYPE_INT, &quot;line style&quot;, &quot;The grid's li\
+ne style&quot;, 0, 3, 0, gobject.PARAM_READWRITE), &quot;padding&quot;:(gobject.TYPE_\
+INT, &quot;padding&quot;, &quot;The grid's padding&quot;, 0, 100, 6, gobject.PARAM_READWRI\
+TE)}">{&quot;show-values&quot;:(gobject.TYPE_BOOLEAN, &quot;show <code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType pygtk_chart+bar_chart+Grid (153031728)&gt;">&lt;GType pygtk_chart+bar_chart+Grid (153031728)&gt;</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b>:
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#__gsignals__">__gsignals__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see x.__class__.__doc__ for 
+  signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="do_get_property"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">do_get_property</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">property</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.do_get_property">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#do_get_property">chart_object.ChartObject.do_get_property</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="do_set_property"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">do_set_property</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">property</span>,
+        <span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.do_set_property">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#do_set_property">chart_object.ChartObject.do_set_property</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_do_draw"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_do_draw</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">context</span>,
+        <span class="sig-arg">rect</span>,
+        <span class="sig-arg">mode</span>,
+        <span class="sig-arg">maximum_value</span>,
+        <span class="sig-arg">value_label_size</span>,
+        <span class="sig-arg">label_size</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid._do_draw">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>A derived class should override this method. The drawing stuff should 
+  happen here.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>context</code></strong> - The context to draw on.</li>
+        <li><strong class="pname"><code>rect</code></strong> - A rectangle representing the charts area.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#_do_draw" onclick="show_private();">chart_object.ChartObject._do_draw</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_show_values"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_show_values</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">show</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_show_values">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether values should be shown.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>show</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_show_values"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_show_values</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_show_values">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if grid values are shown.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_color"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_color</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">color</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_color">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the color of the grid lines.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>color</code></strong> (gtk.gdk.Color.) - the grid lines' color</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_color"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_color</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_color">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current color of the grid lines.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>gtk.gdk.Color.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_line_style"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_line_style</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">style</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_line_style">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the style of the grid lines. style has to be one of</p>
+  <ul>
+    <li>
+      pygtk_chart.LINE_STYLE_SOLID (default)
+    </li>
+    <li>
+      pygtk_chart.LINE_STYLE_DOTTED
+    </li>
+    <li>
+      pygtk_chart.LINE_STYLE_DASHED
+    </li>
+    <li>
+      pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC
+    </li>
+  </ul>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>style</code></strong> (one of the constants above.) - the new line style</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_line_style"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_line_style</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_line_style">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current grid's line style.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a line style constant.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_padding"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_padding</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">padding</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.set_padding">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the grid's padding.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>padding</code></strong> (int in [0, 100].)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_padding"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_padding</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.bar_chart-pysrc.html#Grid.get_padding">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the grid's padding.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>int in [0, 100].</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__gproperties__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__gproperties__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;show-values&quot;:(gobject.TYPE_BOOLEAN, &quot;show values&quot;, &quot;Set whether to s<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+how grid values.&quot;, True, gobject.PARAM_READWRITE), &quot;color&quot;:(gobject.TY<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+PE_PYOBJECT, &quot;color&quot;, &quot;The color of the grid lines.&quot;, gobject.PARAM_RE<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ADWRITE), &quot;line-style&quot;:(gobject.TYPE_INT, &quot;line style&quot;, &quot;The grid's li<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ne style&quot;, 0, 3, 0, gobject.PARAM_READWRITE), &quot;padding&quot;:(gobject.TYPE_<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+INT, &quot;padding&quot;, &quot;The grid's padding&quot;, 0, 100, 6, gobject.PARAM_READWRI<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+TE)}
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:05 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

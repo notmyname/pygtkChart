@@ -971,10 +971,10 @@ class Grid(ChartObject):
         """
         Set the line style of the horizontal grid lines.
         style has to be one of these constants:
-        - pygtk_chart.LINE_STYLE_SOLID (default)
-        - pygtk_chart.LINE_STYLE_DOTTED
-        - pygtk_chart.LINE_STYLE_DASHED
-        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+         - pygtk_chart.LINE_STYLE_SOLID (default)
+         - pygtk_chart.LINE_STYLE_DOTTED
+         - pygtk_chart.LINE_STYLE_DASHED
+         - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
         
         @param style: the new line style
         @type style: one of the constants above.
@@ -994,10 +994,10 @@ class Grid(ChartObject):
         """
         Set the line style of the vertical grid lines.
         style has to be one of these constants:
-        - pygtk_chart.LINE_STYLE_SOLID (default)
-        - pygtk_chart.LINE_STYLE_DOTTED
-        - pygtk_chart.LINE_STYLE_DASHED
-        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+         - pygtk_chart.LINE_STYLE_SOLID (default)
+         - pygtk_chart.LINE_STYLE_DOTTED
+         - pygtk_chart.LINE_STYLE_DASHED
+         - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
         
         @param style: the new line style
         @type style: one of the constants above.
@@ -1644,10 +1644,10 @@ class Graph(ChartObject):
         Set the line style that should be used for drawing the graph
         (if type is line_chart.GRAPH_LINES or line_chart.GRAPH_BOTH).
         style has to be one of these constants:
-        - pygtk_chart.LINE_STYLE_SOLID (default)
-        - pygtk_chart.LINE_STYLE_DOTTED
-        - pygtk_chart.LINE_STYLE_DASHED
-        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+         - pygtk_chart.LINE_STYLE_SOLID (default)
+         - pygtk_chart.LINE_STYLE_DOTTED
+         - pygtk_chart.LINE_STYLE_DASHED
+         - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
         
         @param style: the new line style
         @type style: one of the line style constants above.
@@ -1669,12 +1669,12 @@ class Graph(ChartObject):
         Set the point style that should be used when drawing the graph
         (if type is line_chart.GRAPH_POINTS or line_chart.GRAPH_BOTH).
         For style you can use one of these constants:
-        - pygtk_chart.POINT_STYLE_CIRCLE (default)
-        - pygtk_chart.POINT_STYLE_SQUARE
-        - pygtk_chart.POINT_STYLE_CROSS
-        - pygtk_chart.POINT_STYLE_TRIANGLE_UP
-        - pygtk_chart.POINT_STYLE_TRIANGLE_DOWN
-        - pygtk_chart.POINT_STYLE_DIAMOND
+         - pygtk_chart.POINT_STYLE_CIRCLE (default)
+         - pygtk_chart.POINT_STYLE_SQUARE
+         - pygtk_chart.POINT_STYLE_CROSS
+         - pygtk_chart.POINT_STYLE_TRIANGLE_UP
+         - pygtk_chart.POINT_STYLE_TRIANGLE_DOWN
+         - pygtk_chart.POINT_STYLE_DIAMOND
         style can also be a gtk.gdk.Pixbuf that should be used as point.
         
         @param style: the new point style
@@ -1995,12 +1995,12 @@ class Legend(ChartObject):
         """
         Set the position of the legend. position has to be one of these
         position constants:
-        - line_chart.POSITION_TOP_RIGHT (default)
-        - line_chart.POSITION_BOTTOM_RIGHT
-        - line_chart.POSITION_BOTTOM_LEFT
-        - line_chart.POSITION_TOP_LEFT
+         - line_chart.POSITION_TOP_RIGHT (default)
+         - line_chart.POSITION_BOTTOM_RIGHT
+         - line_chart.POSITION_BOTTOM_LEFT
+         - line_chart.POSITION_TOP_LEFT
         
-        @param positon: the legend's position
+        @param position: the legend's position
         @type position: one of the constants above.
         """
         self.set_property("position", position)

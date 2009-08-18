@@ -1,0 +1,1833 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygtk_chart.label.Label</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygtk_chart-module.html">Package&nbsp;pygtk_chart</a> ::
+        <a href="pygtk_chart.label-module.html">Module&nbsp;label</a> ::
+        Class&nbsp;Label
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygtk_chart.label.Label-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Label</h1><p class="nomargin-top"><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pygtk_ch_9" name="uml_class_diagram_for_pygtk_ch_9">
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#__gsignals__" title="pygtk_chart.chart_object.ChartObject.__gsignals__" alt="" coords="791,377,977,396"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#draw" title="This method is called by the parent Chart instance." alt="" coords="791,399,977,417"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_antialias" title="This method sets the antialiasing mode of the ChartObject." alt="" coords="791,417,977,436"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_antialias" title="Returns True if antialiasing is enabled for the object." alt="" coords="791,436,977,455"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_visible" title="Use this method to set whether the ChartObject should be visible or not." alt="" coords="791,455,977,473"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_visible" title="Returns True if the object is visble." alt="" coords="791,473,977,492"/>
+<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html" title="This is the base class for all things that can be drawn on a chart widget." alt="" coords="789,360,979,493"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#__gproperties__" title="pygtk_chart.label.Label.__gproperties__" alt="" coords="17,540,1751,559"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#__gtype__" title="pygtk_chart.label.Label.__gtype__" alt="" coords="17,559,1751,577"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,580,1751,599"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#do_get_property" title="pygtk_chart.label.Label.do_get_property" alt="" coords="17,599,1751,617"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#do_set_property" title="pygtk_chart.label.Label.do_set_property" alt="" coords="17,617,1751,636"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#get_calculated_dimensions" title="pygtk_chart.label.Label.get_calculated_dimensions" alt="" coords="17,636,1751,655"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#set_text" title="Use this method to set the text that should be displayed by the label." alt="" coords="17,655,1751,673"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#get_text" title="Returns the text currently displayed." alt="" coords="17,673,1751,692"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#set_color" title="Set the color of the label." alt="" coords="17,692,1751,711"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#get_color" title="Returns the current color of the label." alt="" coords="17,711,1751,729"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#set_position" title="Set the position of the label." alt="" coords="17,729,1751,748"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#get_position" title="Returns the current position of the label." alt="" coords="17,748,1751,767"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#set_anchor" title="Set the anchor point of the label." alt="" coords="17,767,1751,785"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#get_anchor" title="Returns the current anchor point that&#39;s used to position the label." alt="" coords="17,785,1751,804"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#set_underline" title="Set the underline style of the label." alt="" coords="17,804,1751,823"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html#get_line_count" title="Returns the number of lines." alt="" coords="17,841,1751,860"/>
+<area shape="rect" href="pygtk_chart.label.Label&#45;class.html" title="This class is used for drawing all the text on the chart widgets." alt="" coords="16,523,1752,861"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__grefcount__" alt="" coords="823,28,945,47"/>
+<area shape="rect" href="javascript:void(0);" title="cmp(x,y)" alt="" coords="823,49,945,68"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__copy__" alt="" coords="823,68,945,87"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__deepcopy__" alt="" coords="823,87,945,105"/>
+<area shape="rect" href="javascript:void(0);" title="x.__delattr__(&#39;name&#39;) &lt;==&gt; del x.name" alt="" coords="823,105,945,124"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gdoc__" alt="" coords="823,124,945,143"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__gobject_init__" alt="" coords="823,143,945,161"/>
+<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="823,161,945,180"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.__new__" alt="" coords="823,180,945,199"/>
+<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="823,199,945,217"/>
+<area shape="rect" href="javascript:void(0);" title="x.__setattr__(&#39;name&#39;, value) &lt;==&gt; x.name = value" alt="" coords="823,217,945,236"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.chain" alt="" coords="823,236,945,255"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect" alt="" coords="823,255,945,273"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.connect_after" alt="" coords="823,273,945,292"/>
+<area shape="rect" href="javascript:void(0);" title="??.GObject.weak_ref" alt="" coords="823,311,945,329"/>
+<area shape="rect" href="javascript:void(0);" title="Object GObject" alt="" coords="821,11,947,331"/>
+<area shape="rect" href="pygtk_chart.chart.Title&#45;class.html" title="The title of a chart." alt="" coords="848,891,920,917"/>
+</map>
+  <img src="uml_class_diagram_for_pygtk_ch_9.gif" alt='' usemap="#uml_class_diagram_for_pygtk_ch_9" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>This class is used for drawing all the text on the chart widgets. It 
+  uses the pango layout engine.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">position</span>,
+        <span class="summary-sig-arg">text</span>,
+        <span class="summary-sig-arg">size</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">slant</span>=<span class="summary-sig-default">&lt;enum PANGO_STYLE_NORMAL of type PangoStyle&gt;</span>,
+        <span class="summary-sig-arg">weight</span>=<span class="summary-sig-default">&lt;enum PANGO_WEIGHT_NORMAL of type PangoWeight&gt;</span>,
+        <span class="summary-sig-arg">underline</span>=<span class="summary-sig-default">&lt;enum PANGO_UNDERLINE_NONE of type PangoUnderline&gt;</span>,
+        <span class="summary-sig-arg">anchor</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">max_width</span>=<span class="summary-sig-default">99999</span>,
+        <span class="summary-sig-arg">fixed</span>=<span class="summary-sig-default">False</span>)</span><br />
+      x.__init__(...) initializes x; see x.__class__.__doc__ for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#do_get_property" class="summary-sig-name">do_get_property</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.do_get_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#do_set_property" class="summary-sig-name">do_set_property</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">property</span>,
+        <span class="summary-sig-arg">value</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.do_set_property">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#_do_draw" class="summary-sig-name" onclick="show_private();">_do_draw</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">rect</span>)</span><br />
+      A derived class should override this method.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label._do_draw">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_do_draw_label"></a><span class="summary-sig-name">_do_draw_label</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">rect</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label._do_draw_label">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_calculated_dimensions"></a><span class="summary-sig-name">get_calculated_dimensions</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">context</span>,
+        <span class="summary-sig-arg">rect</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_calculated_dimensions">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_text" class="summary-sig-name">set_text</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">text</span>)</span><br />
+      Use this method to set the text that should be displayed by the 
+      label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_text">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_text" class="summary-sig-name">get_text</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the text currently displayed.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_text">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_color" class="summary-sig-name">set_color</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">color</span>)</span><br />
+      Set the color of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_color">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_color" class="summary-sig-name">get_color</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current color of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_color">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_position" class="summary-sig-name">set_position</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pos</span>)</span><br />
+      Set the position of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_position">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_position" class="summary-sig-name">get_position</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current position of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_position">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_anchor" class="summary-sig-name">set_anchor</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">anchor</span>)</span><br />
+      Set the anchor point of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_anchor">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_anchor" class="summary-sig-name">get_anchor</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current anchor point that's used to position the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_anchor">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_underline" class="summary-sig-name">set_underline</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">underline</span>)</span><br />
+      Set the underline style of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_underline">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_underline" class="summary-sig-name">get_underline</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current underline style.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_underline">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_max_width" class="summary-sig-name">set_max_width</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">width</span>)</span><br />
+      Set the maximum width of the label in pixels.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_max_width">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_max_width" class="summary-sig-name">get_max_width</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the maximum width of the label.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_max_width">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_rotation" class="summary-sig-name">set_rotation</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">angle</span>)</span><br />
+      Use this method to set the rotation of the label in degrees.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_rotation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_rotation" class="summary-sig-name">get_rotation</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current rotation angle.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_rotation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_size" class="summary-sig-name">set_size</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">size</span>)</span><br />
+      Set the size of the text in pixels.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_size">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_size" class="summary-sig-name">get_size</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current size of the text in pixels.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_size">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_slant" class="summary-sig-name">set_slant</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">slant</span>)</span><br />
+      Set the font slant.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_slant">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_slant" class="summary-sig-name">get_slant</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current font slant style.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_slant">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_weight" class="summary-sig-name">set_weight</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">weight</span>)</span><br />
+      Set the font weight.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_weight">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_weight" class="summary-sig-name">get_weight</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the current font weight.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_weight">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_fixed" class="summary-sig-name">set_fixed</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">fixed</span>)</span><br />
+      Set whether the position of the label should be forced (fixed=True) 
+      or if it should be positioned avoiding intersection with other 
+      labels.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_fixed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_fixed" class="summary-sig-name">get_fixed</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if the label's position is forced.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_fixed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#set_wrap" class="summary-sig-name">set_wrap</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">wrap</span>)</span><br />
+      Set whether too long text should be wrapped.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_wrap">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_wrap" class="summary-sig-name">get_wrap</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns True if too long text should be wrapped.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_wrap">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_real_dimensions" class="summary-sig-name">get_real_dimensions</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      This method returns a pair (width, height) with the dimensions the 
+      label was drawn with.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_real_dimensions">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_real_position" class="summary-sig-name">get_real_position</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the position of the label where it was really drawn.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_real_position">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_allocation" class="summary-sig-name">get_allocation</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns an allocation rectangle.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_allocation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygtk_chart.label.Label-class.html#get_line_count" class="summary-sig-name">get_line_count</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the number of lines.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_line_count">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b>:
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#draw">draw</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#get_antialias">get_antialias</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#get_visible">get_visible</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#set_antialias">set_antialias</a></code>,
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#set_visible">set_visible</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__cmp__</code>,
+      <code>__copy__</code>,
+      <code>__deepcopy__</code>,
+      <code>__delattr__</code>,
+      <code>__gdoc__</code>,
+      <code>__gobject_init__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>chain</code>,
+      <code>connect</code>,
+      <code>connect_after</code>,
+      <code>connect_object</code>,
+      <code>connect_object_after</code>,
+      <code>disconnect</code>,
+      <code>disconnect_by_func</code>,
+      <code>emit</code>,
+      <code>emit_stop_by_name</code>,
+      <code>freeze_notify</code>,
+      <code>get_data</code>,
+      <code>get_properties</code>,
+      <code>get_property</code>,
+      <code>handler_block</code>,
+      <code>handler_block_by_func</code>,
+      <code>handler_disconnect</code>,
+      <code>handler_is_connected</code>,
+      <code>handler_unblock</code>,
+      <code>handler_unblock_by_func</code>,
+      <code>notify</code>,
+      <code>props</code>,
+      <code>set_data</code>,
+      <code>set_properties</code>,
+      <code>set_property</code>,
+      <code>stop_emission</code>,
+      <code>thaw_notify</code>,
+      <code>weak_ref</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__getattribute__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__str__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygtk_chart.label.Label-class.html#__gproperties__" class="summary-name">__gproperties__</a> = <code title="{&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;label color&quot;, &quot;The color of the labe\
+l (a gtk.gdkColor)&quot;, gobject.PARAM_READWRITE), &quot;text&quot;:(gobject.TYPE_ST\
+RING, &quot;label text&quot;, &quot;The text to show on the label.&quot;, &quot;&quot;, gobject.PARA\
+M_READWRITE), &quot;position&quot;:(gobject.TYPE_PYOBJECT, &quot;label position&quot;, &quot;A \
+pair of x,y coordinates.&quot;, gobject.PARAM_READWRITE), &quot;anchor&quot;:(gobject\
+.TYPE_INT, &quot;label anchor&quot;, &quot;The anchor of the label.&quot;, 0, 9, 0, gobjec\
+t.PARAM_READWRITE), &quot;underline&quot;:(gobject.TYPE_PYOBJECT, &quot;underline tex\
+t&quot;, &quot;Set whether to underline the text.&quot;, gobject.PARAM_READWRITE), &quot;m\
+...">{&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;label colo<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType pygtk_chart+label+Label (153027376)&gt;">&lt;GType pygtk_chart+label+Label (153027376)&gt;</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a></code></b>:
+      <code><a href="pygtk_chart.chart_object.ChartObject-class.html#__gsignals__">__gsignals__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><i>unreachable</i>.GObject</code></b>:
+      <code>__grefcount__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">position</span>,
+        <span class="sig-arg">text</span>,
+        <span class="sig-arg">size</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">slant</span>=<span class="sig-default">&lt;enum PANGO_STYLE_NORMAL of type PangoStyle&gt;</span>,
+        <span class="sig-arg">weight</span>=<span class="sig-default">&lt;enum PANGO_WEIGHT_NORMAL of type PangoWeight&gt;</span>,
+        <span class="sig-arg">underline</span>=<span class="sig-default">&lt;enum PANGO_UNDERLINE_NONE of type PangoUnderline&gt;</span>,
+        <span class="sig-arg">anchor</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">max_width</span>=<span class="sig-default">99999</span>,
+        <span class="sig-arg">fixed</span>=<span class="sig-default">False</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see x.__class__.__doc__ for 
+  signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="do_get_property"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">do_get_property</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">property</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.do_get_property">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#do_get_property">chart_object.ChartObject.do_get_property</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="do_set_property"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">do_set_property</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">property</span>,
+        <span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.do_set_property">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#do_set_property">chart_object.ChartObject.do_set_property</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_do_draw"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_do_draw</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">context</span>,
+        <span class="sig-arg">rect</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label._do_draw">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>A derived class should override this method. The drawing stuff should 
+  happen here.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>context</code></strong> - The context to draw on.</li>
+        <li><strong class="pname"><code>rect</code></strong> - A rectangle representing the charts area.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygtk_chart.chart_object.ChartObject-class.html#_do_draw" onclick="show_private();">chart_object.ChartObject._do_draw</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_text"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_text</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">text</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_text">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Use this method to set the text that should be displayed by the 
+  label.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>text</code></strong> (string) - the text to display.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_text"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_text</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_text">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the text currently displayed.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>string.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_color"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_color</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">color</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_color">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the color of the label. color has to be a gtk.gdk.Color.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>color</code></strong> (gtk.gdk.Color.) - the color of the label</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_color"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_color</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_color">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current color of the label.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>gtk.gdk.Color.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_position"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_position</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pos</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_position">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the position of the label. pos has to be a x,y pair of absolute 
+  pixel coordinates on the widget. The position is not the actual position 
+  but the position of the Label's anchor point (see <a 
+  href="pygtk_chart.label.Label-class.html#set_anchor" 
+  class="link">set_anchor</a> for details).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pos</code></strong> (pair of (x, y).) - new position of the label</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_position"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_position</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_position">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current position of the label.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>pair of (x, y).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_anchor"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_anchor</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">anchor</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_anchor">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the anchor point of the label. The anchor point is the a point on 
+  the label's edge that has the position you set with set_position(). 
+  anchor has to be one of the following constants:</p>
+  <ul>
+    <li>
+      label.ANCHOR_BOTTOM_LEFT
+    </li>
+    <li>
+      label.ANCHOR_TOP_LEFT
+    </li>
+    <li>
+      label.ANCHOR_TOP_RIGHT
+    </li>
+    <li>
+      label.ANCHOR_BOTTOM_RIGHT
+    </li>
+    <li>
+      label.ANCHOR_CENTER
+    </li>
+    <li>
+      label.ANCHOR_TOP_CENTER
+    </li>
+    <li>
+      label.ANCHOR_BOTTOM_CENTER
+    </li>
+    <li>
+      label.ANCHOR_LEFT_CENTER
+    </li>
+    <li>
+      label.ANCHOR_RIGHT_CENTER
+    </li>
+  </ul>
+  <p>The meaning of the constants is illustrated below::</p>
+<pre class="literalblock">
+    ANCHOR_TOP_LEFT     ANCHOR_TOP_CENTER   ANCHOR_TOP_RIGHT
+                   *           *           *
+                     #####################
+ANCHOR_LEFT_CENTER * #         *         # * ANCHOR_RIGHT_CENTER
+                     #####################
+                   *           *           *
+ ANCHOR_BOTTOM_LEFT   ANCHOR_BOTTOM_CENTER  ANCHOR_BOTTOM_RIGHT
+</pre>
+  <p>The point in the center is of course referred to by constant 
+  label.ANCHOR_CENTER.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>anchor</code></strong> (one of the constants described above.) - the anchor point of the label</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_anchor"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_anchor</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_anchor">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current anchor point that's used to position the label. 
+  See <a href="pygtk_chart.label.Label-class.html#set_anchor" 
+  class="link">set_anchor</a> for details.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>one of the anchor constants described in <a 
+          href="pygtk_chart.label.Label-class.html#set_anchor" 
+          class="link">set_anchor</a>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_underline"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_underline</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">underline</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_underline">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the underline style of the label. underline has to be one of the 
+  following constants:</p>
+  <ul>
+    <li>
+      label.UNDERLINE_NONE: do not underline the text
+    </li>
+    <li>
+      label.UNDERLINE_SINGLE: draw a single underline (the normal underline
+      method)
+    </li>
+    <li>
+      label.UNDERLINE_DOUBLE: draw a double underline
+    </li>
+    <li>
+      label.UNDERLINE_LOW; draw a single low underline.
+    </li>
+  </ul>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>underline</code></strong> (one of the constants above.) - the underline style</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_underline"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_underline</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_underline">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current underline style. See <a 
+  href="pygtk_chart.label.Label-class.html#set_underline" 
+  class="link">set_underline</a> for details.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>an underline constant (see <a 
+          href="pygtk_chart.label.Label-class.html#set_underline" 
+          class="link">set_underline</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_max_width"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_max_width</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">width</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_max_width">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the maximum width of the label in pixels.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>width</code></strong> (integer.) - the maximum width</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_max_width"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_max_width</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_max_width">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the maximum width of the label.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>integer.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_rotation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_rotation</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">angle</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_rotation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Use this method to set the rotation of the label in degrees.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>angle</code></strong> (integer in [0, 360].) - the rotation angle</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_rotation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_rotation</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_rotation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current rotation angle.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>integer in [0, 360].</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_size"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_size</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">size</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_size">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the size of the text in pixels.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>size</code></strong> (integer.) - size of the text</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_size"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_size</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_size">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current size of the text in pixels.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>integer.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_slant"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_slant</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">slant</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_slant">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the font slant. slat has to be one of the following:</p>
+  <ul>
+    <li>
+      label.STYLE_NORMAL
+    </li>
+    <li>
+      label.STYLE_OBLIQUE
+    </li>
+    <li>
+      label.STYLE_ITALIC
+    </li>
+  </ul>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>slant</code></strong> (one of the constants above.) - the font slant style</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_slant"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_slant</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_slant">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current font slant style. See <a 
+  href="pygtk_chart.label.Label-class.html#set_slant" 
+  class="link">set_slant</a> for details.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a slant style constant.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_weight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_weight</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">weight</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_weight">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the font weight. weight has to be one of the following:</p>
+  <ul>
+    <li>
+      label.WEIGHT_ULTRALIGHT
+    </li>
+    <li>
+      label.WEIGHT_LIGHT
+    </li>
+    <li>
+      label.WEIGHT_NORMAL
+    </li>
+    <li>
+      label.WEIGHT_BOLD
+    </li>
+    <li>
+      label.WEIGHT_ULTRABOLD
+    </li>
+    <li>
+      label.WEIGHT_HEAVY
+    </li>
+  </ul>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>weight</code></strong> (one of the constants above.) - the font weight</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_weight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_weight</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_weight">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the current font weight. See <a 
+  href="pygtk_chart.label.Label-class.html#set_weight" 
+  class="link">set_weight</a> for details.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a font weight constant.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_fixed"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_fixed</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">fixed</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_fixed">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether the position of the label should be forced (fixed=True) or
+  if it should be positioned avoiding intersection with other labels.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fixed</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_fixed"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_fixed</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_fixed">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if the label's position is forced.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_wrap"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_wrap</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.set_wrap">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether too long text should be wrapped.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>wrap</code></strong> (boolean.)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_wrap"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_wrap</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_wrap">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if too long text should be wrapped.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>boolean.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_real_dimensions"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_real_dimensions</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_real_dimensions">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>This method returns a pair (width, height) with the dimensions the 
+  label was drawn with. Call this method <i>after</i> drawing the 
+  label.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a (width, height) pair.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_real_position"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_real_position</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_real_position">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the position of the label where it was really drawn.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>a (x, y) pair.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_allocation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_allocation</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_allocation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns an allocation rectangle.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>gtk.gdk.Rectangle.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_line_count"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_line_count</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pygtk_chart.label-pysrc.html#Label.get_line_count">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the number of lines.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>int.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__gproperties__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__gproperties__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+{&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;label color&quot;, &quot;The color of the labe<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+l (a gtk.gdkColor)&quot;, gobject.PARAM_READWRITE), &quot;text&quot;:(gobject.TYPE_ST<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+RING, &quot;label text&quot;, &quot;The text to show on the label.&quot;, &quot;&quot;, gobject.PARA<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+M_READWRITE), &quot;position&quot;:(gobject.TYPE_PYOBJECT, &quot;label position&quot;, &quot;A <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+pair of x,y coordinates.&quot;, gobject.PARAM_READWRITE), &quot;anchor&quot;:(gobject<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.TYPE_INT, &quot;label anchor&quot;, &quot;The anchor of the label.&quot;, 0, 9, 0, gobjec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+t.PARAM_READWRITE), &quot;underline&quot;:(gobject.TYPE_PYOBJECT, &quot;underline tex<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+t&quot;, &quot;Set whether to underline the text.&quot;, gobject.PARAM_READWRITE), &quot;m<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygtk_chart-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://notmyname.github.com/pygtkChart/">pygtkChart</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:06 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -179,14 +179,14 @@ class BarGroup(ChartObject):
     Properties
     ==========
     This class has the following properties:
-    - name (a unique identifier for the group, type: string)
-    - title (a title for the group, type: string)
-    - bar-padding (the space between two bars of the group in px,
-      type: int in [0, 100])
-    - bars (a list of the bars in the group, read only)
-    - maximum-value (the maximum value of the bars in the group, read
+     - name (a unique identifier for the group, type: string)
+     - title (a title for the group, type: string)
+     - bar-padding (the space between two bars of the group in px,
+       type: int in [0, 100])
+     - bars (a list of the bars in the group, read only)
+     - maximum-value (the maximum value of the bars in the group, read
       only)
-    - bar-count (the number of bars in the group, read only).
+     - bar-count (the number of bars in the group, read only).
     
     Signals
     =======
@@ -416,19 +416,19 @@ class MultiBarChart(bar_chart.BarChart):
     ==========
     The MultiBarChart class inherits properties from bar_chart.BarChart
     (except bar-padding). Additional properties:
-    - group-padding (the space between two bar groups in px, type: int
+     - group-padding (the space between two bar groups in px, type: int
       in [0, 100], default: 16)
-    - label-rotation (the angle (in degrees) that should be used to
+     - label-rotation (the angle (in degrees) that should be used to
       rotate bar labels in vertical mode, type: int in [0, 360],
       default: 300)
-    - rotate-group-labels (sets whether group labels should be roteated
+     - rotate-group-labels (sets whether group labels should be roteated
       by 90 degrees in horizontal mode, type: boolean, default: False).
       
     Signals
     =======
     The MultiBarChart class inherits the signal 'bar-clicked' from
     bar_chart.BarChart. Additional signals:
-    - group-clicked: emitted when a bar is clicked, callback signature:
+     - group-clicked: emitted when a bar is clicked, callback signature:
       def group_clicked(chart, group, bar).
     """
     

@@ -398,7 +398,7 @@ class Label(ChartObject):
         """
         Returns the current color of the label.
         
-        @return gtk.gdk.Color.
+        @return: gtk.gdk.Color.
         """
         return self.get_property("color")
         
