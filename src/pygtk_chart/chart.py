@@ -79,18 +79,36 @@ class Chart(gtk.DrawingArea):
     This is the base class for all chart widgets.
     """
     
+    __gproperties__ = {"padding": (gobject.TYPE_INT, "padding",
+                                    "The chart's padding.", 0, 100, 16,
+                                    gobject.PARAM_READWRITE)}
+    
     def __init__(self):
         gtk.DrawingArea.__init__(self)
-        self.connect("expose_event", self.expose)
-        #objects needed for every chart
+        #private properties:
+        self._padding = 16
+        #objects needed for every chart:
         self.background = Background()
         self.background.connect("appearance-changed", self._cb_appearance_changed)
         self.title = Title()
         self.title.connect("appearance-changed", self._cb_appearance_changed)
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
+        self.connect("expose_event", self.expose)
         self.connect("button_press_event", self._cb_button_pressed)
         self.connect("motion-notify-event", self._cb_motion_notify)
+        
+    def do_get_property(self, property):
+        if property.name == "padding":
+            return self._padding
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
+
+    def do_set_property(self, property, value):
+        if property.name == "padding":
+            self._padding = value
+        else:
+            raise AttributeError, "Property %s does not exist." % property.name
         
     def _cb_appearance_changed(self, object):
         """
@@ -134,6 +152,14 @@ class Chart(gtk.DrawingArea):
         self.background.draw(context, rect)
         self.title.draw(context, rect)
         
+        #calculate the rectangle that's available for drawing the chart
+        title_height = self.title.get_real_dimensions()[1]
+        rect_height = int(rect.height - 3 * self._padding - title_height)
+        rect_width = int(rect.width - 2 * self._padding)
+        rect_x = int(rect.x + self._padding)
+        rect_y = int(rect.y + title_height + 2 * self._padding)
+        return gtk.gdk.Rectangle(rect_x, rect_y, rect_width, rect_height)
+        
     def draw(self, context):
         """
         Draw the widget. This method is called automatically. Don't call it
@@ -144,8 +170,9 @@ class Chart(gtk.DrawingArea):
         @param context: The context to draw on.
         """
         rect = self.get_allocation()
+        rect = gtk.gdk.Rectangle(0, 0, rect.width, rect.height) #transform rect to context coordinates
         context.set_line_width(1)
-        self.draw_basics(context, rect)
+        rect = self.draw_basics(context, rect)
         
     def export_svg(self, filename):
         """
@@ -174,7 +201,27 @@ class Chart(gtk.DrawingArea):
                                         rect.height)
         context = cairo.Context(surface)
         self.draw(context)
-        surface.write_to_png(filename)        
+        surface.write_to_png(filename)     
+        
+        
+    def set_padding(self, padding):
+        """
+        Set the chart's padding.
+        
+        @param padding: the padding in px
+        @type padding: int in [0, 100] (default: 16).
+        """
+        self.set_property("padding", padding)
+        self.queue_draw()
+        
+    def get_padding(self):
+        """
+        Returns the chart's padding.
+        
+        @return: int in [0, 100].
+        """
+        return self.get_property("padding")
+    
         
 class Background(ChartObject):
     """
@@ -333,7 +380,7 @@ class Title(label.Label):
         label.Label.__init__(self, (0, 0), text, weight=pango.WEIGHT_BOLD, anchor=label.ANCHOR_TOP_CENTER, fixed=True)
         
     def _do_draw(self, context, rect):
-        self._size = int(rect.height / 50.0)
+        self._size = max(8, int(rect.height / 50.0))
         self._position = rect.width / 2, rect.height / 80
         self._do_draw_label(context, rect)
         

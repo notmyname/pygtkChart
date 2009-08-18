@@ -28,9 +28,9 @@ import gobject
 import cairo
 import gtk
 import math
-
 import os
 
+import pygtk_chart
 from pygtk_chart.basics import *
 from pygtk_chart.chart_object import ChartObject
 from pygtk_chart import chart
@@ -53,45 +53,23 @@ POSITION_BOTTOM_RIGHT = 9
 POSITION_BOTTOM_LEFT = 10
 POSITION_TOP_LEFT = 11
 
-LINE_STYLE_SOLID = 0
-LINE_STYLE_DOTTED = 1
-LINE_STYLE_DASHED = 2
-LINE_STYLE_DASHED_ASYMMETRIC = 3
-
-POINT_STYLE_CIRCLE = 0
-POINT_STYLE_SQUARE = 1
-POINT_STYLE_CROSS = 2
-POINT_STYLE_TRIANGLE_UP = 3
-POINT_STYLE_TRIANGLE_DOWN = 4
-POINT_STYLE_DIAMOND = 5
-
-def set_context_line_style(context, style):
-    if style == LINE_STYLE_SOLID:
-        context.set_dash([])
-    elif style == LINE_STYLE_DASHED:
-        context.set_dash([5])
-    elif style == LINE_STYLE_DASHED_ASYMMETRIC:
-        context.set_dash([6, 6, 2, 6])
-    elif style == LINE_STYLE_DOTTED:
-        context.set_dash([1])
-        
         
 def draw_point(context, x, y, radius, style):
     a = radius / 1.414 #1.414=sqrt(2)
-    if style == POINT_STYLE_CIRCLE:
+    if style == pygtk_chart.POINT_STYLE_CIRCLE:
         context.arc(x, y, radius, 0, 2 * math.pi)
         context.fill()
-    elif style == POINT_STYLE_SQUARE:
+    elif style == pygtk_chart.POINT_STYLE_SQUARE:
         context.rectangle(x - a, y- a, 2 * a, 2 * a)
         context.fill()
-    elif style == POINT_STYLE_CROSS:
+    elif style == pygtk_chart.POINT_STYLE_CROSS:
         context.move_to(x, y - a)
         context.rel_line_to(0, 2 * a)
         context.stroke()
         context.move_to(x - a, y)
         context.rel_line_to(2 * a, 0)
         context.stroke()
-    elif style == POINT_STYLE_TRIANGLE_UP:
+    elif style == pygtk_chart.POINT_STYLE_TRIANGLE_UP:
         a = 1.732 * radius #1.732=sqrt(3)
         b = a / (2 * 1.732)
         context.move_to(x - a / 2, y + b)
@@ -100,7 +78,7 @@ def draw_point(context, x, y, radius, style):
         context.rel_line_to(-a / 2, radius + b)
         context.close_path()
         context.fill()
-    elif style == POINT_STYLE_TRIANGLE_DOWN:
+    elif style == pygtk_chart.POINT_STYLE_TRIANGLE_DOWN:
         a = 1.732 * radius #1.732=sqrt(3)
         b = a / (2 * 1.732)
         context.move_to(x - a / 2, y - b)
@@ -109,7 +87,7 @@ def draw_point(context, x, y, radius, style):
         context.rel_line_to(-a / 2, -(radius + b))
         context.close_path()
         context.fill()
-    elif style == POINT_STYLE_DIAMOND:
+    elif style == pygtk_chart.POINT_STYLE_DIAMOND:
         context.move_to(x, y - a)
         context.rel_line_to(a, a)
         context.rel_line_to(-a, a)
@@ -872,8 +850,8 @@ class Grid(ChartObject):
         self._color = gtk.gdk.color_parse("#DEDEDE")
         self._show_h = True
         self._show_v = True
-        self._line_style_h = LINE_STYLE_SOLID
-        self._line_style_v = LINE_STYLE_SOLID
+        self._line_style_h = pygtk_chart.LINE_STYLE_SOLID
+        self._line_style_v = pygtk_chart.LINE_STYLE_SOLID
 
     def do_get_property(self, property):
         if property.name == "visible":
@@ -993,10 +971,10 @@ class Grid(ChartObject):
         """
         Set the line style of the horizontal grid lines.
         style has to be one of these constants:
-        - line_chart.LINE_STYLE_SOLID (default)
-        - line_chart.LINE_STYLE_DOTTED
-        - line_chart.LINE_STYLE_DASHED
-        - line_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+        - pygtk_chart.LINE_STYLE_SOLID (default)
+        - pygtk_chart.LINE_STYLE_DOTTED
+        - pygtk_chart.LINE_STYLE_DASHED
+        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
         
         @param style: the new line style
         @type style: one of the constants above.
@@ -1016,10 +994,10 @@ class Grid(ChartObject):
         """
         Set the line style of the vertical grid lines.
         style has to be one of these constants:
-        - line_chart.LINE_STYLE_SOLID (default)
-        - line_chart.LINE_STYLE_DOTTED
-        - line_chart.LINE_STYLE_DASHED
-        - line_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+        - pygtk_chart.LINE_STYLE_SOLID (default)
+        - pygtk_chart.LINE_STYLE_DOTTED
+        - pygtk_chart.LINE_STYLE_DASHED
+        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
         
         @param style: the new line style
         @type style: one of the constants above.
@@ -1122,8 +1100,8 @@ class Graph(ChartObject):
         self._fill_to = None
         self._fill_color = COLOR_AUTO
         self._fill_opacity = 0.3
-        self._line_style = LINE_STYLE_SOLID
-        self._point_style = POINT_STYLE_CIRCLE
+        self._line_style = pygtk_chart.LINE_STYLE_SOLID
+        self._point_style = pygtk_chart.POINT_STYLE_CIRCLE
         self._clickable = True
         self._draw_xerrors = True
         self._draw_yerrors = True
@@ -1666,10 +1644,10 @@ class Graph(ChartObject):
         Set the line style that should be used for drawing the graph
         (if type is line_chart.GRAPH_LINES or line_chart.GRAPH_BOTH).
         style has to be one of these constants:
-        - line_chart.LINE_STYLE_SOLID (default)
-        - line_chart.LINE_STYLE_DOTTED
-        - line_chart.LINE_STYLE_DASHED
-        - line_chart.LINE_STYLE_DASHED_ASYMMETRIC.
+        - pygtk_chart.LINE_STYLE_SOLID (default)
+        - pygtk_chart.LINE_STYLE_DOTTED
+        - pygtk_chart.LINE_STYLE_DASHED
+        - pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC.
         
         @param style: the new line style
         @type style: one of the line style constants above.
@@ -1691,12 +1669,12 @@ class Graph(ChartObject):
         Set the point style that should be used when drawing the graph
         (if type is line_chart.GRAPH_POINTS or line_chart.GRAPH_BOTH).
         For style you can use one of these constants:
-        - line_chart.POINT_STYLE_CIRCLE (default)
-        - line_chart.POINT_STYLE_SQUARE
-        - line_chart.POINT_STYLE_CROSS
-        - line_chart.POINT_STYLE_TRIANGLE_UP
-        - line_chart.POINT_STYLE_TRIANGLE_DOWN
-        - line_chart.POINT_STYLE_DIAMOND
+        - pygtk_chart.POINT_STYLE_CIRCLE (default)
+        - pygtk_chart.POINT_STYLE_SQUARE
+        - pygtk_chart.POINT_STYLE_CROSS
+        - pygtk_chart.POINT_STYLE_TRIANGLE_UP
+        - pygtk_chart.POINT_STYLE_TRIANGLE_DOWN
+        - pygtk_chart.POINT_STYLE_DIAMOND
         style can also be a gtk.gdk.Pixbuf that should be used as point.
         
         @param style: the new point style

@@ -32,7 +32,22 @@ __author__ = "Sven Festersen, John Dickinson"
 __license__ = "GPL"
 __url__ = "http://notmyname.github.com/pygtkChart/"
 
-COLOR_AUTO = 0
 import os
 from pygtk_chart.basics import gdk_color_list_from_file
+COLOR_AUTO = 0
 COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data", "tango.color"]))
+
+#line style
+LINE_STYLE_SOLID = 0
+LINE_STYLE_DOTTED = 1
+LINE_STYLE_DASHED = 2
+LINE_STYLE_DASHED_ASYMMETRIC = 3
+
+#point styles
+POINT_STYLE_CIRCLE = 0
+POINT_STYLE_SQUARE = 1
+POINT_STYLE_CROSS = 2
+POINT_STYLE_TRIANGLE_UP = 3
+POINT_STYLE_TRIANGLE_DOWN = 4
+POINT_STYLE_DIAMOND = 5
+

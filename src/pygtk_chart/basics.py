@@ -28,6 +28,8 @@ import cairo
 import gtk
 import os
 
+import pygtk_chart
+
 def is_in_range(x, (xmin, xmax)):
     """
     Use this method to test whether M{xmin <= x <= xmax}.
@@ -116,3 +118,16 @@ def gdk_color_list_from_file(filename):
             line = line.strip()
             result.append(gtk.gdk.color_parse(line))
     return result
+
+def set_context_line_style(context, style):
+    """
+    The the line style for a context.
+    """
+    if style == pygtk_chart.LINE_STYLE_SOLID:
+        context.set_dash([])
+    elif style == pygtk_chart.LINE_STYLE_DASHED:
+        context.set_dash([5])
+    elif style == pygtk_chart.LINE_STYLE_DASHED_ASYMMETRIC:
+        context.set_dash([6, 6, 2, 6])
+    elif style == pygtk_chart.LINE_STYLE_DOTTED:
+        context.set_dash([1])

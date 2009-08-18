@@ -4,7 +4,7 @@ import gtk
 import pygtk
 import random
 
-from pygtk_chart import bar_chart
+from pygtk_chart import multi_bar_chart
 
 def rand():
     l = range(1000)
@@ -13,24 +13,26 @@ def rand():
 
 r = rand().next
 
-barchart = bar_chart.MultiBarChart()
+barchart = multi_bar_chart.MultiBarChart()
 barchart.title.set_text('Loaves of Bread Made per City')
+barchart.set_mode(multi_bar_chart.MODE_HORIZONTAL)
 
 for city in 'dallas austin houston waco beaumont'.split():
     city_label = city.capitalize()
-    multibar = bar_chart.MultiBar(city, city_label)
+    multibar = multi_bar_chart.BarGroup(city, city_label)
     for bread in 'wheat oat raisin sourdough white'.split():
         bread_label = bread.capitalize()
-        sub_bar = bar_chart.Bar(bread, r(), bread_label)
+        sub_bar = multi_bar_chart.Bar(bread, r(), bread_label)
         multibar.add_bar(sub_bar)
     barchart.add_bar(multibar)
 
-def cb_multibar_clicked(barchart, multibar, subbar):
-    print "Bar ('%s', '%s') clicked." % (multibar.get_label(), subbar.get_label())
-barchart.connect("multibar-clicked", cb_multibar_clicked)
+def cb_group_clicked(barchart, group, bar):
+    print "Bar ('%s', '%s') clicked." % (group.get_label(), bar.get_label())
+    barchart.set_rotate_group_labels(not barchart.get_rotate_group_labels())
+barchart.connect("group-clicked", cb_group_clicked)
 
-def cb_bar_clicked(barchart, multibar):
-    print "Bar '%s' clicked." % multibar.get_label()
+def cb_bar_clicked(barchart, bar):
+    print bar.get_label()
 barchart.connect("bar-clicked", cb_bar_clicked)
 
 window = gtk.Window()
