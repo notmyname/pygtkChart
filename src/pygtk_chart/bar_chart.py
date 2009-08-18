@@ -625,6 +625,7 @@ class BarChart(chart.Chart):
     def _cb_motion_notify(self, widget, event):
         if not self._mouseover: return
         bars = chart.get_sensitive_areas(event.x, event.y)
+        if bars == []: return
         for bar in self._bars:
             bar.set_property("highlighted", bar in bars)
         self.queue_draw()
