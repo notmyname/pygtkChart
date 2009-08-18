@@ -16,7 +16,7 @@ barchart = bar_chart.BarChart()
 barchart.title.set_text('Loaves of Bread Made')
 barchart.grid.set_visible(True)
 barchart.grid.set_line_style(pygtk_chart.LINE_STYLE_DOTTED)
-#barchart.set_mode(bar_chart.MODE_HORIZONTAL)
+barchart.set_mode(bar_chart.MODE_HORIZONTAL)
 
 for bar_info in data:
     bar = bar_chart.Bar(*bar_info)

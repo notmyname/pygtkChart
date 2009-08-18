@@ -15,6 +15,7 @@ r = rand().next
 
 barchart = multi_bar_chart.MultiBarChart()
 barchart.title.set_text('Loaves of Bread Made per City')
+barchart.set_mode(multi_bar_chart.MODE_HORIZONTAL)
 
 for city in 'dallas austin houston waco beaumont'.split():
     city_label = city.capitalize()
@@ -25,9 +26,14 @@ for city in 'dallas austin houston waco beaumont'.split():
         multibar.add_bar(sub_bar)
     barchart.add_bar(multibar)
 
-def cb_bar_clicked(barchart, group, bar):
+def cb_group_clicked(barchart, group, bar):
     print "Bar ('%s', '%s') clicked." % (group.get_label(), bar.get_label())
-barchart.connect("group-clicked", cb_bar_clicked)
+    barchart.set_rotate_group_labels(not barchart.get_rotate_group_labels())
+barchart.connect("group-clicked", cb_group_clicked)
+
+def cb_bar_clicked(barchart, bar):
+    print bar.get_label()
+barchart.connect("bar-clicked", cb_bar_clicked)
 
 window = gtk.Window()
 window.connect("destroy", gtk.main_quit)
