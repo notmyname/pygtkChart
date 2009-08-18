@@ -1,3 +1,20 @@
+#       Copyright 2009 John Dickinson <john@johnandkaren.com>
+#                      Sven Festersen <sven@sven-festersen.de>
+#       
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#       
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
 """
 Contains the BarChart widget.
 
@@ -571,6 +588,16 @@ class BarChart(chart.Chart):
         self._do_draw_bars(context, rect, maximum_value, value_label_size, label_size)
         
         label.finish_drawing()
+        
+        if self._mode == MODE_VERTICAL:
+            n = len(self._bars)
+            minimum_width = rect.x + self._padding + (n - 1) * self._bar_padding + n * 10
+            minimum_height = 100 + self._padding + rect.y
+        elif self._mode == MODE_HORIZONTAL:
+            n = len(self._bars)
+            minimum_width = rect.x + self._bar_padding + 100
+            minimum_height = rect.y + self._padding + (n - 1) * self._bar_padding + n * 10
+        self.set_size_request(minimum_width, minimum_height)
         
     def _do_draw_grid(self, context, rect, maximum_value, value_label_size, label_size):
         if self.grid.get_visible():
