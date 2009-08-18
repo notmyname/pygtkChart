@@ -1,0 +1,30 @@
+CHANGELOG
+changes since beta:
+
+All widgets:
+ * new text display methods that allow wrapping and make the text 
+   integrate better into GTK (uses pango)
+ * all widgets now use gtk.gdk.Color
+ * increased drawing speed
+ 
+BarChart and MultiBarChart:
+ * both widgets were completely rewritten
+ * BarChart and MultiBarChart are now separated in bar_chart and
+   multi_bar_chart modules
+ * bars can have rounded corners, radius of the corners can be set
+ * both widgets can now display bars horizontally
+ * Bar and BarGroup paddings can be set
+ * a grid is now displayed on bar charts; the grid can have multiple
+   line styles
+ 
+LineChart:
+ * graphs can have different line styles
+ * the grid can have different line styles (horizontal and vertical
+   lines can have different styles)
+ * graphs can have different data point styles (custom graphics for
+   datapoints are also supported)
+ * the new Legend class shows an inset with the titles of all visible
+   graphs
+ * the axes can be set to use logarithmic scale
+ * datapoints are now clickable and have a mouseover effect
+ * error data can be added to datapoints to show error bars
