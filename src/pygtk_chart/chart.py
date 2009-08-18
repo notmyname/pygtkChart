@@ -94,7 +94,7 @@ class Chart(gtk.DrawingArea):
         self.title.connect("appearance-changed", self._cb_appearance_changed)
         
         self.add_events(gtk.gdk.BUTTON_PRESS_MASK|gtk.gdk.SCROLL_MASK|gtk.gdk.POINTER_MOTION_MASK)
-        self.connect("expose_event", self.expose)
+        self.connect("expose_event", self._cb_expose_event)
         self.connect("button_press_event", self._cb_button_pressed)
         self.connect("motion-notify-event", self._cb_motion_notify)
         
@@ -123,7 +123,7 @@ class Chart(gtk.DrawingArea):
     def _cb_motion_notify(self, widget, event):
         pass
         
-    def expose(self, widget, event):
+    def _cb_expose_event(self, widget, event):
         """
         This method is called when an instance of Chart receives
         the gtk expose_event.
