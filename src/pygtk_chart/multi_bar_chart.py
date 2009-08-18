@@ -25,6 +25,18 @@ COLORS = gdk_color_list_from_file(os.sep.join([os.path.dirname(__file__), "data"
 
 
 class Bar(bar_chart.Bar):
+    """
+    This is a special version of the bar_chart.Bar class that draws the
+    bars on a MultiBarChart widget.
+    
+    Properties
+    ==========
+    This class inherits properties from bar_chart.Bar.
+    
+    Signals
+    =======
+    This class inherits signals from bar_chart.Bar. 
+    """
     
     def __init__(self, name, value, title=""):
         bar_chart.Bar.__init__(self, name, value, title)
@@ -145,9 +157,28 @@ class Bar(bar_chart.Bar):
         
         
 class BarGroup(ChartObject):
+    """
+    This class represents a group of bars on the MultiBarChart widget.
+    
+    Properties
+    ==========
+    This class has the following properties:
+    - name (a unique identifier for the group, type: string)
+    - title (a title for the group, type: string)
+    - bar-padding (the space between two bars of the group in px,
+      type: int in [0, 100])
+    - bars (a list of the bars in the group, read only)
+    - maximum-value (the maximum value of the bars in the group, read
+      only)
+    - bar-count (the number of bars in the group, read only).
+    
+    Signals
+    =======
+    The BarGroup class inherits signals from chart_object.ChartObject.
+    """
     
     __gproperties__ = {"name": (gobject.TYPE_STRING, "group name",
-                                "A unique identifeir for this group.",
+                                "A unique identifier for this group.",
                                 "", gobject.PARAM_READABLE),
                         "title": (gobject.TYPE_STRING, "group title",
                                     "The group's title.", "",
@@ -360,6 +391,30 @@ class BarGroup(ChartObject):
         
         
 class MultiBarChart(bar_chart.BarChart):
+    """
+    The MultiBarChart widget displays groups of bars.
+    Usage: create multi_bar_chart.BarGroups and
+    add multi_bar_chart.Bars. The add the bar groups to MultiBarChart.
+    
+    Properties
+    ==========
+    The MultiBarChart class inherits properties from bar_chart.BarChart
+    (except bar-padding). Additional properties:
+    - group-padding (the space between two bar groups in px, type: int
+      in [0, 100], default: 16)
+    - label-rotation (the angle (in degrees) that should be used to
+      rotate bar labels in vertical mode, type: int in [0, 360],
+      default: 300)
+    - rotate-group-labels (sets whether group labels should be roteated
+      by 90 degrees in horizontal mode, type: boolean, default: False).
+      
+    Signals
+    =======
+    The MultiBarChart class inherits the signal 'bar-clicked' from
+    bar_chart.BarChart. Additional signals:
+    - group-clicked: emitted when a bar is clicked, callback signature:
+      def group_clicked(chart, group, bar).
+    """
     
     __gsignals__ = {"group-clicked": (gobject.SIGNAL_RUN_LAST, 
                                     gobject.TYPE_NONE, 
@@ -498,6 +553,7 @@ class MultiBarChart(bar_chart.BarChart):
         active = chart.get_sensitive_areas(event.x, event.y)
         for group, bar in active:
             self.emit("group-clicked", group, bar)
+            self.emit("bar-clicked", bar)
         
     #drawing methods
     def _do_draw_groups(self, context, rect, maximum_value, value_label_size, label_size, bar_count):
