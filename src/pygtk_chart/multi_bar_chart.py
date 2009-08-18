@@ -621,6 +621,14 @@ class MultiBarChart(bar_chart.BarChart):
         self._do_draw_groups(context, rect, maximum_value, value_label_size, label_size, bar_count)
         
         label.finish_drawing()
+        n = len(self._groups)
+        if self._mode == MODE_VERTICAL:
+            minimum_width = rect.x + self._padding + bar_count * 10 + n * self._group_padding
+            minimum_height = rect.y + self._padding + 200
+        elif self._mode == MODE_HORIZONTAL:
+            minimum_width = rect.x + self._padding + 200
+            minimum_height = rect.y + self._padding + bar_count * 10 + n * self._group_padding
+        self.set_size_request(minimum_width, minimum_height)
     
     #other methods        
     def add_group(self, group):
