@@ -1776,7 +1776,7 @@ def graph_new_from_function(func, xmin, xmax, graph_name, samples=100, do_optimi
     
     @return: line_chart.Graph    
     """
-    delta = (xmax - xmin) / float(samples)
+    delta = (xmax - xmin) / float(samples - 1)
     data = []
     x = xmin
     while x <= xmax:
