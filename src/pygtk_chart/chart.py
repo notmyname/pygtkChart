@@ -39,6 +39,7 @@ import gobject
 import gtk
 import os
 import pango
+import pangocairo
 import pygtk
 
 from pygtk_chart.chart_object import ChartObject
@@ -174,34 +175,58 @@ class Chart(gtk.DrawingArea):
         context.set_line_width(1)
         rect = self.draw_basics(context, rect)
         
-    def export_svg(self, filename):
+    def export_svg(self, filename, size=None):
         """
         Saves the contents of the widget to svg file. The size of the image
         will be the size of the widget.
         
         @type filename: string
         @param filename: The path to the file where you want the chart to be saved.
+        @type size: tuple
+        @param size: Optional parameter to give the desired height and width of the image.
         """
-        rect = self.get_allocation()
-        surface = cairo.SVGSurface(filename, rect.width, rect.height)
-        context = cairo.Context(surface)
+        if size is None:
+            rect = self.get_allocation()
+            width = rect.width
+            height = rect.height
+        else:
+            width, height = size
+            old_alloc = self.get_allocation
+            self.get_allocation = lambda: gtk.gdk.Rectangle(0, 0, width, height)
+        surface = cairo.SVGSurface(filename, width, height)
+        ctx = cairo.Context(surface)
+        context = pangocairo.CairoContext(ctx)
         self.draw(context)
         surface.finish()
+        if size is not None:
+            self.get_allocation = old_alloc
         
-    def export_png(self, filename):
+    def export_png(self, filename, size=None):
         """
         Saves the contents of the widget to png file. The size of the image
         will be the size of the widget.
         
         @type filename: string
         @param filename: The path to the file where you want the chart to be saved.
+        @type size: tuple
+        @param size: Optional parameter to give the desired height and width of the image.
         """
-        rect = self.get_allocation()
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, rect.width,
-                                        rect.height)
-        context = cairo.Context(surface)
+        if size is None:
+            rect = self.get_allocation()
+            width = rect.width
+            height = rect.height
+        else:
+            width, height = size
+            old_alloc = self.get_allocation
+            self.get_allocation = lambda: gtk.gdk.Rectangle(0, 0, width, height)
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        ctx = cairo.Context(surface)
+        context = pangocairo.CairoContext(ctx)
+        self.set_size_request(width, height)
         self.draw(context)
-        surface.write_to_png(filename)     
+        surface.write_to_png(filename)
+        if size is not None:
+            self.get_allocation = old_alloc
         
         
     def set_padding(self, padding):
