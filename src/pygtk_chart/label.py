@@ -89,6 +89,31 @@ class Label(ChartObject):
     """
     This class is used for drawing all the text on the chart widgets.
     It uses the pango layout engine.
+    
+    Properties
+    ==========
+    The Label class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - color (the label's color, type: gtk.gdk.Color)
+     - text (text to display, type: string)
+     - position (the label's position, type: pair of float)
+     - anchor (the anchor that should be used to position the label,
+       type: an anchor constant)
+     - underline (sets the type of underline, type; an underline
+       constant)
+     - max-width (the maximum width of the label in px, type: int)
+     - rotation (angle of rotation in degrees, type: int)
+     - size (the size of the label's text in px, type: int)
+     - slant (the font slant, type: a slant style constant)
+     - weight (the font weight, type: a font weight constant)
+     - fixed (sets whether the position of the label may be changed
+       dynamicly or not, type: boolean)
+     - wrap (sets whether the label's text should be wrapped if it's
+       longer than max-width, type: boolean).
+       
+    Signals
+    =======
+    The Label class inherits signals from chart_object.ChartObject.
     """
     
     __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
