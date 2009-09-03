@@ -32,6 +32,21 @@ class ChartObject(gobject.GObject):
     widget.
     It emits the signal 'appearance-changed' when it needs to be
     redrawn.
+    
+    Properties
+    ==========
+    ChartObject inherits properties from gobject.GObject.
+    Additional properties:
+     - visible (sets whether the object should be visible,
+       type: boolean)
+     - antialias (sets whether the object should be antialiased,
+       type: boolean).
+       
+    Signals
+    =======
+    ChartObject inherits signals from gobject.GObject,
+    Additional signals:
+     - appearance-changed (emitted if the object needs to be redrawn).
     """
     
     __gsignals__ = {"appearance-changed": (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])}
