@@ -44,6 +44,17 @@ def draw_sector(context, cx, cy, radius, angle, angle_offset):
 
 
 class PieArea(chart.Area):
+    """
+    This class represents the sector of a pie chart.
+    
+    Properties
+    ==========
+    The PieArea class inherits properties from chart.Area.
+    
+    Signals
+    =======
+    The PieArea class inherits signals from chart.Area.
+    """
     
     def __init__(self, name, value, title=""):
         chart.Area.__init__(self, name, value, title)
@@ -93,6 +104,35 @@ class PieArea(chart.Area):
 
 
 class PieChart(chart.Chart):
+    """
+    This is the pie chart class.
+    
+    Properties
+    ==========
+    The PieChart class inherits properties from chart.Chart.
+    Additional properties:
+     - rotate (the angle that the pie chart should be rotated by in
+       degrees, type: int in [0, 360])
+     - draw-shadow (sets whther to draw a shadow under the pie chart,
+       type: boolean)
+     - draw-labels (sets whether to draw area labels, type: boolean)
+     - show-percentage (sets whether to show percentage in area labels,
+       type: boolean)
+     - show-values (sets whether to show values in area labels, 
+       type: boolean)
+     - enable-scroll (sets whether the pie chart can be rotated by
+       scrolling with the mouse wheel, type: boolean)
+     - enable-mouseover (sets whether a mouse over effect should be
+       added to areas, type: boolean).
+       
+    Signals
+    =======
+    The PieChart class inherits signals from chart.Chart.
+    Additional signals:
+     - area-clicked (emitted when an area is clicked)
+    callback signature:
+    def callback(piechart, area).
+    """
     
     __gproperties__ = {"rotate": (gobject.TYPE_INT,
                                     "rotation",
