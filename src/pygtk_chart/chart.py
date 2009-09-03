@@ -78,6 +78,17 @@ def get_sensitive_areas(x, y):
 class Chart(gtk.DrawingArea):
     """
     This is the base class for all chart widgets.
+    
+    Properties
+    ==========
+    The Chart class inherits properties from gtk.DrawingArea.
+    Additional properties:
+     - padding (the amount of free white space between the chart's
+       content and its border in px, type: int in [0, 100].
+       
+    Signals
+    =======
+    The Chart class inherits signals from gtk.DrawingArea.
     """
     
     __gproperties__ = {"padding": (gobject.TYPE_INT, "padding",
@@ -251,11 +262,23 @@ class Chart(gtk.DrawingArea):
 class Background(ChartObject):
     """
     The background of a chart.
+    
+    Properties
+    ==========
+    This class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - color (the background color, type: gtk.gdk.Color)
+     - gradient (the background gradient, type: a pair of gtk.gdk.Color)
+     - image (path to the background image file, type: string)
+     
+    Signals
+    =======
+    The Background class inherits signals from chart_object.ChartObject.
     """    
     
     __gproperties__ = {"color": (gobject.TYPE_PYOBJECT,
                                     "background color",
-                                    "The color of the backround in (r,g,b) format. r,g,b in [0,1]",
+                                    "The color of the backround.",
                                     gobject.PARAM_READWRITE),
                         "gradient": (gobject.TYPE_PYOBJECT,
                                     "background gradient",
@@ -399,6 +422,14 @@ class Title(label.Label):
     """
     The title of a chart. The title will be drawn centered at the top of the
     chart.
+    
+    Properties
+    ==========
+    The Title class inherits properties from label.Label.
+       
+    Signals
+    =======
+    The Title class inherits signals from label.Label.
     """    
     
     def __init__(self, text=""):
@@ -414,6 +445,21 @@ class Area(ChartObject):
     """
     This is a base class for classes that represent areas, e.g. the
     pie_chart.PieArea class and the bar_chart.Bar class.
+    
+    Properties
+    ==========
+    The Area class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - name (a unique name for the area, type: string, read only)
+     - value (the value of the area, type: float)
+     - color (the area's color, type: gtk.gdk.Color)
+     - label (a label for the area, type: string)
+     - highlighted (set whether the area should be highlighted,
+       type: boolean).
+       
+    Signals
+    =======
+    The Area class inherits signals from chart_object.ChartObject.
     """
     
     __gproperties__ = {"name": (gobject.TYPE_STRING, "area name",
