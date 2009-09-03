@@ -286,13 +286,29 @@ class RangeCalculator:
 
 class LineChart(chart.Chart):
     """
-    A widget that shows a line chart. The following objects can be accessed:
+    A widget that shows a line chart. The following attributes can be
+    accessed:
      - LineChart.background (inherited from chart.Chart)
      - LineChart.title (inherited from chart.Chart)
-     - LineChart.graphs
+     - LineChart.graphs (a dict that holds the graphs identified by
+       their name)
      - LineChart.grid
      - LineChart.xaxis
      - LineChart.yaxis
+     
+    Properties
+    ==========
+    LineChart inherits properties from chart.Chart.
+    
+    Signals
+    =======
+    The LineChart class inherits signals from chart.Chart.
+    Additional chart:
+     - datapoint-clicked (emitted if a datapoint is clicked)
+     - datapoint-hovered (emitted if a datapoint is hovered with the
+       mouse pointer)
+    Callback signature for both signals:
+    def callback(linechart, graph, (x, y))
     """
     
     __gsignals__ = {"datapoint-clicked": (gobject.SIGNAL_RUN_LAST,
@@ -451,6 +467,30 @@ class LineChart(chart.Chart):
 
 
 class Axis(ChartObject):
+    """
+    This class represents an axis on the line chart.
+    
+    Properties
+    ==========
+    The Axis class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - label (a label for the axis, type: string)
+     - show-label (sets whether the axis' label should be shown, 
+       type: boolean)
+     - position (position of the axis, type: an axis position constant)
+     - show-tics (sets whether tics should be shown at the axis,
+       type: boolean)
+     - show-tic-lables (sets whether labels should be shown at the tics,
+       type: boolean)
+     - tic-format-function (a function that is used to format the tic
+       labels, default: str)
+     - logarithmic (sets whether the axis should use a logarithmic
+       scale, type: boolean).
+       
+    Signals
+    =======
+    The Axis class inherits signals from chart_object.ChartObject.
+    """
 
     __gproperties__ = {"label": (gobject.TYPE_STRING, "axis label",
                                     "The label of the axis.", "",
@@ -661,6 +701,14 @@ class XAxis(Axis):
     """
     This class represents the xaxis. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
+    
+    Properties
+    ==========
+    The XAxis class inherits properties from Axis.
+    
+    Signals
+    =======
+    The XAxis class inherits signals from Axis.
     """
     def __init__(self, range_calc):
         Axis.__init__(self, range_calc, "x")
@@ -741,6 +789,14 @@ class YAxis(Axis):
     """
     This class represents the yaxis. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
+    
+    Properties
+    ==========
+    The YAxis class inherits properties from Axis.
+    
+    Signals
+    =======
+    The YAxis class inherits signals from Axis.
     """
     def __init__(self, range_calc):
         Axis.__init__(self, range_calc, "y")
@@ -820,6 +876,24 @@ class Grid(ChartObject):
     """
     A class representing the grid of the chart. It is used by the LineChart
     widget internally, there is no need to create an instance yourself.
+    
+    Properties
+    ==========
+    The Grid class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - show-horizontal (sets whther to show horizontal grid lines,
+       type: boolean)
+     - show-vertical (sets whther to show vertical grid lines,
+       type: boolean)
+     - color (the color of the grid lines, type: gtk.gdk.Color)
+     - line-style-horizontal (the line style of the horizontal grid
+       lines, type: a line style constant)
+     - line-style-vertical (the line style of the vertical grid lines,
+       type: a line style constant).
+       
+    Signals
+    =======
+    The Grid class inherits signals from chart_object.ChartObject.
     """
 
     __gproperties__ = {"show-horizontal": (gobject.TYPE_BOOLEAN,
@@ -1018,6 +1092,38 @@ class Graph(ChartObject):
     """
     This class represents a graph or the data you want to plot on your
     LineChart widget.
+    
+    Properties
+    ==========
+    The Graph class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - name (a unique id for the graph, type: string, read only)
+     - title (the graph's title, type: string)
+     - color (the graph's color, type: gtk.gdk.Color)
+     - type (graph type, type: a graph type constant)
+     - point-size (radius of the datapoints in px,
+       type: int in [1, 100])
+     - fill-to (set how to fill space under the graph, type: None,
+       Graph or float)
+     - fill-color (the color of the filling, type: gtk.gdk.Color)
+     - fill-opacity (the opacity of the filling, type: float in [0, 1])
+     - show-values (sets whether y values should be shown at the
+       datapoints, type: boolean)
+     - show-title (sets whether ot show the graph's title,
+       type: boolean)
+     - line-style (the graph's line style, type: a line style constant)
+     - point-style (the graph's datapoints' point style,
+       type: a point style constant)
+     - clickable (sets whether datapoints are sensitive for clicks,
+       type: boolean)
+     - show-xerrors (sets whether x errors should be shown if error data
+       is available, type: boolean)
+     - show-yerrors (sets whether y errors should be shown if error data
+       is available, type: boolean).
+       
+    Signals
+    =======
+    The Graph class inherits signals from chart_object.ChartObject.
     """
 
     __gproperties__ = {"name": (gobject.TYPE_STRING, "graph id",
@@ -1890,6 +1996,20 @@ def graph_new_from_file(filename, graph_name, x_col=0, y_col=1, xerror_col=-1, y
 
 
 class Legend(ChartObject):
+    """
+    This class represents a legend on a line chart.
+    
+    Properties
+    ==========
+    The Legend class inherits properties from chart_object.ChartObject.
+    Additional properties:
+     - position (the legend's position on the chart, type: a corner
+       position constant).
+       
+    Signals
+    =======
+    The Legend class inherits signals from chart_object.ChartObject.    
+    """
     
     __gproperties__ = {"position": (gobject.TYPE_INT, "legend position",
                                     "Position of the legend.", 8, 11, 8,
