@@ -181,6 +181,9 @@ class Label(ChartObject):
         self._real_position = (0, 0)
         self._line_count = 1
         
+        self._context = None
+        self._layout = None
+        
     def do_get_property(self, property):
         if property.name == "visible":
             return self._show
@@ -250,8 +253,11 @@ class Label(ChartObject):
         
     def _do_draw_label(self, context, rect):
         angle = 2 * math.pi * self._rotation / 360.0
-        label = gtk.Label()
-        pango_context = label.create_pango_context()          
+        
+        if self._context == None:
+            label = gtk.Label()
+            self._context = label.create_pango_context()          
+        pango_context = self._context
         
         attrs = pango.AttrList()
         attrs.insert(pango.AttrWeight(self._weight, 0, len(self._text)))
@@ -262,7 +268,9 @@ class Label(ChartObject):
             attrs.insert(pango.AttrSize(1000 * self._size, 0,
                             len(self._text)))
         
-        layout = pango.Layout(pango_context)
+        if self._layout == None:
+            self._layout = pango.Layout(pango_context)
+        layout = self._layout
         layout.set_text(self._text)
         layout.set_attributes(attrs)
         
@@ -327,8 +335,11 @@ class Label(ChartObject):
         
     def get_calculated_dimensions(self, context, rect):
         angle = 2 * math.pi * self._rotation / 360.0
-        label = gtk.Label()
-        pango_context = label.create_pango_context()          
+        
+        if self._context == None:
+            label = gtk.Label()
+            self._context = label.create_pango_context()          
+        pango_context = self._context
         
         attrs = pango.AttrList()
         attrs.insert(pango.AttrWeight(self._weight, 0, len(self._text)))
@@ -339,7 +350,10 @@ class Label(ChartObject):
             attrs.insert(pango.AttrSize(1000 * self._size, 0,
                             len(self._text)))
         
-        layout = pango.Layout(pango_context)
+        if self._layout == None:
+            self._layout = pango.Layout(pango_context)
+        layout = self._layout
+            
         layout.set_text(self._text)
         layout.set_attributes(attrs)
         
