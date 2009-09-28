@@ -2,3 +2,4 @@ build
 *.pyc
 geany_run_script.sh
 *~
+create_docs.sh
