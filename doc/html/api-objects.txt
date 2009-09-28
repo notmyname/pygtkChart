@@ -181,12 +181,12 @@ pygtk_chart.bar_chart.BarChart._cb_button_pressed	pygtk_chart.bar_chart.BarChart
 pygtk_chart.bar_chart.BarChart.set_enable_mouseover	pygtk_chart.bar_chart.BarChart-class.html#set_enable_mouseover
 pygtk_chart.bar_chart.BarChart.do_get_property	pygtk_chart.bar_chart.BarChart-class.html#do_get_property
 pygtk_chart.bar_chart.BarChart.set_bar_padding	pygtk_chart.bar_chart.BarChart-class.html#set_bar_padding
+pygtk_chart.chart.Chart._cb_expose_event	pygtk_chart.chart.Chart-class.html#_cb_expose_event
 pygtk_chart.bar_chart.BarChart.get_mode	pygtk_chart.bar_chart.BarChart-class.html#get_mode
-pygtk_chart.chart.Chart.draw_basics	pygtk_chart.chart.Chart-class.html#draw_basics
+pygtk_chart.bar_chart.BarChart.draw_basics	pygtk_chart.bar_chart.BarChart-class.html#draw_basics
 pygtk_chart.bar_chart.BarChart.get_enable_mouseover	pygtk_chart.bar_chart.BarChart-class.html#get_enable_mouseover
 pygtk_chart.bar_chart.BarChart.__gtype__	pygtk_chart.bar_chart.BarChart-class.html#__gtype__
 pygtk_chart.bar_chart.BarChart.do_set_property	pygtk_chart.bar_chart.BarChart-class.html#do_set_property
-pygtk_chart.chart.Chart.expose	pygtk_chart.chart.Chart-class.html#expose
 pygtk_chart.chart.Chart.set_padding	pygtk_chart.chart.Chart-class.html#set_padding
 pygtk_chart.bar_chart.BarChart._cb_motion_notify	pygtk_chart.bar_chart.BarChart-class.html#_cb_motion_notify
 pygtk_chart.bar_chart.BarChart._do_draw_grid	pygtk_chart.bar_chart.BarChart-class.html#_do_draw_grid
@@ -267,10 +267,10 @@ pygtk_chart.chart.Chart	pygtk_chart.chart.Chart-class.html
 pygtk_chart.chart.Chart.export_png	pygtk_chart.chart.Chart-class.html#export_png
 pygtk_chart.chart.Chart._cb_button_pressed	pygtk_chart.chart.Chart-class.html#_cb_button_pressed
 pygtk_chart.chart.Chart.do_get_property	pygtk_chart.chart.Chart-class.html#do_get_property
+pygtk_chart.chart.Chart._cb_expose_event	pygtk_chart.chart.Chart-class.html#_cb_expose_event
 pygtk_chart.chart.Chart.draw_basics	pygtk_chart.chart.Chart-class.html#draw_basics
 pygtk_chart.chart.Chart.__gtype__	pygtk_chart.chart.Chart-class.html#__gtype__
 pygtk_chart.chart.Chart.do_set_property	pygtk_chart.chart.Chart-class.html#do_set_property
-pygtk_chart.chart.Chart.expose	pygtk_chart.chart.Chart-class.html#expose
 pygtk_chart.chart.Chart.set_padding	pygtk_chart.chart.Chart-class.html#set_padding
 pygtk_chart.chart.Chart._cb_motion_notify	pygtk_chart.chart.Chart-class.html#_cb_motion_notify
 pygtk_chart.chart.Chart._cb_appearance_changed	pygtk_chart.chart.Chart-class.html#_cb_appearance_changed
@@ -503,6 +503,7 @@ pygtk_chart.line_chart.LineChart.set_yrange	pygtk_chart.line_chart.LineChart-cla
 pygtk_chart.line_chart.LineChart._cb_button_pressed	pygtk_chart.line_chart.LineChart-class.html#_cb_button_pressed
 pygtk_chart.chart.Chart.do_get_property	pygtk_chart.chart.Chart-class.html#do_get_property
 pygtk_chart.line_chart.LineChart._do_draw_axes	pygtk_chart.line_chart.LineChart-class.html#_do_draw_axes
+pygtk_chart.chart.Chart._cb_expose_event	pygtk_chart.chart.Chart-class.html#_cb_expose_event
 pygtk_chart.line_chart.LineChart.__gtype__	pygtk_chart.line_chart.LineChart-class.html#__gtype__
 pygtk_chart.line_chart.LineChart._do_draw_graphs	pygtk_chart.line_chart.LineChart-class.html#_do_draw_graphs
 pygtk_chart.chart.Chart.draw_basics	pygtk_chart.chart.Chart-class.html#draw_basics
@@ -510,7 +511,6 @@ pygtk_chart.line_chart.LineChart.add_graph	pygtk_chart.line_chart.LineChart-clas
 pygtk_chart.line_chart.LineChart.get_yrange	pygtk_chart.line_chart.LineChart-class.html#get_yrange
 pygtk_chart.line_chart.LineChart.remove_graph	pygtk_chart.line_chart.LineChart-class.html#remove_graph
 pygtk_chart.chart.Chart.do_set_property	pygtk_chart.chart.Chart-class.html#do_set_property
-pygtk_chart.chart.Chart.expose	pygtk_chart.chart.Chart-class.html#expose
 pygtk_chart.chart.Chart.set_padding	pygtk_chart.chart.Chart-class.html#set_padding
 pygtk_chart.line_chart.LineChart.__iter__	pygtk_chart.line_chart.LineChart-class.html#__iter__
 pygtk_chart.line_chart.LineChart._cb_motion_notify	pygtk_chart.line_chart.LineChart-class.html#_cb_motion_notify
@@ -659,13 +659,13 @@ pygtk_chart.multi_bar_chart.MultiBarChart.set_rotate_group_labels	pygtk_chart.mu
 pygtk_chart.multi_bar_chart.MultiBarChart.do_get_property	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#do_get_property
 pygtk_chart.bar_chart.BarChart.set_bar_padding	pygtk_chart.bar_chart.BarChart-class.html#set_bar_padding
 pygtk_chart.multi_bar_chart.MultiBarChart.get_group_padding	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#get_group_padding
+pygtk_chart.chart.Chart._cb_expose_event	pygtk_chart.chart.Chart-class.html#_cb_expose_event
 pygtk_chart.bar_chart.BarChart.get_mode	pygtk_chart.bar_chart.BarChart-class.html#get_mode
-pygtk_chart.chart.Chart.draw_basics	pygtk_chart.chart.Chart-class.html#draw_basics
+pygtk_chart.bar_chart.BarChart.draw_basics	pygtk_chart.bar_chart.BarChart-class.html#draw_basics
 pygtk_chart.multi_bar_chart.MultiBarChart.set_group_padding	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#set_group_padding
 pygtk_chart.bar_chart.BarChart.get_enable_mouseover	pygtk_chart.bar_chart.BarChart-class.html#get_enable_mouseover
 pygtk_chart.multi_bar_chart.MultiBarChart.__gtype__	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#__gtype__
 pygtk_chart.multi_bar_chart.MultiBarChart.do_set_property	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#do_set_property
-pygtk_chart.chart.Chart.expose	pygtk_chart.chart.Chart-class.html#expose
 pygtk_chart.chart.Chart.set_padding	pygtk_chart.chart.Chart-class.html#set_padding
 pygtk_chart.multi_bar_chart.MultiBarChart.get_rotate_group_labels	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#get_rotate_group_labels
 pygtk_chart.multi_bar_chart.MultiBarChart._cb_motion_notify	pygtk_chart.multi_bar_chart.MultiBarChart-class.html#_cb_motion_notify
@@ -714,6 +714,7 @@ pygtk_chart.pie_chart.PieChart._cb_scroll_event	pygtk_chart.pie_chart.PieChart-c
 pygtk_chart.pie_chart.PieChart.set_show_percentage	pygtk_chart.pie_chart.PieChart-class.html#set_show_percentage
 pygtk_chart.pie_chart.PieChart._cb_button_pressed	pygtk_chart.pie_chart.PieChart-class.html#_cb_button_pressed
 pygtk_chart.pie_chart.PieChart.set_enable_mouseover	pygtk_chart.pie_chart.PieChart-class.html#set_enable_mouseover
+pygtk_chart.chart.Chart._cb_expose_event	pygtk_chart.chart.Chart-class.html#_cb_expose_event
 pygtk_chart.pie_chart.PieChart.__gtype__	pygtk_chart.pie_chart.PieChart-class.html#__gtype__
 pygtk_chart.pie_chart.PieChart.get_enable_scroll	pygtk_chart.pie_chart.PieChart-class.html#get_enable_scroll
 pygtk_chart.chart.Chart.draw_basics	pygtk_chart.chart.Chart-class.html#draw_basics
@@ -725,7 +726,6 @@ pygtk_chart.pie_chart.PieChart._get_area_at_pos	pygtk_chart.pie_chart.PieChart-c
 pygtk_chart.pie_chart.PieChart.get_show_values	pygtk_chart.pie_chart.PieChart-class.html#get_show_values
 pygtk_chart.pie_chart.PieChart.set_rotate	pygtk_chart.pie_chart.PieChart-class.html#set_rotate
 pygtk_chart.pie_chart.PieChart.do_set_property	pygtk_chart.pie_chart.PieChart-class.html#do_set_property
-pygtk_chart.chart.Chart.expose	pygtk_chart.chart.Chart-class.html#expose
 pygtk_chart.pie_chart.PieChart._do_draw_shadow	pygtk_chart.pie_chart.PieChart-class.html#_do_draw_shadow
 pygtk_chart.chart.Chart.set_padding	pygtk_chart.chart.Chart-class.html#set_padding
 pygtk_chart.pie_chart.PieChart._cb_motion_notify	pygtk_chart.pie_chart.PieChart-class.html#_cb_motion_notify
