@@ -597,6 +597,26 @@ class BarChart(chart.Chart):
             minimum_height = rect.y + self._padding + (n - 1) * self._bar_padding + n * 10
         self.set_size_request(minimum_width, minimum_height)
         
+    def draw_basics(self, context, rect):
+        """
+        Draw basic things that every plot has (background, title, ...).
+        
+        @type context: cairo.Context
+        @param context: The context to draw on.
+        @type rect: gtk.gdk.Rectangle
+        @param rect: A rectangle representing the charts area.
+        """
+        self.background.draw(context, rect)
+        self.title.draw(context, rect, self._padding)
+        
+        #calculate the rectangle that's available for drawing the chart
+        title_height = self.title.get_real_dimensions()[1]
+        rect_height = int(rect.height - 3 * self._padding - title_height)
+        rect_width = int(rect.width - 2 * self._padding)
+        rect_x = int(rect.x + self._padding)
+        rect_y = int(rect.y + title_height + 2 * self._padding)
+        return gtk.gdk.Rectangle(rect_x, rect_y, rect_width, rect_height)
+        
     def _do_draw_grid(self, context, rect, maximum_value, value_label_size, label_size):
         if self.grid.get_visible():
             return self.grid.draw(context, rect, self._mode, maximum_value, value_label_size, label_size)
