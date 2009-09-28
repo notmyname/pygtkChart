@@ -62,49 +62,35 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Background</h1><p class="nomargin-top"><span class="codelink"><a href="pygtk_chart.chart-pysrc.html#Background">source&nbsp;code</a></span></p>
-<center>
-<center>  <map id="uml_class_diagram_for_pygtk_ch_5" name="uml_class_diagram_for_pygtk_ch_5">
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#__gsignals__" title="pygtk_chart.chart_object.ChartObject.__gsignals__" alt="" coords="49,377,236,396"/>
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#draw" title="This method is called by the parent Chart instance." alt="" coords="49,399,236,417"/>
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_antialias" title="This method sets the antialiasing mode of the ChartObject." alt="" coords="49,417,236,436"/>
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_antialias" title="Returns True if antialiasing is enabled for the object." alt="" coords="49,436,236,455"/>
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#set_visible" title="Use this method to set whether the ChartObject should be visible or not." alt="" coords="49,455,236,473"/>
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html#get_visible" title="Returns True if the object is visble." alt="" coords="49,473,236,492"/>
-<area shape="rect" href="pygtk_chart.chart_object.ChartObject&#45;class.html" title="This is the base class for all things that can be drawn on a chart widget." alt="" coords="48,360,237,493"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#__gproperties__" title="pygtk_chart.chart.Background.__gproperties__" alt="" coords="17,540,268,559"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#__gtype__" title="pygtk_chart.chart.Background.__gtype__" alt="" coords="17,559,268,577"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,580,268,599"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#do_get_property" title="pygtk_chart.chart.Background.do_get_property" alt="" coords="17,599,268,617"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#do_set_property" title="pygtk_chart.chart.Background.do_set_property" alt="" coords="17,617,268,636"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#set_color" title="The set_color() method can be used to change the color of the background." alt="" coords="17,636,268,655"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#get_color" title="Returns the background&#39;s color." alt="" coords="17,655,268,673"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#set_gradient" title="Use set_gradient() to define a vertical gradient as the background." alt="" coords="17,673,268,692"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#get_gradient" title="Returns the gradient of the background or None." alt="" coords="17,692,268,711"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#set_image" title="The set_image() method sets the background to be filled with an image." alt="" coords="17,711,268,729"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html#get_image" title="pygtk_chart.chart.Background.get_image" alt="" coords="17,729,268,748"/>
-<area shape="rect" href="pygtk_chart.chart.Background&#45;class.html" title="The background of a chart." alt="" coords="16,523,269,749"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.__grefcount__" alt="" coords="81,28,204,47"/>
-<area shape="rect" href="javascript:void(0);" title="cmp(x,y)" alt="" coords="81,49,204,68"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.__copy__" alt="" coords="81,68,204,87"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.__deepcopy__" alt="" coords="81,87,204,105"/>
-<area shape="rect" href="javascript:void(0);" title="x.__delattr__(&#39;name&#39;) &lt;==&gt; del x.name" alt="" coords="81,105,204,124"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.__gdoc__" alt="" coords="81,124,204,143"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.__gobject_init__" alt="" coords="81,143,204,161"/>
-<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="81,161,204,180"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.__new__" alt="" coords="81,180,204,199"/>
-<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="81,199,204,217"/>
-<area shape="rect" href="javascript:void(0);" title="x.__setattr__(&#39;name&#39;, value) &lt;==&gt; x.name = value" alt="" coords="81,217,204,236"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.chain" alt="" coords="81,236,204,255"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.connect" alt="" coords="81,255,204,273"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.connect_after" alt="" coords="81,273,204,292"/>
-<area shape="rect" href="javascript:void(0);" title="??.GObject.weak_ref" alt="" coords="81,311,204,329"/>
-<area shape="rect" href="javascript:void(0);" title="Object GObject" alt="" coords="80,11,205,331"/>
-</map>
-  <img src="uml_class_diagram_for_pygtk_ch_5.gif" alt='' usemap="#uml_class_diagram_for_pygtk_ch_5" ismap="ismap" class="graph-without-title" />
-</center>
-</center>
+<pre class="base-tree">
+          object --+        
+                   |        
+          ??.GObject --+    
+                       |    
+<a href="pygtk_chart.chart_object.ChartObject-class.html">chart_object.ChartObject</a> --+
+                           |
+                          <strong class="uidshort">Background</strong>
+</pre>
+
 <hr />
 <p>The background of a chart.</p>
+  <h1 class="heading">Properties</h1>
+    <p>This class inherits properties from chart_object.ChartObject. 
+    Additional properties:</p>
+    <ul>
+      <li>
+        color (the background color, type: gtk.gdk.Color)
+      </li>
+      <li>
+        gradient (the background gradient, type: a pair of gtk.gdk.Color)
+      </li>
+      <li>
+        image (path to the background image file, type: string)
+      </li>
+    </ul>
+  <h1 class="heading">Signals</h1>
+    <p>The Background class inherits signals from 
+    chart_object.ChartObject.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -380,18 +366,18 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygtk_chart.chart.Background-class.html#__gproperties__" class="summary-name">__gproperties__</a> = <code title="{&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;background color&quot;, &quot;The color of the\
- backround in (r,g,b) format. r,g,b in [0,1]&quot;, gobject.PARAM_READWRITE\
-), &quot;gradient&quot;:(gobject.TYPE_PYOBJECT, &quot;background gradient&quot;, &quot;A backgr\
-ound gardient. (first_color, second_color)&quot;, gobject.PARAM_READWRITE),\
- &quot;image&quot;:(gobject.TYPE_STRING, &quot;background image file&quot;, &quot;Path to the i\
-mage file to use as background.&quot;, &quot;&quot;, gobject.PARAM_READWRITE)}">{&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;background<code class="variable-ellipsis">...</code></code>
+ backround.&quot;, gobject.PARAM_READWRITE), &quot;gradient&quot;:(gobject.TYPE_PYOBJ\
+ECT, &quot;background gradient&quot;, &quot;A background gardient. (first_color, seco\
+nd_color)&quot;, gobject.PARAM_READWRITE), &quot;image&quot;:(gobject.TYPE_STRING, &quot;b\
+ackground image file&quot;, &quot;Path to the image file to use as background.&quot;,\
+ &quot;&quot;, gobject.PARAM_READWRITE)}">{&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;background<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType pygtk_chart+chart+Background (153081256)&gt;">&lt;GType pygtk_chart+chart+Background (153081256)&gt;</code>
+        <a name="__gtype__"></a><span class="summary-name">__gtype__</span> = <code title="&lt;GType pygtk_chart+chart+Background (150106840)&gt;">&lt;GType pygtk_chart+chart+Background (150106840)&gt;</code>
     </td>
   </tr>
   <tr>
@@ -701,11 +687,11 @@ mage file to use as background.&quot;, &quot;&quot;, gobject.PARAM_READWRITE)}">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 {&quot;color&quot;:(gobject.TYPE_PYOBJECT, &quot;background color&quot;, &quot;The color of the<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- backround in (r,g,b) format. r,g,b in [0,1]&quot;, gobject.PARAM_READWRITE<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-), &quot;gradient&quot;:(gobject.TYPE_PYOBJECT, &quot;background gradient&quot;, &quot;A backgr<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ound gardient. (first_color, second_color)&quot;, gobject.PARAM_READWRITE),<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- &quot;image&quot;:(gobject.TYPE_STRING, &quot;background image file&quot;, &quot;Path to the i<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-mage file to use as background.&quot;, &quot;&quot;, gobject.PARAM_READWRITE)}
+ backround.&quot;, gobject.PARAM_READWRITE), &quot;gradient&quot;:(gobject.TYPE_PYOBJ<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ECT, &quot;background gradient&quot;, &quot;A background gardient. (first_color, seco<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nd_color)&quot;, gobject.PARAM_READWRITE), &quot;image&quot;:(gobject.TYPE_STRING, &quot;b<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ackground image file&quot;, &quot;Path to the image file to use as background.&quot;,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ &quot;&quot;, gobject.PARAM_READWRITE)}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -743,7 +729,7 @@ mage file to use as background.&quot;, &quot;&quot;, gobject.PARAM_READWRITE)}
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug 18 14:06:05 2009
+    Generated by Epydoc 3.0.1 on Mon Sep 28 11:06:46 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
